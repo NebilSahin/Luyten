@@ -1,0 +1,14 @@
+{
+    "welcomeMessage": "Welcome back!",
+    "introScreenTitle": "Expand your horizon",
+    "introScreenSubTitle": "Let's get started!",
+
+    "login": "Login",
+    "logout": "Logout",
+    "signup": "Signup",
+    "usernameField": "Enter your username",
+    "passwordField": "Enter your password",
+    "emailField": "Enter your Email",
+    "rePasswordField": "Re-enter your password",
+    "forgotPassword": "Forgot your password?"
+}

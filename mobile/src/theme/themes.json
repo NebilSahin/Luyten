@@ -1,0 +1,123 @@
+{
+  "light": {
+    "theme": "light",
+    "opposite": "dark",
+    "background": "#FFFFFF",
+    "sheetBackground": "#FFFFFF",
+    "text": "#494949",
+    "titleLight": "#FFFFFF",
+    "titleDark": "#002323",
+    "surface": "#FAFAFA",
+    "primary": "#0eb4b4",
+    "secondary": "#E4E4E4",
+    "extra": "#CBCBCB",
+    "primaryDark": "#23A1A1",
+    "primaryDarkFaint": "#383e56",
+    "primaryLight": "#FCF4E9",
+    "secondaryDarkFaint": "#7d7d7d",
+    "onView": "#4cacbc",
+    "onViewFaint": "#9e9e9e",
+    "onTextFocus": "#FAFAFA",
+    "borderColor": "#CBCBCB",
+    "inputBackgroundColor": "#FFFFFF",
+    "buttonPrimary": {
+      "color": "#0eb4b4",
+      "onShowUnderlay": "#FAFAFA",
+      "onHideUnderlay": "#FAFAFA",
+      "underlayColor": "#0b8a8a"
+    },
+    "buttonPrimaryOutline": {
+      "color": "#0eb4b4",
+      "onShowUnderlay": "#FAFAFA",
+      "onHideUnderlay": "#0eb4b4",
+      "underlayColor": ""
+    },
+    "buttonSecondary": {
+      "color": "#FFFFFF",
+      "onShowUnderlay": "#002323",
+      "onHideUnderlay": "#002323",
+      "underlayColor": "#CBCBCB"
+    },
+    "buttonSecondaryOutline": {
+      "color": "#FFFFFF",
+      "onShowUnderlay": "#002323",
+      "onHideUnderlay": "#FFFFFF",
+      "underlayColor": "#FFFFFF"
+    },
+    "buttonExtra": {
+      "color": "#FFFFFF",
+      "onShowUnderlay": "#FAFAFA",
+      "onHideUnderlay": "#494949",
+      "underlayColor": "#23A1A1"
+    },
+    "switch": {
+      "thumbColorActive": "#FAFAFA",
+      "thumbColorNotActive": "#FAFAFA",
+      "trackColorNotActive": "#CBCBCB",
+      "trackColorActive": "#0eb4b4"
+    },
+    "white": "#ffffff",
+    "black": "#000000"
+  },
+  "dark": {
+    "theme": "dark",
+    "opposite": "light",
+    "background": "#002323",
+    "screenBackground": "#011717",
+    "sheetBackground": "#002323",
+    "text": "#FAFAFA",
+    "titleLight": "#FFFFFF",
+    "titleDark": "#002323",
+    "surface": "#424242",
+    "primary": "#0eb4b4",
+    "secondary": "#E0F0EC",
+    "extra": "#CBCBCB",
+    "primaryDark": "#23A1A1",
+    "primaryLight": "#8b6b61",
+    "secondaryDarkFaint": "#CBCBCB",
+    "onView": "#FAFAFA",
+    "onViewFaint": "#9e9e9e",
+    "onTextFocus": "#FAFAFA",
+    "borderColor": "#003838",
+    "inputBackgroundColor": "#003838",
+    "placeholderTextColor": "#FAFAFA",
+    "buttonPrimary": {
+      "color": "#0eb4b4",
+      "onShowUnderlay": "#FAFAFA",
+      "onHideUnderlay": "#FAFAFA",
+      "underlayColor": "#0b8a8a"
+    },
+    "buttonPrimaryOutline": {
+      "color": "#0eb4b4",
+      "onShowUnderlay": "#FAFAFA",
+      "onHideUnderlay": "#0eb4b4",
+      "underlayColor": ""
+    },
+    "buttonSecondary": {
+      "color": "#FFFFFF",
+      "onShowUnderlay": "#FFFFFF",
+      "onHideUnderlay": "#002323",
+      "underlayColor": "#CBCBCB"
+    },
+    "buttonSecondaryOutline": {
+      "color": "#FFFFFF",
+      "onShowUnderlay": "#002323",
+      "onHideUnderlay": "#FFFFFF",
+      "underlayColor": "#FFFFFF"
+    },
+    "buttonExtra": {
+      "color": "#FFFFFF",
+      "onShowUnderlay": "#FAFAFA",
+      "onHideUnderlay": "#494949",
+      "underlayColor": "#23A1A1"
+    },
+    "switch": {
+      "thumbColorActive": "#0eb4b4",
+      "thumbColorNotActive": "#FAFAFA",
+      "trackColorNotActive": "#CBCBCB",
+      "trackColorActive": "#CBCBCB"
+    },
+    "white": "#ffffff",
+    "black": "#000000"
+  }
+}
