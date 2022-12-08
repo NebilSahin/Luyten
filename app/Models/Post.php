@@ -15,6 +15,7 @@ class Post extends Model
         'title',
         'description',
         'file_path',
+        'user_identifier',
         'created_at',
         'updated_at',
         'deleted_at',

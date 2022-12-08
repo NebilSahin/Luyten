@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
-class LoginRequest extends APIRequest
+use Illuminate\Foundation\Http\FormRequest;
+
+class LoginRequest extends FormRequest
 {
     public function authorize()
     {
@@ -12,9 +14,7 @@ class LoginRequest extends APIRequest
     public function rules()
     {
         return [
-            'email'     => 'string|email',
-            'username'  => 'string',
-            'password'  => 'required'
+            'password' => 'required'
         ];
     }
 

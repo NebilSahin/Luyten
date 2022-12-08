@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Http\Requests;
+
 use Illuminate\Foundation\Http\FormRequest;
 
-class RegisterRequest extends FormRequest
+class UpdatePasswordRequest extends FormRequest
 {
     public function authorize()
     {
@@ -13,15 +14,6 @@ class RegisterRequest extends FormRequest
     public function rules()
     {
         return [
-            'username' => [
-                'string',
-                'required',
-                'unique:users',
-            ],
-            'email' => [
-                'required',
-                'unique:users',
-            ],
             'password' => [
                 'required',
             ],

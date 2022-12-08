@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
-class StorePostRequest extends FormRequest
+class UpdateProfileRequest extends FormRequest
 {
     public function authorize()
     {
@@ -14,20 +15,19 @@ class StorePostRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => [
+            'username' => [
                 'string',
                 'required',
+                'unique:users,username,' . Auth::user()->id
             ],
-            'description' => [
-                'string',
-            ],
-            'user_identifier' => [
+            'email' => [
                 'required',
+                'string',
+                'email',
+                'unique:users,email,' . Auth::user()->id,
             ],
-            'file_path' => [
-                'image',
-                'mimes:jpg,png,jpeg,gif,svg',
-                'max:2048'
+            'password' => [
+                'required',
             ],
         ];
     }

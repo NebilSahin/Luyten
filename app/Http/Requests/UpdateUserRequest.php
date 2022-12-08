@@ -17,8 +17,10 @@ class UpdateUserRequest extends FormRequest
         return [
             'username' => [
                 'string',
+                'unique:users,username,' . Auth::user()->id
             ],
             'email' => [
+                'string',
                 'unique:users',
             ],
             'role_identifier' => [
