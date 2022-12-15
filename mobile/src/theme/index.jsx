@@ -9,7 +9,7 @@ import { themeToggleAction } from '../redux/actions/UserActions';
 
 export const themeSelector = () => {
   const sessionTheme = useSelector(
-    state => state.themeSelector.isDarkThemeActive,
+    state => state.sessionTheme.isDarkThemeActive,
   );
   if (sessionTheme == null) {
     return Appearance.getColorScheme();
@@ -45,19 +45,19 @@ export const ThemeToggleElement = () => {
   );
 };
 
-class ThemeStore {
-  defaultTheme = THEME_CONSTANT.LIGHT;
+// class ThemeStore {
+//   defaultTheme = THEME_CONSTANT.LIGHT;
 
-  constructor() {
-    const deviceTheme = Appearance.getColorScheme();
-    if (deviceTheme) {
-      this.defaultTheme = deviceTheme;
-    }
-  }
-}
+//   constructor() {
+//     const deviceTheme = Appearance.getColorScheme();
+//     if (deviceTheme) {
+//       this.defaultTheme = deviceTheme;
+//     }
+//   }
+// }
 
-export const themeStore = new ThemeStore();
-const theme = THEME_CONFIG[themeStore.defaultTheme];
+// export const themeStore = new ThemeStore();
+// const theme = THEME_CONFIG[themeStore.defaultTheme];
 
 
 const styles = StyleSheet.create({
@@ -67,4 +67,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default theme;
+// export default theme;

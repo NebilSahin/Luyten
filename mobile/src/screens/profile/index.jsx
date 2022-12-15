@@ -4,6 +4,7 @@ import Button from '../../components/Button';
 import {useDispatch} from 'react-redux';
 import {ThemeToggleElement} from '../../theme';
 import {themeSelector} from '../../theme';
+import {LangChangeElement} from '../../shared/lang';
 
 const THEME_CONFIG = require('../../theme/themes.json');
 const langJson = require('../../shared/lang/en.json');
@@ -19,6 +20,7 @@ const Profile = () => {
         {backgroundColor: THEME_CONFIG[THEME].screenBackground},
       ]}>
       <ThemeToggleElement />
+      {/* <LangChangeElement/> */}
       <Button
         styles={styles.button}
         text={langJson.logout}

@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux';
 
-const themeSelector = (state = {isDarkThemeActive: null}, action) => {
+const sessionTheme = (state = {isDarkThemeActive: null}, action) => {
   switch (action.type) {
     case 'user/themeToggle':
       return {...state, isDarkThemeActive: action.payload};
@@ -9,10 +9,12 @@ const themeSelector = (state = {isDarkThemeActive: null}, action) => {
   }
 };
 
-const userSession = (state = {userToken: null, isActive: false}, action) => {
+const sessionUser = (state = {userToken: null, isActive: false, userLang: 'en'}, action) => {
   switch (action.type) {
     case 'user/sessionUserToken':
-      return {...state, userToken: !state.userToken};
+      return {...state, userToken: action.payload};
+    case 'user/sessionLang':
+      return {...state, userLang: action.payload};
     case 'user/sessionActiveState':
       return {...state, isActive: !state.isActive};
     default:
@@ -21,6 +23,6 @@ const userSession = (state = {userToken: null, isActive: false}, action) => {
 };
 
 export default combineReducers({
-  themeSelector,
-  userSession,
+  sessionTheme,
+  sessionUser,
 });

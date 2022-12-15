@@ -106,8 +106,6 @@ const TabButton = props => {
 function BottomBarNav() {
   //   const language = useSelector((state) => state.user.language);
   const THEME = themeSelector();
-  const session = useSelector(state => state.sessionState);
-  const navigation = useNavigation();
   return (
     <BottomBar.Navigator
       initialRouteName="home"
@@ -116,8 +114,6 @@ function BottomBarNav() {
         tabBarStyle: {
           borderTopWidth: 0,
           elevation: 0,
-          height: 100,
-          position: 'absolute',
           backgroundColor: THEME_CONFIG[THEME].background,
         },
         headerBackgroundContainerStyle: {
@@ -148,7 +144,7 @@ function BottomBarNav() {
 }
 
 function AppNav() {
-  const sessionIsActive = useSelector(state => state.userSession.isActive);
+  const sessionIsActive = useSelector(state => state.sessionUser.isActive);
 
   //   const store = useRef(undefined);
   //   const queryClient = useRef(undefined);

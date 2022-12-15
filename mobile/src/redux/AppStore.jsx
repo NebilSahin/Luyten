@@ -18,17 +18,17 @@ export const store = configureStore({
 
 export const persistor = persistStore(store);
 
-store.subscribe(() => {
-  const themeSelector = store.getState().themeSelector;
-  if (!themeSelector) return;
-  persistor.root = store.getState().themeSelector.darkThemeEnabled;
-});
+// store.subscribe(() => {
+//   const themeSelector = store.getState().themeSelector;
+//   if (!themeSelector) return;
+//   persistor.root = store.getState().themeSelector.darkThemeEnabled;
+// });
 
-store.subscribe(() => {
-  const session = store.getState().sessionState;
-  if (!session) return;
-  persistor.root = store.getState().sessionState.session;
-});
+// store.subscribe(() => {
+//   const session = store.getState().userSession;
+//   if (!session) return;
+//   persistor.root = store.getState().userSession;
+// });
 
 export default store;
 

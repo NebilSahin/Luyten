@@ -1,6 +1,6 @@
 {
     "authScreen": {
-        "welcomeMessage": "Welcome back!",
+        "welcomeMessage": "مرحباً بك!",
         "title": "Expand your horizon",
         "subtitle": "Let's get started!",
         "login": "Login",
@@ -14,9 +14,5 @@
         "signupSuccess": "Your account has been created!",
         "incorrectCredentials": "Username or password was inccorect!",
         "fieldsRequired": "Please fill in the required fields!"
-    },
-    "alert": {
-        "alertMessageTitle": "Error!",
-        "ok": "ok"
     }
 }
