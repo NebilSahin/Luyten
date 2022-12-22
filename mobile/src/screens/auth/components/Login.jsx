@@ -2,7 +2,7 @@ import React, {useState, useRef} from 'react';
 import {Text, Pressable, Keyboard, View} from 'react-native';
 import BottomSheetInput from '../../../components/BottomSheetInput';
 import Button from '../../../components/Button';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {TogglePasswordVisibility} from '../../../components/InputFunctions';
 import {themeSelector} from '../../../theme';
 import {useDispatch} from 'react-redux';
@@ -19,8 +19,10 @@ const LoginComponent = () => {
     const dispatch = useDispatch();
     const THEME = themeSelector();
     const LANG = langFileSelector();
-    const [username, setUsername] = useState(null);
-    const [password, setPassword] = useState(null);
+    const [loginForm, setLoginForm] = useState({
+        username: null,
+        password: null,
+    });
     const [message, setMessage] = useState('');
     const sheetRef = useRef(null);
     const AUTH_STYLE = AuthStyles();
@@ -32,8 +34,8 @@ const LoginComponent = () => {
         Keyboard.dismiss();
         request
             .post('/login', {
-                username: username,
-                password: password,
+                username: loginForm.username,
+                password: loginForm.password,
             })
             .then(function (response) {
                 if (response.data['access_token']) {
@@ -47,9 +49,16 @@ const LoginComponent = () => {
                     sheetRef.current?.present();
                 }
             })
-            .catch(function () {
-                setUsername('');
-                setPassword('');
+            .catch(function (error) {
+                if (!error.response) {
+                    setMessage(LANG.authScreen.pleaseTryLater);
+                    sheetRef.current?.present();
+                }
+                setLoginForm(loginForm => ({
+                    ...loginForm,
+                    username: '',
+                    password: '',
+                }));
             });
     };
 
@@ -60,25 +69,37 @@ const LoginComponent = () => {
                     {LANG.authScreen.welcomeMessage}
                 </Text>
                 <BottomSheetInput
-                    error={username == ''}
-                    errorMessage="Username field is require!"
+                    error={loginForm.username == ''}
+                    errorMessage={LANG.authScreen.usernameError}
                     placeholder={LANG.authScreen.usernameField}
                     cursorColor={
-                        username == ''
+                        loginForm.username == ''
                             ? THEME_CONFIG[THEME].error.textColor
                             : THEME_CONFIG[THEME].primary
                     }
                     keyboardAppearance={THEME_CONFIG[THEME].theme}
                     textContentType="username"
-                    value={username}
-                    onChangeText={value => setUsername(value)}
+                    value={loginForm.username}
+                    onChangeText={value =>
+                        setLoginForm(loginForm => ({
+                            ...loginForm,
+                            username: value,
+                        }))
+                    }
+                    icon={
+                        <Icon
+                            name="account"
+                            size={22}
+                            color={THEME_CONFIG[THEME].extra}
+                        />
+                    }
                 />
                 <BottomSheetInput
-                    error={password == ''}
-                    errorMessage="Password field is require!"
+                    error={loginForm.password == ''}
+                    errorMessage={LANG.authScreen.passwordError}
                     placeholder={LANG.authScreen.passwordField}
                     cursorColor={
-                        password == ''
+                        loginForm.password == ''
                             ? THEME_CONFIG[THEME].error.textColor
                             : THEME_CONFIG[THEME].primary
                     }
@@ -86,11 +107,16 @@ const LoginComponent = () => {
                     autoCorrect={false}
                     secureTextEntry={passwordVisibility}
                     textContentType="password"
-                    value={password}
-                    onChangeText={value => setPassword(value)}
+                    value={loginForm.password}
+                    onChangeText={value =>
+                        setLoginForm(loginForm => ({
+                            ...loginForm,
+                            password: value,
+                        }))
+                    }
                     icon={
                         <Pressable onPress={handlePasswordVisibility}>
-                            <MaterialCommunityIcons
+                            <Icon
                                 name={rightIcon}
                                 size={22}
                                 color={THEME_CONFIG[THEME].extra}
@@ -103,12 +129,12 @@ const LoginComponent = () => {
                     text={LANG.authScreen.login}
                     buttonStyle="buttonSolid"
                     buttonTheme={
-                        username == '' || password == ''
+                        loginForm.username == '' || loginForm.password == ''
                             ? 'buttonDisabled'
                             : 'buttonPrimary'
                     }
                     onPress={
-                        username == '' || password == ''
+                        loginForm.username == '' || loginForm.password == ''
                             ? null
                             : () => {
                                   handleLogin();

@@ -35,13 +35,13 @@ export const Splash = ({children}) => {
         Animated.timing(containerOpacity, {
           toValue: 1,
           duration: 500, // Fade out duration
-          delay: 1000, // Minimum time the logo will stay visible
+          delay: 500, // Minimum time the logo will stay visible
           useNativeDriver: true,
         }).start(),
         Animated.timing(containerOpacity, {
           toValue: 0,
           duration: 500, // Fade out duration
-          delay: 2000,
+          delay: 1000,
           useNativeDriver: true,
         }).start(() => {
           setContainerHidden(true);

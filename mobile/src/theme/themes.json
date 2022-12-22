@@ -3,6 +3,7 @@
         "theme": "light",
         "opposite": "dark",
         "background": "#FFFFFF",
+        "screenBorder": "#e6e6e6",
         "sheetBackground": "#FFFFFF",
         "text": "#494949",
         "titleLight": "#FFFFFF",
@@ -67,13 +68,13 @@
             "borderColor": "#00000000",
             "textFocusColor": "#494949",
             "textColor": "#494949",
-            "backgroundFocusColor": "rgba(0, 0, 0, 0.1)"
+            "backgroundFocusColor": "rgba(0, 0, 0, 0.05)"
         },
         "switch": {
             "thumbColorActive": "#FAFAFA",
             "thumbColorNotActive": "#FAFAFA",
             "trackColorNotActive": "#CBCBCB",
-            "trackColorActive": "#0eb4b4"
+            "trackColorActive": "#46b3b3"
         },
         "error": {
             "textColor": "#ff8291",
@@ -84,7 +85,7 @@
         "theme": "dark",
         "opposite": "light",
         "background": "#002323",
-        "screenBackground": "#011717",
+        "screenBorder": "#004545",
         "sheetBackground": "#002323",
         "text": "#FAFAFA",
         "titleLight": "#FFFFFF",
@@ -149,13 +150,13 @@
             "borderColor": "#00000000",
             "textFocusColor": "#FFFFFF",
             "textColor": "#FFFFFF",
-            "backgroundFocusColor": "#80000000"
+            "backgroundFocusColor": "rgba(255, 255, 255, 0.05)"
         },
         "switch": {
             "thumbColorActive": "#0eb4b4",
             "thumbColorNotActive": "#FAFAFA",
             "trackColorNotActive": "#CBCBCB",
-            "trackColorActive": "#CBCBCB"
+            "trackColorActive": "#2a7373"
         },
         "error": {
             "textColor": "#ff596d",

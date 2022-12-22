@@ -23,7 +23,8 @@ class CreatPostsTable extends Migration
             $table->foreign('user_identifier')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
-        });    }
+        });
+    }
 
     /**
      * Reverse the migrations.

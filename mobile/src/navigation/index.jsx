@@ -33,161 +33,168 @@ const AppStack = createStackNavigator();
 const BottomBar = createBottomTabNavigator();
 
 const TabArr = [
-  {
-    route: 'Home',
-    label: 'Home',
-    activeIcon: 'home-variant',
-    inActiveIcon: 'home-variant-outline',
-    component: Home,
-  },
-  {
-    route: 'Search',
-    label: 'Search',
-    activeIcon: 'feature-search',
-    inActiveIcon: 'feature-search-outline',
-    component: Search,
-  },
     {
-      route: 'Notification',
-      label: 'Notification',
-      activeIcon: 'bell',
-      inActiveIcon: 'bell-outline',
-      component: Search,
+        route: 'Home',
+        label: 'Home',
+        activeIcon: 'home-variant',
+        inActiveIcon: 'home-variant-outline',
+        component: Home,
     },
-  {
-    route: 'Profile',
-    label: 'Profile',
-    activeIcon: 'account-box',
-    inActiveIcon: 'account-box-outline',
-    component: Profile,
-  },
+    {
+        route: 'Search',
+        label: 'Search',
+        activeIcon: 'feature-search',
+        inActiveIcon: 'feature-search-outline',
+        component: Search,
+    },
+    {
+        route: 'Notification',
+        label: 'Notification',
+        activeIcon: 'bell',
+        inActiveIcon: 'bell-outline',
+        component: Search,
+    },
+    {
+        route: 'Profile',
+        label: 'Profile',
+        activeIcon: 'account-box',
+        inActiveIcon: 'account-box-outline',
+        component: Profile,
+    },
 ];
 
 const TabButton = props => {
-  const {item, onPress, accessibilityState} = props;
-  const focused = accessibilityState.selected;
-  const viewRef = useRef(null);
-  const THEME = themeSelector();
+    const {item, onPress, accessibilityState} = props;
+    const focused = accessibilityState.selected;
+    const viewRef = useRef(null);
+    const THEME = themeSelector();
 
-  useEffect(() => {
-    if (focused) {
-      viewRef.current.animate({
-        0: {scale: 2},
-        0.2: {scale: 2.8},
-        1: {scale: 2.5},
-      });
-    } else {
-      viewRef.current.animate({0: {scale: 2.5}, 1: {scale: 2}});
-    }
-  }, [focused]);
+    useEffect(() => {
+        if (focused) {
+            viewRef.current.animate({
+                0: {scale: 2},
+                0.2: {scale: 2.8},
+                1: {scale: 2.5},
+            });
+        } else {
+            viewRef.current.animate({0: {scale: 2.5}, 1: {scale: 2}});
+        }
+    }, [focused]);
 
-  return (
-    <TouchableOpacity
-      onPress={onPress}
-      activeOpacity={1}
-      style={styles.buttonContainer}>
-      <Animatable.View
-        ref={viewRef}
-        duration={600}
-        style={styles.buttonContainer}>
-        <MCIIcon
-          name={focused ? item.activeIcon : item.inActiveIcon}
-          color={
-            focused
-              ? THEME_CONFIG[THEME].primary
-              : THEME_CONFIG[THEME].secondaryDarkFaint
-          }
-        />
-      </Animatable.View>
-    </TouchableOpacity>
-  );
+    return (
+        <TouchableOpacity
+            onPress={onPress}
+            activeOpacity={1}
+            style={styles.buttonContainer}>
+            <Animatable.View
+                ref={viewRef}
+                duration={600}
+                style={styles.buttonContainer}>
+                <MCIIcon
+                    name={focused ? item.activeIcon : item.inActiveIcon}
+                    color={
+                        focused
+                            ? THEME_CONFIG[THEME].primary
+                            : THEME_CONFIG[THEME].secondaryDarkFaint
+                    }
+                />
+            </Animatable.View>
+        </TouchableOpacity>
+    );
 };
 
 function BottomBarNav() {
-  //   const language = useSelector((state) => state.user.language);
-  const THEME = themeSelector();
-  return (
-    <BottomBar.Navigator
-      initialRouteName="home"
-      screenOptions={{
-        headerShown: true,
-        tabBarStyle: {
-          borderTopWidth: 0,
-          elevation: 0,
-          backgroundColor: THEME_CONFIG[THEME].background,
-        },
-        headerBackgroundContainerStyle: {
-          backgroundColor: THEME_CONFIG[THEME].screenBackground,
-        },
-        headerStyle: {
-          elevation: 0,
-          backgroundColor: THEME_CONFIG[THEME].background,
-        },
-        headerTitleStyle: {
-          color: THEME_CONFIG[THEME].text,
-        },
-      }}>
-      {TabArr.map((item, index) => {
-        return (
-          <BottomBar.Screen
-            key={index}
-            name={item.route}
-            component={item.component}
-            options={{
-              tabBarButton: props => <TabButton {...props} item={item} />,
-            }}
-          />
-        );
-      })}
-    </BottomBar.Navigator>
-  );
+    //   const language = useSelector((state) => state.user.language);
+    const THEME = themeSelector();
+    return (
+        <BottomBar.Navigator
+            initialRouteName="home"
+            screenOptions={{
+                headerShown: true,
+                tabBarStyle: {
+                    borderTopWidth: 1,
+                    borderTopColor: THEME_CONFIG[THEME].screenBorder,
+                    elevation: 0,
+                    backgroundColor: THEME_CONFIG[THEME].background,
+                },
+                headerBackgroundContainerStyle: {
+                    borderBottomWidth: 1,
+                    borderBottomColor: THEME_CONFIG[THEME].screenBorder,
+                    backgroundColor: THEME_CONFIG[THEME].background,
+                },
+                headerStyle: {
+                    elevation: 0,
+                    backgroundColor: THEME_CONFIG[THEME].background,
+                },
+                headerTitleStyle: {
+                    color: THEME_CONFIG[THEME].text,
+                },
+            }}>
+            {TabArr.map((item, index) => {
+                return (
+                    <BottomBar.Screen
+                        key={index}
+                        name={item.route}
+                        component={item.component}
+                        options={{
+                            tabBarButton: props => (
+                                <TabButton {...props} item={item} />
+                            ),
+                        }}
+                    />
+                );
+            })}
+        </BottomBar.Navigator>
+    );
 }
 
 function AppNav() {
-  const sessionIsActive = useSelector(state => state.sessionUser.isActive);
+    const sessionIsActive = useSelector(state => state.sessionUser.isActive);
 
-  //   const store = useRef(undefined);
-  //   const queryClient = useRef(undefined);
+    //   const store = useRef(undefined);
+    //   const queryClient = useRef(undefined);
 
-  //   useEffect(() => {
-  //     store.current = store;
-  //     queryClient.current = queryClient;
-  //     setIsLoading(false);
-  //   }, []);
+    //   useEffect(() => {
+    //     store.current = store;
+    //     queryClient.current = queryClient;
+    //     setIsLoading(false);
+    //   }, []);
 
-  //   if (isLoading) {
-  //     // setTimeout(() => {
-  //     //   setIsLoading(false);
-  //     // }, 1000);
-  //     return <Loading isAppReady={!isLoading} />;
-  //   }
+    //   if (isLoading) {
+    //     // setTimeout(() => {
+    //     //   setIsLoading(false);
+    //     // }, 1000);
+    //     return <Loading isAppReady={!isLoading} />;
+    //   }
 
-  return (
-    <AppStack.Navigator
-      initialRouteName={sessionIsActive ? 'BarNav' : 'AuthNav'}
-      screenOptions={{
-        headerShown: false,
-      }}>
-      {sessionIsActive ? (
-        <AppStack.Screen
-          name="BarNav"
-          component={BottomBarNav}
-          options={{
-            animationTypeForReplace: sessionIsActive ? 'pop' : 'push',
-          }}
-        />
-      ) : (
-        <AppStack.Screen name="AuthNav" component={Auth} />
-      )}
+    return (
+        <AppStack.Navigator
+            initialRouteName={sessionIsActive ? 'BarNav' : 'AuthNav'}
+            screenOptions={{
+                headerShown: false,
+            }}>
+            {sessionIsActive ? (
+                <AppStack.Screen
+                    name="BarNav"
+                    component={BottomBarNav}
+                    options={{
+                        animationTypeForReplace: sessionIsActive
+                            ? 'pop'
+                            : 'push',
+                    }}
+                />
+            ) : (
+                <AppStack.Screen name="AuthNav" component={Auth} />
+            )}
 
-      {/* <AppStack.Screen name="category" component={Category} />
+            {/* <AppStack.Screen name="category" component={Category} />
       <AppStack.Screen name="author_detail" component={AuthorDetailScreen} />
       <AppStack.Screen name="manga_detail" component={MangaDetailScreen} />
       <AppStack.Screen
         name="character_detail"
         component={CharacterDetailScreen}
       /> */}
-      {/* <AppStack.Group
+            {/* <AppStack.Group
         screenOptions={{
           presentation: 'modal',
           animation: 'slide_from_bottom',
@@ -209,16 +216,16 @@ function AppNav() {
           component={DeleteDataWarnModal}
         />
       </AppStack.Group> */}
-    </AppStack.Navigator>
-  );
+        </AppStack.Navigator>
+    );
 }
 
 export default AppNav;
 
 const styles = StyleSheet.create({
-  buttonContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+    buttonContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
 });

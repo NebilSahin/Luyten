@@ -26,9 +26,6 @@ class UpdateProfileRequest extends FormRequest
                 'email',
                 'unique:users,email,' . Auth::user()->id,
             ],
-            'password' => [
-                'required',
-            ],
         ];
     }
 }

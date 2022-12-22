@@ -33,11 +33,11 @@ const CustomButton = props => {
                 THEME_CONFIG[THEME][props.buttonTheme].backgroundFocusColor
             }
             {...props}>
-            <View>
-                <Text style={{color: color, fontSize: props.styles.fontSize}}>
-                    {props.text}
-                </Text>
-            </View>
+            {props.text ? (
+                <Text style={{color: color, fontSize: CORE_STYLE[props.buttonStyle].fontSize}}>{props.text}</Text>
+            ) : (
+                props.children
+            )}
         </TouchableHighlight>
     );
 };

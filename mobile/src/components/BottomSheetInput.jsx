@@ -1,20 +1,27 @@
-import React, {Component} from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import React, {useRef} from 'react';
+import {TouchableWithoutFeedback, View, Text} from 'react-native';
 import {BottomSheetTextInput} from '@gorhom/bottom-sheet';
 import {THEME} from '../shared/Constant';
 import {useSelector} from 'react-redux';
 import {requestFrame} from 'react-native-reanimated/lib/reanimated2/core';
 import {themeSelector} from '../theme';
+import {AuthStyles} from '../theme/Styles';
 
 const THEME_CONFIG = require('../theme/themes.json');
 
 const BottomSheetInputComponent = props => {
     const THEME = themeSelector();
+    const AUTH_STYLE = AuthStyles();
+    const INPUT = useRef(null);
+
     return (
-        <>
+        <TouchableWithoutFeedback
+            onPress={() => {
+                INPUT.current.focus();
+            }}>
             <View
                 style={[
-                    styles.inputContainer,
+                    AUTH_STYLE.inputContainer,
                     {
                         borderColor: props.error
                             ? THEME_CONFIG[THEME].error.textColor
@@ -25,53 +32,34 @@ const BottomSheetInputComponent = props => {
                     },
                 ]}>
                 <BottomSheetTextInput
+                    ref={INPUT}
                     maxLength={40}
-                    style={[styles.input, {color: THEME_CONFIG[THEME].text,}]}
+                    style={[
+                        AUTH_STYLE.input,
+                        {
+                            color: THEME_CONFIG[THEME].text,
+                            bottom: props.error ? 8 : 0,
+                        },
+                    ]}
                     placeholderTextColor={THEME_CONFIG[THEME].extra}
                     {...props}
                 />
-                <View style={styles.icon}>{props.icon}</View>
+                <View style={AUTH_STYLE.icon}>{props.icon}</View>
+                {props.error ? (
+                    <Text
+                        style={[
+                            AUTH_STYLE.error,
+                            {
+                                color: THEME_CONFIG[THEME].error.textColor,
+                                opacity: props.error ? 1 : 0,
+                            },
+                        ]}>
+                        {props.errorMessage}
+                    </Text>
+                ) : null}
             </View>
-            {props.error ? (
-                <Text
-                    style={[
-                        styles.error,
-                        {
-                            color: THEME_CONFIG[THEME].error.textColor,
-                            opacity: props.error ? 1 : 0,
-                        },
-                    ]}>
-                    {props.errorMessage}
-                </Text>
-            ) : null}
-        </>
+        </TouchableWithoutFeedback>
     );
 };
-
-const styles = StyleSheet.create({
-    inputContainer: {
-        width: '100%',
-        flexDirection: 'row',
-        alignItems: 'center',
-        borderRadius: 50,
-        borderWidth: 2,
-        marginTop: 10,
-        padding: 3,
-        paddingLeft: 20,
-        paddingRight: 20,
-    },
-    input: {
-        width: '95%',
-    },
-    icon: {
-        with: '100%',
-        alignItems: 'flex-end',
-        alignContent: 'flex-end',
-    },
-    error: {
-      fontSize: 12,
-        paddingLeft: 20,
-    },
-});
 
 export default BottomSheetInputComponent;

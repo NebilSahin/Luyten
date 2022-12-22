@@ -24,12 +24,66 @@ export const AlertPopUp = ({message}) => {
             <View style={ALERT_STYLE.alertButtonContainer}>
                 <Button
                     styles={ALERT_STYLE.alertButton}
-                    text={LANG.alert.ok}
                     buttonStyle="buttonSolid"
                     buttonTheme="noneThemeButton"
-                    onPress={dismissAll}
-                />
+                    onPress={dismissAll}>
+                    <Text style={ALERT_STYLE.alertButtonText}>
+                        {LANG.alert.ok}
+                    </Text>
+                </Button>
             </View>
+        </View>
+    );
+};
+
+export const ModalPopUp = props => {
+    const LANG = langFileSelector();
+    const {dismissAll} = useBottomSheetModal();
+    const ALERT_STYLE = AlertStyles();
+    return (
+        <View style={ALERT_STYLE.alertContainer}>
+            <Text style={ALERT_STYLE.alertMessageTitle}>
+                {props.modalTitle}
+            </Text>
+            <View style={ALERT_STYLE.alertMessage}>{props.children}</View>
+            {props.action ? (
+                <View style={ALERT_STYLE.alertButtonContainer}>
+                    <Button
+                        styles={ALERT_STYLE.alertButton}
+                        buttonStyle="buttonSolid"
+                        buttonTheme="noneThemeButton"
+                        onPress={dismissAll}>
+                        <Text style={ALERT_STYLE.alertButtonText}>
+                            {LANG.alert.cancel}
+                        </Text>
+                    </Button>
+                    <Button
+                        styles={ALERT_STYLE.alertButton}
+                        buttonStyle="buttonSolid"
+                        buttonTheme="noneThemeButton"
+                        onPress={props.action}>
+                        <Text
+                            style={[
+                                ALERT_STYLE.alertButtonText,
+                                props.actionStyle,
+                            ]}>
+                            {props.actionMessage}
+                        </Text>
+                    </Button>
+                </View>
+            ) : (
+                <View style={ALERT_STYLE.alertButtonContainer}>
+                    <Button
+                        styles={ALERT_STYLE.alertButton}
+                        buttonStyle="buttonSolid"
+                        buttonTheme="noneThemeButton"
+                        onPress={dismissAll}>
+                        <Text style={ALERT_STYLE.alertButtonText}>
+                            {LANG.alert.ok}
+                        </Text>
+                    </Button>
+                </View>
+            )}
         </View>
     );
 };
@@ -40,7 +94,9 @@ const BottomSheetContent = props => {
         () => [props.detached ? '60%' : 'CONTENT_HEIGHT'],
         [],
     );
-    const handleSheetChange = useCallback(index => {}, []);
+    const handleSheetChange = useCallback(index => {
+        console.log(index);
+    }, []);
     const renderBackdrop = useCallback(
         props => (
             <BottomSheetBackdrop
@@ -65,10 +121,12 @@ const BottomSheetContent = props => {
             index={0}
             detached={props.detached ? props.detached : false}
             enableDismissOnClose={true}
-            keyboardBehavior="fillParent"
+            // keyboardBehavior="fillParent"
             keyboardBlurBehavior="restore"
-            backdropComponent={props.detached ? renderBackdrop : ''}
-            onChange={handleSheetChange}
+            backdropComponent={
+                props.detached || props.backdrop ? renderBackdrop : ''
+            }
+            // onChange={handleSheetChange}
             snapPoints={animatedSnapPoints}
             handleHeight={animatedHandleHeight}
             contentHeight={animatedContentHeight}

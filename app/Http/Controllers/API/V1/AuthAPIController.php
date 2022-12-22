@@ -58,9 +58,7 @@ class AuthAPIController extends Controller
     public function updateProfile(UpdateProfileRequest $request)
     {
         $user = Auth::user();
-        if($request['password']) $request['password'] = Hash::make($request['password']);
         $user->update($request->all());
-
         return response()->json(['user' => $user]);
     }
 

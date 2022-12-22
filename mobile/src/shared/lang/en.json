@@ -1,4 +1,12 @@
 {
+    "langTitle": "English",
+    "core":{
+        "toggleTheme": "Dark mode"
+    },
+    "navScreens": {
+        "myPosts": "My posts",
+        "settings": "Settings"
+    },
     "authScreen": {
         "welcomeMessage": "Welcome back!",
         "title": "Expand your horizon",
@@ -13,10 +21,27 @@
         "forgotPassword": "Forgot your password?",
         "signupSuccess": "Your account has been created!",
         "incorrectCredentials": "Username or password was inccorect!",
-        "fieldsRequired": "Please fill in the required fields!"
+        "fieldsRequired": "Please fill in the required fields!",
+        "pleaseTryLater": "There was an error, please try again later!",
+        "usernameError": "Username field is require!",
+        "passwordError": "Password field is require!",
+        "emailError": "Email field is require!",
+        "rePasswordError": "Password field does not match!"
     },
     "alert": {
         "alertMessageTitle": "Error!",
-        "ok": "ok"
+        "ok": "Ok",
+        "cancel": "Cancel"
+    },
+    "profile":{
+        "changeLang": "Language", 
+        "changeLangModal": "Please choose the language",
+        "logoutMessage": "Are you sure?",
+        "createdAt": "Created at:",
+        "edit": "Edit",
+        "admin": "Admin",
+        "user": "User",
+        "update": "Update",
+        "updateProfile": "Update your profile"
     }
 }

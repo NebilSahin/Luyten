@@ -1,18 +1,45 @@
 {
+    "langTitle": "عربي",
+    "core":{
+        "toggleTheme": "النمط الداكن"
+    },
+    "navScreens": {
+        "myPosts": "منشوراتي",
+        "settings": "الإعدادات"
+    },
     "authScreen": {
-        "welcomeMessage": "مرحباً بك!",
-        "title": "Expand your horizon",
-        "subtitle": "Let's get started!",
-        "login": "Login",
-        "logout": "Logout",
-        "signup": "Signup",
-        "usernameField": "Enter your username",
-        "emailField": "Enter your Email",
-        "passwordField": "Enter your password",
-        "rePasswordField": "Re-enter your password",
-        "forgotPassword": "Forgot your password?",
-        "signupSuccess": "Your account has been created!",
-        "incorrectCredentials": "Username or password was inccorect!",
-        "fieldsRequired": "Please fill in the required fields!"
+        "welcomeMessage": "مرحبا بك!",
+        "title": "وسع نطاقك",
+        "subtitle": "فلنبدأ الآن!",
+        "login": "الدخول",
+        "logout": "تسجيل الخروج",
+        "signup": "التسجيل",
+        "usernameField": "ادخل اسم المستخدم",
+        "emailField": "دخل البريد الالكتروني",
+        "passwordField": "ادخل الرمز السري",
+        "rePasswordField": "أعد إدخال الرمز السري",
+        "forgotPassword": "نسيت رمزك السري؟",
+        "signupSuccess": "تم إنشاء حسابك بنجاح!",
+        "incorrectCredentials": "اسم المستخدم أو كلمة المرور غير صحيحة!",
+        "fieldsRequired": "الرجاء إدخال البيانات المطلوبة!",
+        "pleaseTryLater": "حدث خطأ ما, يرجى المحاولة لاحقاً!",
+        "usernameError": "خانة اسم المستخدم مطلوب!",
+        "passwordError": "حانة كلمة المرور مطلوب!",
+        "emailError": "خانة البريد الالكتروني مطلوب!",
+        "rePasswordError": "كلمة المرور ليست متوافقة!"
+    },
+    "alert": {
+        "alertMessageTitle": "خطأ!",
+        "ok": "حسناً",
+        "cancel": "إلغاء"
+    },
+    "profile":{
+        "changeLang": "اللغة",
+        "changeLangModal": "الرجاء اختيار اللغة",
+        "logoutMessage": "أمتأكد من تسجيل خروجك؟",
+        "createdAt": "أنشئ في:",
+        "edit": "تحرير",
+        "admin": "مشرف",
+        "user": "مستخدم"
     }
 }
