@@ -1,11 +1,9 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import MCIIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import MIIcon from 'react-native-vector-icons/MaterialIcons';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View, Image} from 'react-native';
 import {useSelector} from 'react-redux';
 import Home from '../screens/home';
 import Search from '../screens/search';
@@ -25,9 +23,12 @@ import {THEME} from '../shared/Constant';
 import * as Animatable from 'react-native-animatable';
 import {themeSelector} from '../theme';
 import {useNavigation} from '@react-navigation/native';
-import {CommonActions} from '@react-navigation/native';
+import {ProfileStyles, AuthStyles, CoreStyles} from '../theme/Styles';
+import {langFileSelector} from '../shared/lang';
+import PostDetails from '../screens/home/components/PostDetails';
 
 const THEME_CONFIG = require('../theme/themes.json');
+const profileImgPlacholder = require('../../assets/profile-image.png');
 
 const AppStack = createStackNavigator();
 const BottomBar = createBottomTabNavigator();
@@ -35,28 +36,28 @@ const BottomBar = createBottomTabNavigator();
 const TabArr = [
     {
         route: 'Home',
-        label: 'Home',
+        label: 'home',
         activeIcon: 'home-variant',
         inActiveIcon: 'home-variant-outline',
         component: Home,
     },
     {
         route: 'Search',
-        label: 'Search',
+        label: 'search',
         activeIcon: 'feature-search',
         inActiveIcon: 'feature-search-outline',
         component: Search,
     },
     {
         route: 'Notification',
-        label: 'Notification',
+        label: 'notification',
         activeIcon: 'bell',
         inActiveIcon: 'bell-outline',
         component: Search,
     },
     {
         route: 'Profile',
-        label: 'Profile',
+        label: 'profile',
         activeIcon: 'account-box',
         inActiveIcon: 'account-box-outline',
         component: Profile,
@@ -68,6 +69,7 @@ const TabButton = props => {
     const focused = accessibilityState.selected;
     const viewRef = useRef(null);
     const THEME = themeSelector();
+    const CORE_STYLE = CoreStyles(props);
 
     useEffect(() => {
         if (focused) {
@@ -85,11 +87,11 @@ const TabButton = props => {
         <TouchableOpacity
             onPress={onPress}
             activeOpacity={1}
-            style={styles.buttonContainer}>
+            style={CORE_STYLE.navButtonContainer}>
             <Animatable.View
                 ref={viewRef}
                 duration={600}
-                style={styles.buttonContainer}>
+                style={CORE_STYLE.navButtonContainer}>
                 <MCIIcon
                     name={focused ? item.activeIcon : item.inActiveIcon}
                     color={
@@ -103,8 +105,32 @@ const TabButton = props => {
     );
 };
 
+const HeaderComponent = props => {
+    const userProfile = useSelector(state => state.sessionUser.userProfile);
+    const CORE_STYLE = CoreStyles(props);
+    const navigation = useNavigation();
+    const LANG = langFileSelector();
+
+    return (
+        <View style={CORE_STYLE.navProfileContainer}>
+            <Text style={CORE_STYLE.profileNavTitle}>{props.children}</Text>
+            <TouchableOpacity
+                style={CORE_STYLE.profileImageContainer}
+                onPress={() => navigation.navigate(LANG.core['profile'])}>
+                <Text style={CORE_STYLE.profileUsername}>
+                    {userProfile.user.username}
+                </Text>
+                <Image
+                    style={CORE_STYLE.profileImage}
+                    source={profileImgPlacholder}
+                />
+            </TouchableOpacity>
+        </View>
+    );
+};
+
 function BottomBarNav() {
-    //   const language = useSelector((state) => state.user.language);
+    const LANG = langFileSelector();
     const THEME = themeSelector();
     return (
         <BottomBar.Navigator
@@ -129,12 +155,13 @@ function BottomBarNav() {
                 headerTitleStyle: {
                     color: THEME_CONFIG[THEME].text,
                 },
+                headerTitle: props => <HeaderComponent {...props} />,
             }}>
             {TabArr.map((item, index) => {
                 return (
                     <BottomBar.Screen
                         key={index}
-                        name={item.route}
+                        name={LANG.core[item.label]}
                         component={item.component}
                         options={{
                             tabBarButton: props => (
@@ -150,45 +177,84 @@ function BottomBarNav() {
 
 function AppNav() {
     const sessionIsActive = useSelector(state => state.sessionUser.isActive);
-
-    //   const store = useRef(undefined);
-    //   const queryClient = useRef(undefined);
-
-    //   useEffect(() => {
-    //     store.current = store;
-    //     queryClient.current = queryClient;
-    //     setIsLoading(false);
-    //   }, []);
-
-    //   if (isLoading) {
-    //     // setTimeout(() => {
-    //     //   setIsLoading(false);
-    //     // }, 1000);
-    //     return <Loading isAppReady={!isLoading} />;
-    //   }
+    const THEME = themeSelector();
 
     return (
         <AppStack.Navigator
             initialRouteName={sessionIsActive ? 'BarNav' : 'AuthNav'}
             screenOptions={{
                 headerShown: false,
+                headerTintColor: THEME_CONFIG[THEME].text,
+                tabBarStyle: {
+                    borderTopWidth: 1,
+                    borderTopColor: THEME_CONFIG[THEME].screenBorder,
+                    elevation: 0,
+                    backgroundColor: THEME_CONFIG[THEME].background,
+                },
+                headerBackgroundContainerStyle: {
+                    borderBottomWidth: 1,
+                    borderBottomColor: THEME_CONFIG[THEME].screenBorder,
+                    backgroundColor: THEME_CONFIG[THEME].background,
+                },
+                headerStyle: {
+                    elevation: 0,
+                    backgroundColor: THEME_CONFIG[THEME].background,
+                },
+                headerTitleStyle: {
+                    fontSize: 18,
+                    color: THEME_CONFIG[THEME].text,
+                },
             }}>
             {sessionIsActive ? (
-                <AppStack.Screen
-                    name="BarNav"
-                    component={BottomBarNav}
-                    options={{
-                        animationTypeForReplace: sessionIsActive
-                            ? 'pop'
-                            : 'push',
-                    }}
-                />
+                <>
+                    <AppStack.Screen
+                        name="BarNav"
+                        component={BottomBarNav}
+                        options={{
+                            animationTypeForReplace: sessionIsActive
+                                ? 'pop'
+                                : 'push',
+                        }}
+                    />
+                    <AppStack.Group
+                        screenOptions={{
+                            animation: 'slide_from_right',
+                            headerShown: true,
+
+                            headerTintColor: THEME_CONFIG[THEME].text,
+                            tabBarStyle: {
+                                borderTopWidth: 1,
+                                borderTopColor:
+                                    THEME_CONFIG[THEME].screenBorder,
+                                elevation: 0,
+                                backgroundColor: THEME_CONFIG[THEME].background,
+                            },
+                            headerBackgroundContainerStyle: {
+                                borderBottomWidth: 1,
+                                borderBottomColor:
+                                    THEME_CONFIG[THEME].screenBorder,
+                                backgroundColor: THEME_CONFIG[THEME].background,
+                            },
+                            headerStyle: {
+                                elevation: 0,
+                                backgroundColor: THEME_CONFIG[THEME].background,
+                            },
+                            headerTitleStyle: {
+                                fontSize: 18,
+                                color: THEME_CONFIG[THEME].text,
+                            },
+                        }}>
+                        <AppStack.Screen
+                            name="Post details"
+                            component={PostDetails}
+                        />
+                    </AppStack.Group>
+                </>
             ) : (
                 <AppStack.Screen name="AuthNav" component={Auth} />
             )}
 
             {/* <AppStack.Screen name="category" component={Category} />
-      <AppStack.Screen name="author_detail" component={AuthorDetailScreen} />
       <AppStack.Screen name="manga_detail" component={MangaDetailScreen} />
       <AppStack.Screen
         name="character_detail"
@@ -221,11 +287,3 @@ function AppNav() {
 }
 
 export default AppNav;
-
-const styles = StyleSheet.create({
-    buttonContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-});

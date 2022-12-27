@@ -1,7 +1,12 @@
 {
     "langTitle": "عربي",
     "core":{
-        "toggleTheme": "النمط الداكن"
+        "toggleTheme": "النمط الداكن",
+        "alert": "تنبيه!",
+        "home": "الرئيسية",
+        "profile": "الحساب",
+        "search": "البحث",
+        "notification": "التنبيهات"
     },
     "navScreens": {
         "myPosts": "منشوراتي",
@@ -40,6 +45,9 @@
         "createdAt": "أنشئ في:",
         "edit": "تحرير",
         "admin": "مشرف",
-        "user": "مستخدم"
+        "user": "مستخدم",
+        "update": "تحديث",
+        "updateProfile": "حدث بياناتك الشخصية",
+        "updatedAlert": "تم تحديث بياناتك بنجاح."
     }
 }

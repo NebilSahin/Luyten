@@ -30,6 +30,7 @@ const SignupComponent = () => {
         password: null,
         rePassword: null,
     });
+    const [message, setMessage] = useState('');
 
     //handles the signup request and showes appropriate message in case of error
     const handleRegister = () => {
@@ -88,156 +89,163 @@ const SignupComponent = () => {
     };
 
     return (
-        <View
-            style={[
-                AuthStyles().authSheetContainer,
-                {backgroundColor: THEME_CONFIG[THEME].background},
-            ]}>
-            <Text
+        <>
+            <View
                 style={[
-                    AuthStyles().welcomeText,
-                    {color: THEME_CONFIG[THEME].text},
+                    AuthStyles().authSheetContainer,
+                    {backgroundColor: THEME_CONFIG[THEME].background},
                 ]}>
-                {LANG.authScreen.welcomeMessage}
-            </Text>
-            <BottomSheetInput
-                error={signUpForm.username == ''}
-                errorMessage={LANG.authScreen.usernameError}
-                placeholder={LANG.authScreen.usernameField}
-                cursorColor={
-                    signUpForm.username == ''
-                        ? THEME_CONFIG[THEME].error.textColor
-                        : THEME_CONFIG[THEME].primary
-                }
-                keyboardAppearance={THEME_CONFIG[THEME].theme}
-                textContentType="username"
-                value={signUpForm.username}
-                onChangeText={value =>
-                    setSignUpForm(signUpForm => ({
-                        ...signUpForm,
-                        username: value,
-                    }))
-                }
-                icon={
-                    <Icon
-                        name="account"
-                        size={22}
-                        color={THEME_CONFIG[THEME].extra}
-                    />
-                }
-            />
-            <BottomSheetInput
-                error={signUpForm.email == ''}
-                errorMessage={LANG.authScreen.emailError}
-                placeholder={LANG.authScreen.emailField}
-                cursorColor={THEME_CONFIG[THEME].primary}
-                keyboardAppearance={THEME_CONFIG[THEME].theme}
-                textContentType="email"
-                value={signUpForm.email}
-                onChangeText={value =>
-                    setSignUpForm(signUpForm => ({
-                        ...signUpForm,
-                        email: value,
-                    }))
-                }
-                icon={
-                    <Icon
-                        name="email"
-                        size={22}
-                        color={THEME_CONFIG[THEME].extra}
-                    />
-                }
-            />
-            <BottomSheetInput
-                error={signUpForm.password == ''}
-                errorMessage={LANG.authScreen.passwordError}
-                placeholder={LANG.authScreen.passwordField}
-                cursorColor={
-                    signUpForm.password == ''
-                        ? THEME_CONFIG[THEME].error.textColor
-                        : THEME_CONFIG[THEME].primary
-                }
-                keyboardAppearance={THEME_CONFIG[THEME].theme}
-                autoCorrect={false}
-                secureTextEntry={passwordVisibility}
-                textContentType="password"
-                value={signUpForm.password}
-                onChangeText={value =>
-                    setSignUpForm(signUpForm => ({
-                        ...signUpForm,
-                        password: value,
-                    }))
-                }
-                icon={
-                    <Pressable onPress={handlePasswordVisibility}>
+                <Text
+                    style={[
+                        AuthStyles().welcomeText,
+                        {color: THEME_CONFIG[THEME].text},
+                    ]}>
+                    {LANG.authScreen.welcomeMessage}
+                </Text>
+                <BottomSheetInput
+                    error={signUpForm.username == ''}
+                    errorMessage={LANG.authScreen.usernameError}
+                    placeholder={LANG.authScreen.usernameField}
+                    cursorColor={
+                        signUpForm.username == ''
+                            ? THEME_CONFIG[THEME].error.textColor
+                            : THEME_CONFIG[THEME].primary
+                    }
+                    keyboardAppearance={THEME_CONFIG[THEME].theme}
+                    textContentType="username"
+                    value={signUpForm.username}
+                    onChangeText={value =>
+                        setSignUpForm(signUpForm => ({
+                            ...signUpForm,
+                            username: value,
+                        }))
+                    }
+                    icon={
                         <Icon
-                            name={rightIcon}
+                            name="account"
                             size={22}
                             color={THEME_CONFIG[THEME].extra}
                         />
-                    </Pressable>
-                }
-            />
-            <BottomSheetInput
-                error={signUpForm.rePassword != signUpForm.password}
-                errorMessage={LANG.authScreen.rePasswordError}
-                placeholder={LANG.authScreen.rePasswordField}
-                cursorColor={
-                    signUpForm.password == ''
-                        ? THEME_CONFIG[THEME].error.textColor
-                        : THEME_CONFIG[THEME].primary
-                }
-                keyboardAppearance={THEME_CONFIG[THEME].theme}
-                autoCorrect={false}
-                secureTextEntry={rePasswordVisibility}
-                textContentType="password"
-                onChangeText={value =>
-                    setSignUpForm(signUpForm => ({
-                        ...signUpForm,
-                        rePassword: value,
-                    }))
-                }
-                icon={
-                    <Pressable onPress={handleRePasswordVisibility}>
+                    }
+                />
+                <BottomSheetInput
+                    error={signUpForm.email == ''}
+                    errorMessage={LANG.authScreen.emailError}
+                    placeholder={LANG.authScreen.emailField}
+                    cursorColor={THEME_CONFIG[THEME].primary}
+                    keyboardAppearance={THEME_CONFIG[THEME].theme}
+                    textContentType="email"
+                    value={signUpForm.email}
+                    onChangeText={value =>
+                        setSignUpForm(signUpForm => ({
+                            ...signUpForm,
+                            email: value,
+                        }))
+                    }
+                    icon={
                         <Icon
-                            name={reRightIcon}
+                            name="email"
                             size={22}
                             color={THEME_CONFIG[THEME].extra}
                         />
-                    </Pressable>
-                }
+                    }
+                />
+                <BottomSheetInput
+                    error={signUpForm.password == ''}
+                    errorMessage={LANG.authScreen.passwordError}
+                    placeholder={LANG.authScreen.passwordField}
+                    cursorColor={
+                        signUpForm.password == ''
+                            ? THEME_CONFIG[THEME].error.textColor
+                            : THEME_CONFIG[THEME].primary
+                    }
+                    keyboardAppearance={THEME_CONFIG[THEME].theme}
+                    autoCorrect={false}
+                    secureTextEntry={passwordVisibility}
+                    textContentType="password"
+                    value={signUpForm.password}
+                    onChangeText={value =>
+                        setSignUpForm(signUpForm => ({
+                            ...signUpForm,
+                            password: value,
+                        }))
+                    }
+                    icon={
+                        <Pressable onPress={handlePasswordVisibility}>
+                            <Icon
+                                name={rightIcon}
+                                size={22}
+                                color={THEME_CONFIG[THEME].extra}
+                            />
+                        </Pressable>
+                    }
+                />
+                <BottomSheetInput
+                    error={signUpForm.rePassword != signUpForm.password}
+                    errorMessage={LANG.authScreen.rePasswordError}
+                    placeholder={LANG.authScreen.rePasswordField}
+                    cursorColor={
+                        signUpForm.password == ''
+                            ? THEME_CONFIG[THEME].error.textColor
+                            : THEME_CONFIG[THEME].primary
+                    }
+                    keyboardAppearance={THEME_CONFIG[THEME].theme}
+                    autoCorrect={false}
+                    secureTextEntry={rePasswordVisibility}
+                    textContentType="password"
+                    onChangeText={value =>
+                        setSignUpForm(signUpForm => ({
+                            ...signUpForm,
+                            rePassword: value,
+                        }))
+                    }
+                    icon={
+                        <Pressable onPress={handleRePasswordVisibility}>
+                            <Icon
+                                name={reRightIcon}
+                                size={22}
+                                color={THEME_CONFIG[THEME].extra}
+                            />
+                        </Pressable>
+                    }
+                />
+                <Button
+                    styles={AuthStyles().submitButton}
+                    text={LANG.authScreen.signup}
+                    buttonStyle="buttonSolid"
+                    buttonTheme={
+                        signUpForm.username == '' ||
+                        signUpForm.password == '' ||
+                        signUpForm.email == '' ||
+                        signUpForm.rePassword != signUpForm.password
+                            ? 'buttonDisabled'
+                            : 'buttonPrimary'
+                    }
+                    onPress={
+                        signUpForm.username == '' ||
+                        signUpForm.password == '' ||
+                        signUpForm.email == '' ||
+                        signUpForm.rePassword != signUpForm.password
+                            ? null
+                            : () => {
+                                  handleRegister();
+                              }
+                    }
+                />
+                <Text
+                    style={[
+                        AuthStyles().forgotPasswordText,
+                        {color: THEME_CONFIG[THEME].text},
+                    ]}>
+                    {LANG.authScreen.forgotPassword}
+                </Text>
+            </View>
+            <BottomModal
+                detached={true}
+                componentRef={<AlertPopUp message={message} />}
+                sheetRef={sheetRef}
             />
-            <Button
-                styles={AuthStyles().submitButton}
-                text={LANG.authScreen.signup}
-                buttonStyle="buttonSolid"
-                buttonTheme={
-                    signUpForm.username == '' ||
-                    signUpForm.password == '' ||
-                    signUpForm.email == '' ||
-                    signUpForm.rePassword != signUpForm.password
-                        ? 'buttonDisabled'
-                        : 'buttonPrimary'
-                }
-                onPress={
-                    signUpForm.username == '' ||
-                    signUpForm.password == '' ||
-                    signUpForm.email == '' ||
-                    signUpForm.rePassword != signUpForm.password
-                        ? null
-                        : () => {
-                              handleRegister();
-                          }
-                }
-            />
-            <Text
-                style={[
-                    AuthStyles().forgotPasswordText,
-                    {color: THEME_CONFIG[THEME].text},
-                ]}>
-                {LANG.authScreen.forgotPassword}
-            </Text>
-        </View>
+        </>
     );
 };
 

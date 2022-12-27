@@ -6,12 +6,17 @@ export const themeToggleAction = (theme) => ({
   payload: theme == THEME_CONSTANT.DARK
 });
 
-export const sessionAccessTokenAction = (sessionAccessToken) => ({
-  type: "user/sessionUserToken",
-  payload: sessionAccessToken
+export const sessionAccessTokenAction = (accessToken) => ({
+  type: "user/sessionAccessToken",
+  payload: accessToken
 });
 
-export const sessionUserLangAction = (sessionUserLang) => ({
+export const sessionUserLangAction = (userLang) => ({
   type: "user/sessionLang",
-  payload: sessionUserLang
+  payload: userLang
+});
+
+export const sessionUserProfileAction = (userProfile) => ({
+  type: "user/userProfile",
+  payload: userProfile
 });

@@ -26,6 +26,11 @@ class Post extends Model
         'updated_at',
         'deleted_at',
     ];
+    
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'user_identifier');
+    }
 
     protected function serializeDate(DateTimeInterface $date)
     {

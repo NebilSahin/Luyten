@@ -1,6 +1,10 @@
 import React, {Component, useRef, useState, useEffect} from 'react';
 import {View, StyleSheet} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
+import {
+    NavigationContainer,
+    DefaultTheme,
+    DarkTheme,
+} from '@react-navigation/native';
 import {persistor, store} from './redux/AppStore';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
@@ -19,43 +23,43 @@ const AppContainer = () => {
     const THEME = themeSelector();
 
     return (
-        <Splash>
-            <View
-                onLayout={async () => {
-                    await SystemNavigationBar.setBarMode(
-                        THEME_CONFIG[THEME].opposite,
-                        'status ',
-                    );
-                }}
-                style={[
-                    styles.app,
-                    {backgroundColor: THEME_CONFIG[THEME].background},
-                ]}>
-                <AppNav />
-            </View>
-        </Splash>
+        <NavigationContainer
+            theme={THEME === 'dark' ? DarkTheme : DefaultTheme}>
+            <Splash>
+                <View
+                    onLayout={async () => {
+                        await SystemNavigationBar.setBarMode(
+                            THEME_CONFIG[THEME].opposite,
+                            'status ',
+                        );
+                    }}
+                    style={[
+                        styles.app,
+                        {backgroundColor: THEME_CONFIG[THEME].background},
+                    ]}>
+                    <AppNav />
+                </View>
+            </Splash>
+        </NavigationContainer>
     );
 };
 
-export default class App extends Component {
-    render() {
-        return (
-            <NavigationContainer>
-                <SafeAreaProvider>
-                    <GestureHandlerRootView style={{flex: 1}}>
-                        <Provider store={store}>
-                            <PersistGate loading={null} persistor={persistor}>
-                                <BottomSheetModalProvider>
-                                    <AppContainer />
-                                </BottomSheetModalProvider>
-                            </PersistGate>
-                        </Provider>
-                    </GestureHandlerRootView>
-                </SafeAreaProvider>
-            </NavigationContainer>
-        );
-    }
-}
+export default App = () => {
+
+    return (
+        <Provider store={store}>
+            <SafeAreaProvider>
+                <GestureHandlerRootView style={{flex: 1}}>
+                    <PersistGate loading={null} persistor={persistor}>
+                        <BottomSheetModalProvider>
+                            <AppContainer />
+                        </BottomSheetModalProvider>
+                    </PersistGate>
+                </GestureHandlerRootView>
+            </SafeAreaProvider>
+        </Provider>
+    );
+};
 
 const styles = StyleSheet.create({
     app: {

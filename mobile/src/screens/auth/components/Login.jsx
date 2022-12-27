@@ -8,7 +8,7 @@ import {themeSelector} from '../../../theme';
 import {useDispatch} from 'react-redux';
 import {useBottomSheetModal} from '@gorhom/bottom-sheet';
 import {request} from '../../../shared/Api';
-import {sessionAccessTokenAction} from '../../../redux/actions/UserActions';
+import {sessionUserProfileAction, sessionAccessTokenAction} from '../../../redux/actions/UserActions';
 import {langFileSelector} from '../../../shared/lang';
 import BottomModal, {AlertPopUp} from '../../../components/BottomModal';
 import {AuthStyles} from '../../../theme/Styles';
@@ -41,7 +41,10 @@ const LoginComponent = () => {
                 if (response.data['access_token']) {
                     dismiss();
                     dispatch(
-                        sessionAccessTokenAction(response.data['access_token']),
+                        sessionUserProfileAction(response.data),
+                    );
+                    dispatch(
+                        sessionAccessTokenAction(response.data.access_token),
                     );
                     dispatch({type: 'user/sessionActiveState'});
                 } else {

@@ -1,7 +1,12 @@
 {
     "langTitle": "English",
     "core":{
-        "toggleTheme": "Dark mode"
+        "toggleTheme": "Dark mode",
+        "alert": "Alert!",
+        "home": "Home",
+        "profile": "Profile",
+        "search": "Search",
+        "notification": "Notifications"
     },
     "navScreens": {
         "myPosts": "My posts",
@@ -42,6 +47,7 @@
         "admin": "Admin",
         "user": "User",
         "update": "Update",
-        "updateProfile": "Update your profile"
+        "updateProfile": "Update your profile",
+        "updatedAlert": "Your profile has been updated sucessfuly."
     }
 }

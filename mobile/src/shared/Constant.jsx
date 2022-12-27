@@ -9,4 +9,6 @@ export const LANGUAGE = {
 };
 export const LANGUAGE_CODE_LIST = [LANGUAGE.en.code, LANGUAGE.ar.code];
 
-export const BaseURL = 'http://192.168.100.229:8080/api/v1';
+export const BaseAPIURL = 'http://192.168.100.229:8080/api/v1';
+
+export const BaseStorageURL = 'http://192.168.100.229:8080/storage/';

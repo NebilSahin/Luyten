@@ -1,149 +1,161 @@
 import React, {useRef, useState} from 'react';
 import {Text, View, Image, Keyboard} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {ProfileStyles, AuthStyles} from '../../../theme/Styles';
+import {ProfileStyles, AuthStyles, AlertStyles} from '../../../theme/Styles';
 import {langFileSelector} from '../../../shared/lang';
 import Button from '../../../components/Button';
-import BottomModal from '../../../components/BottomModal';
+import BottomModal, {ModalPopUp} from '../../../components/BottomModal';
 import BottomSheetInput from '../../../components/BottomSheetInput';
 import {themeSelector} from '../../../theme';
 import {useDispatch, useSelector} from 'react-redux';
 import {request} from '../../../shared/Api';
+import {sessionUserProfileAction} from '../../../redux/actions/UserActions';
+import {useBottomSheetModal} from '@gorhom/bottom-sheet';
 
 const profileImgPlacholder = require('../../../../assets/profile-image.png');
 const THEME_CONFIG = require('../../../theme/themes.json');
 
-const EditProfileForm = () => {
+const EditProfileForm = ({bottomSheet}) => {
     const LANG = langFileSelector();
     const AUTH_STYLE = AuthStyles();
+    const ALERT_STYLE = AlertStyles();
     const PROFILE_STYLE = ProfileStyles();
-
+    const userProfile = useSelector(state => state.sessionUser.userProfile);
+    const userToken = useSelector(state => state.sessionUser.accessToken);
+    const {dismiss} = useBottomSheetModal();
+    const dispatch = useDispatch();
     const THEME = themeSelector();
-
     const [editForm, setEditForm] = useState({
-        username: null,
-        email: null,
+        username: userProfile.user.username,
+        email: userProfile.user.email,
     });
-
     const [message, setMessage] = useState('');
     const sheetRef = useRef(null);
 
-    //handling the login request and show the popup modal with the appropiate error message
-    const handleLogin = () => {
+    //handling the update request and show the popup modal with the appropiate error message
+    const handleUpdate = () => {
         Keyboard.dismiss();
         request
-            .post('/login', {
-                username: editForm.username,
-                email: editForm.email,
-            })
+            .put(
+                '/user/update-profile',
+                {
+                    username: editForm.username,
+                    email: editForm.email,
+                },
+                {
+                    headers: {
+                        Authorization: userToken ? 'Bearer ' + userToken : '',
+                    },
+                },
+            )
             .then(function (response) {
-                if (response.data['access_token']) {
-                    dismiss();
-                    dispatch(
-                        sessionAccessTokenAction(response.data['access_token']),
-                    );
-                    dispatch({type: 'user/sessionActiveState'});
-                } else {
-                    setMessage(LANG.authScreen.incorrectCredentials);
-                    sheetRef.current?.present();
-                }
+                dismiss(bottomSheet);
+                dispatch(sessionUserProfileAction(response.data));
+                setMessage(LANG.profile.updatedAlert);
+                sheetRef.current?.present();
             })
             .catch(function (error) {
-                if (!error.response) {
+                console.log(error.response);
+                if (error.response) {
                     setMessage(LANG.authScreen.pleaseTryLater);
                     sheetRef.current?.present();
                 }
-                setEditForm(editForm => ({
-                    ...editForm,
-                    username: '',
-                    email: '',
-                }));
             });
     };
     return (
-        <View style={PROFILE_STYLE.editFormContainer}>
-            <Text style={AUTH_STYLE.welcomeText}>
-                {LANG.profile.updateProfile}
-            </Text>
-            <BottomSheetInput
-                error={editForm.username == ''}
-                errorMessage={LANG.authScreen.usernameError}
-                placeholder={LANG.authScreen.usernameField}
-                cursorColor={
-                    editForm.username == ''
-                        ? THEME_CONFIG[THEME].error.textColor
-                        : THEME_CONFIG[THEME].primary
+        <>
+            <View style={PROFILE_STYLE.editFormContainer}>
+                <Text style={AUTH_STYLE.welcomeText}>
+                    {LANG.profile.updateProfile}
+                </Text>
+                <BottomSheetInput
+                    error={editForm.username == ''}
+                    errorMessage={LANG.authScreen.usernameError}
+                    placeholder={LANG.authScreen.usernameField}
+                    cursorColor={
+                        editForm.username == ''
+                            ? THEME_CONFIG[THEME].error.textColor
+                            : THEME_CONFIG[THEME].primary
+                    }
+                    keyboardAppearance={THEME_CONFIG[THEME].theme}
+                    textContentType="username"
+                    value={editForm.username}
+                    onChangeText={value =>
+                        setEditForm(editForm => ({
+                            ...editForm,
+                            username: value,
+                        }))
+                    }
+                    icon={
+                        <Icon
+                            name="account"
+                            size={22}
+                            color={THEME_CONFIG[THEME].extra}
+                        />
+                    }
+                />
+                <BottomSheetInput
+                    error={editForm.email == ''}
+                    errorMessage={LANG.authScreen.emailError}
+                    placeholder={LANG.authScreen.emailField}
+                    cursorColor={
+                        editForm.email == ''
+                            ? THEME_CONFIG[THEME].error.textColor
+                            : THEME_CONFIG[THEME].primary
+                    }
+                    keyboardAppearance={THEME_CONFIG[THEME].theme}
+                    textContentType="email"
+                    value={editForm.email}
+                    onChangeText={value =>
+                        setEditForm(editForm => ({
+                            ...editForm,
+                            email: value,
+                        }))
+                    }
+                    icon={
+                        <Icon
+                            name="email"
+                            size={22}
+                            color={THEME_CONFIG[THEME].extra}
+                        />
+                    }
+                />
+                <Button
+                    styles={AUTH_STYLE.submitButton}
+                    text={LANG.profile.update}
+                    buttonStyle="buttonSolid"
+                    buttonTheme={
+                        editForm.username == '' || editForm.email == ''
+                            ? 'buttonDisabled'
+                            : 'buttonPrimary'
+                    }
+                    onPress={
+                        editForm.username == '' || editForm.email == ''
+                            ? null
+                            : () => {
+                                  handleUpdate();
+                              }
+                    }
+                />
+            </View>
+            <BottomModal
+                detached={true}
+                componentRef={
+                    <ModalPopUp modalTitle={LANG.core.alert}>
+                        <Text style={ALERT_STYLE.alertMessage}>{message}</Text>
+                    </ModalPopUp>
                 }
-                keyboardAppearance={THEME_CONFIG[THEME].theme}
-                textContentType="username"
-                value={editForm.username}
-                onChangeText={value =>
-                    setEditForm(editForm => ({
-                        ...editForm,
-                        username: value,
-                    }))
-                }
-                icon={
-                    <Icon
-                        name="account"
-                        size={22}
-                        color={THEME_CONFIG[THEME].extra}
-                    />
-                }
+                sheetRef={sheetRef}
             />
-            <BottomSheetInput
-                error={editForm.email == ''}
-                errorMessage={LANG.authScreen.emailError}
-                placeholder={LANG.authScreen.emailField}
-                cursorColor={
-                    editForm.email == ''
-                        ? THEME_CONFIG[THEME].error.textColor
-                        : THEME_CONFIG[THEME].primary
-                }
-                keyboardAppearance={THEME_CONFIG[THEME].theme}
-                textContentType="email"
-                value={editForm.email}
-                onChangeText={value =>
-                    setEditForm(editForm => ({
-                        ...editForm,
-                        email: value,
-                    }))
-                }
-                icon={
-                    <Icon
-                        name="email"
-                        size={22}
-                        color={THEME_CONFIG[THEME].extra}
-                    />
-                }
-            />
-            <Button
-                styles={AUTH_STYLE.submitButton}
-                text={LANG.profile.update}
-                buttonStyle="buttonSolid"
-                buttonTheme={
-                    editForm.username == '' || editForm.email == ''
-                        ? 'buttonDisabled'
-                        : 'buttonPrimary'
-                }
-                onPress={
-                    editForm.username == '' || editForm.email == ''
-                        ? null
-                        : () => {
-                              handleLogin();
-                          }
-                }
-            />
-        </View>
+        </>
     );
 };
 
-const ProfileDetails = ({profileDetails}) => {
+const ProfileDetails = () => {
     const PROFILE_STYLE = ProfileStyles();
     const LANG = langFileSelector();
     const bottomRef = useRef(null);
-    const dispatch = useDispatch();
-
+    const userProfile = useSelector(state => state.sessionUser.userProfile);
     return (
         <>
             <View style={PROFILE_STYLE.profileTopContainer}>
@@ -164,7 +176,7 @@ const ProfileDetails = ({profileDetails}) => {
                                 PROFILE_STYLE.profileUsername,
                                 PROFILE_STYLE.profileDataText,
                             ]}>
-                            {profileDetails.username}
+                            {userProfile.user.username}
                         </Text>
                         <Button
                             styles={PROFILE_STYLE.editButton}
@@ -180,7 +192,7 @@ const ProfileDetails = ({profileDetails}) => {
                     </View>
 
                     <Text style={[PROFILE_STYLE.profileDataText]}>
-                        {profileDetails.email}
+                        {userProfile.user.email}
                     </Text>
                     <View style={PROFILE_STYLE.profileExtraDataContainer}>
                         <View
@@ -200,14 +212,14 @@ const ProfileDetails = ({profileDetails}) => {
                                     PROFILE_STYLE.profileCreatedat,
                                     PROFILE_STYLE.profileDataText,
                                 ]}>
-                                {profileDetails.created_at}
+                                {userProfile.user.created_at}
                             </Text>
                         </View>
                         <Icon
                             size={16}
                             color={PROFILE_STYLE.profileDataText.color}
                             name={
-                                profileDetails.role == 'Admin'
+                                userProfile.user.role == 'Admin'
                                     ? 'shield-crown'
                                     : 'shield-account'
                             }>
@@ -216,7 +228,7 @@ const ProfileDetails = ({profileDetails}) => {
                                     PROFILE_STYLE.profileRole,
                                     PROFILE_STYLE.profileDataText,
                                 ]}>
-                                {profileDetails.role == 'Admin'
+                                {userProfile.user.role == 'Admin'
                                     ? LANG.profile.admin
                                     : LANG.profile.user}
                             </Text>
@@ -226,7 +238,7 @@ const ProfileDetails = ({profileDetails}) => {
             </View>
             <BottomModal
                 backdrop={true}
-                componentRef={<EditProfileForm />}
+                componentRef={<EditProfileForm bottomSheet={bottomRef} />}
                 sheetRef={bottomRef}
             />
         </>

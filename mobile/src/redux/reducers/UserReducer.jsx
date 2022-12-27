@@ -9,16 +9,18 @@ const sessionTheme = (state = {isDarkThemeActive: null}, action) => {
 };
 
 const sessionUser = (
-    state = {userToken: null, isActive: false, userLang: 'en'},
+    state = {accessToken: null, isActive: false, userLang: 'en', userProfile: {}},
     action,
 ) => {
     switch (action.type) {
-        case 'user/sessionUserToken':
-            return {...state, userToken: action.payload};
+        case 'user/sessionAccessToken':
+            return {...state, accessToken: action.payload};
         case 'user/sessionLang':
             return {...state, userLang: action.payload};
         case 'user/sessionActiveState':
             return {...state, isActive: !state.isActive};
+        case 'user/userProfile':
+            return {...state, userProfile: action.payload};
         default:
             return state;
     }

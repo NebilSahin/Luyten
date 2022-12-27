@@ -11,7 +11,7 @@ class PostsAPIController extends Controller
 {
     public function index()
     {
-        $posts = Post::latest()->cursorPaginate(15);
+        $posts = Post::with(['creator'])->latest()->cursorPaginate(15);
         return new PostResource($posts);
     }
 

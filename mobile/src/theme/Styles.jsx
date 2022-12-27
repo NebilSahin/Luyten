@@ -99,11 +99,67 @@ export const ProfileStyles = () => {
     });
 };
 
+export const HomeStyles = () => {
+    const THEME = themeSelector();
+    const sessionLang = useSelector(state => state.sessionUser.userLang);
+    return StyleSheet.create({
+        cardImageContainer: {
+            borderRadius: 30,
+            borderBottomRightRadius: 0,
+            borderBottomLeftRadius: 0,
+            height: 150,
+            width: '100%',
+        },
+        cardContainer: {
+            marginHorizontal: 12,
+            marginVertical: 12,
+            borderRadius: 30,
+            shadowColor: '#000',
+            shadowOffset: {
+                width: 0,
+                height: 2,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 3.84,
+            elevation: 5,
+        },
+        cardContentContainer: {
+            paddingHorizontal: 18,
+            paddingVertical: 12,
+            paddingTop: 6,
+            borderBottomRightRadius: 30,
+            borderBottomLeftRadius: 30,
+            width: '100%',
+            backgroundColor: THEME_CONFIG[THEME].cardBackground,
+        },
+        innerShadowContainer: {
+            borderRadius: 30,
+        },
+        postTitle: {
+            fontSize: 18,
+            color: THEME_CONFIG[THEME].text,
+        },
+        postCreator: {
+            fontSize: 14,
+            color: THEME_CONFIG[THEME].text,
+        },
+        postDate: {
+            fontSize: 12,
+            color: THEME_CONFIG[THEME].text,
+        },
+    });
+};
+
 export const CoreStyles = props => {
     const THEME = themeSelector();
     const sessionLang = useSelector(state => state.sessionUser.userLang);
 
     return StyleSheet.create({
+        screeenContainer: {
+            flex: 1,
+            justifyContent: 'center',
+            backgroundColor: THEME_CONFIG[THEME].background,
+        },
         settingsItemContainer: {
             paddingVertical: 6,
             borderBottomWidth: 1,
@@ -165,6 +221,77 @@ export const CoreStyles = props => {
         },
         icon: {
             marginHorizontal: 12,
+        },
+        navButtonContainer: {
+            flex: 1,
+            textAlign: sessionLang == 'en' ? 'left' : 'right',
+            justifyContent: 'center',
+            alignItems: 'center',
+        },
+        navProfileContainer: {
+            flex: 1,
+            flexDirection: sessionLang == 'en' ? 'row' : 'row-reverse',
+            textAlign: sessionLang == 'en' ? 'left' : 'right',
+            width: '100%',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+        },
+        profileImageContainer: {
+            flex: 1,
+            flexDirection: sessionLang == 'en' ? 'row' : 'row-reverse',
+        },
+        profileUsername: {
+            flex: 1,
+            fontSize: 12,
+            color: THEME_CONFIG[THEME].text,
+            paddingHorizontal: 10,
+            alignSelf: 'center',
+            textAlign: sessionLang == 'en' ? 'right' : 'left',
+        },
+        profileImage: {
+            height: 30,
+            width: 30,
+            borderRadius: 50,
+        },
+        profileNavTitle: {
+            flex: 3,
+            fontSize: 18,
+            fontWeight: '500',
+            color: THEME_CONFIG[THEME].text,
+            textAlign: sessionLang == 'en' ? 'left' : 'right',
+        },
+        postContainer: {
+            flex: 1,
+            backgroundColor: THEME_CONFIG[THEME].background,
+            height: '100%',
+            width: '100%',
+        },
+        postImageContainer: {
+            width: '100%',
+            height: 200,
+        },
+        postImage: {
+            width: '100%',
+            height: 200,
+        },
+        postTitle: {
+            fontSize: 24,
+            color: THEME_CONFIG[THEME].text,
+        },
+        postTitleDetailsContainer: {
+            flexDirection: sessionLang == 'en' ? 'row' : 'row-reverse',
+            justifyContent: 'space-between',
+            paddingHorizontal: 12,
+        },
+        postDetailsContainer: {
+            padding: 12,
+        },
+        postCreator: {fontSize: 12, color: THEME_CONFIG[THEME].text},
+        postDate: {fontSize: 12, color: THEME_CONFIG[THEME].text},
+        postDescriptions: {
+            fontSize: 16,
+            padding: 12,
+            color: THEME_CONFIG[THEME].text,
         },
     });
 };

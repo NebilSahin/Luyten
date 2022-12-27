@@ -7,6 +7,7 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\UpdatePasswordRequest;
 use App\Http\Requests\UpdateProfileRequest;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -43,7 +44,10 @@ class AuthAPIController extends Controller
     public function details()
     {
         $user = Auth::user();
-        return response()->json(['user' => $user]);
+        $role = Role::find($user->role_identifier);
+        $result = $user->toArray();
+        $result['role'] = $role->title;
+        return response()->json(['user' => $result]);
     }
 
     public function updatePassword(UpdatePasswordRequest $request)
@@ -59,7 +63,11 @@ class AuthAPIController extends Controller
     {
         $user = Auth::user();
         $user->update($request->all());
-        return response()->json(['user' => $user]);
+        $role = Role::find($user->role_identifier);
+        $result = $user->toArray();
+        $result['role'] = $role->title;
+
+        return response()->json(['user' => $result]);
     }
 
     public function destroy()
