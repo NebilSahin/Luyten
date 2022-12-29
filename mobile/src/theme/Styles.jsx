@@ -10,6 +10,7 @@ const THEME_CONFIG = require('../theme/themes.json');
 export const ProfileStyles = () => {
     const THEME = themeSelector();
     const sessionLang = useSelector(state => state.sessionUser.userLang);
+    const isLtr = sessionLang == 'en';
 
     return StyleSheet.create({
         profileContainer: {
@@ -45,8 +46,8 @@ export const ProfileStyles = () => {
         },
         profileImageContainer: {
             flex: 1,
-            textAlign: sessionLang == 'en' ? 'left' : 'right',
-            flexDirection: sessionLang == 'en' ? 'row' : 'row-reverse',
+            textAlign: isLtr ? 'left' : 'right',
+            flexDirection: isLtr ? 'row' : 'row-reverse',
         },
         profileImage: {
             width: 80,
@@ -54,7 +55,7 @@ export const ProfileStyles = () => {
             borderRadius: 200,
         },
         profileTopContainer: {
-            flexDirection: sessionLang == 'en' ? 'row' : 'row-reverse',
+            flexDirection: isLtr ? 'row' : 'row-reverse',
             justifyContent: 'space-between',
         },
         profileDataContainer: {
@@ -63,17 +64,17 @@ export const ProfileStyles = () => {
             justifyContent: 'center',
         },
         profileExtraDataContainer: {
-            flexDirection: sessionLang == 'en' ? 'row' : 'row-reverse',
-            textAlign: sessionLang == 'en' ? 'left' : 'right',
+            flexDirection: isLtr ? 'row' : 'row-reverse',
+            textAlign: isLtr ? 'left' : 'right',
             justifyContent: 'space-between',
             alignItems: 'center',
         },
         profileDataText: {
             color: THEME_CONFIG[THEME].text,
-            textAlign: sessionLang == 'en' ? 'left' : 'right',
+            textAlign: isLtr ? 'left' : 'right',
         },
         profileUsernameContainer: {
-            flexDirection: sessionLang == 'en' ? 'row' : 'row-reverse',
+            flexDirection: isLtr ? 'row' : 'row-reverse',
             justifyContent: 'space-between',
             alignItems: 'center',
         },
@@ -82,16 +83,16 @@ export const ProfileStyles = () => {
         },
         profileUsername: {
             fontSize: 20,
-            textAlign: sessionLang == 'en' ? 'left' : 'right',
+            textAlign: isLtr ? 'left' : 'right',
         },
         profileCreatedat: {
-            flexDirection: sessionLang == 'en' ? 'row' : 'row-reverse',
+            flexDirection: isLtr ? 'row' : 'row-reverse',
             fontSize: 12,
-            textAlign: sessionLang == 'en' ? 'left' : 'right',
+            textAlign: isLtr ? 'left' : 'right',
         },
         profileRole: {
             fontSize: 14,
-            textAlign: sessionLang == 'en' ? 'left' : 'right',
+            textAlign: isLtr ? 'left' : 'right',
         },
         editFormContainer: {
             paddingBottom: 100,
@@ -102,6 +103,8 @@ export const ProfileStyles = () => {
 export const HomeStyles = () => {
     const THEME = themeSelector();
     const sessionLang = useSelector(state => state.sessionUser.userLang);
+    const isLtr = sessionLang == 'en';
+
     return StyleSheet.create({
         cardImageContainer: {
             borderRadius: 30,
@@ -122,6 +125,7 @@ export const HomeStyles = () => {
             shadowOpacity: 0.25,
             shadowRadius: 3.84,
             elevation: 5,
+            textAlign: isLtr ? 'left' : 'right',
         },
         cardContentContainer: {
             paddingHorizontal: 18,
@@ -137,25 +141,41 @@ export const HomeStyles = () => {
         },
         postTitle: {
             fontSize: 18,
+            textAlign: isLtr ? 'left' : 'right',
             color: THEME_CONFIG[THEME].text,
         },
         postCreator: {
             fontSize: 14,
+            textAlign: isLtr ? 'left' : 'right',
             color: THEME_CONFIG[THEME].text,
         },
         postDate: {
             fontSize: 12,
+            textAlign: isLtr ? 'left' : 'right',
             color: THEME_CONFIG[THEME].text,
+        },
+        creatPostButton: {
+            width: '40%',
         },
     });
 };
 
-export const CoreStyles = props => {
+export const CoreStyles = (props = null) => {
     const THEME = themeSelector();
     const sessionLang = useSelector(state => state.sessionUser.userLang);
+    const isDetached = props != null ? (props.detached ? true : false) : false;
+    const isLtr = sessionLang == 'en';
 
     return StyleSheet.create({
+        app: {
+            width: '100%',
+            height: '100%',
+            flex: 1,
+            backgroundColor: THEME_CONFIG[THEME].background,
+            direction: isLtr ? 'ltr' : 'rtl',
+        },
         screeenContainer: {
+            direction: 'inherit',
             flex: 1,
             justifyContent: 'center',
             backgroundColor: THEME_CONFIG[THEME].background,
@@ -170,12 +190,12 @@ export const CoreStyles = props => {
             color: THEME_CONFIG[THEME].text,
         },
         settingsItemBtnContainer: {
-            flexDirection: sessionLang == 'en' ? 'row' : 'row-reverse',
+            flexDirection: isLtr ? 'row' : 'row-reverse',
             justifyContent: 'space-between',
             padding: 12,
         },
         settingsItemBtnContentContainer: {
-            flexDirection: sessionLang == 'en' ? 'row' : 'row-reverse',
+            flexDirection: isLtr ? 'row' : 'row-reverse',
             justifyContent: 'space-between',
             alignItems: 'center',
         },
@@ -184,18 +204,18 @@ export const CoreStyles = props => {
         },
         bottomSheetContainer: {
             backgroundColor: THEME_CONFIG[THEME].background,
-            marginHorizontal: props.detached ? 24 : null,
+            marginHorizontal: isDetached ? 24 : null,
             borderRadius: 30,
         },
         bottomSheetContent: {
-            margin: props.detached ? 22 : 30,
-            marginTop: props.detached ? 18 : 30,
-            marginHorizontal: props.detached ? 30 : null,
+            margin: isDetached ? 22 : 30,
+            marginTop: isDetached ? 18 : 30,
+            marginHorizontal: isDetached ? 30 : null,
         },
         bottomSheetIndicator: {
-            height: props.detached ? 0 : 5,
+            height: isDetached ? 0 : 5,
             backgroundColor: THEME_CONFIG[THEME].screenBorder,
-            opacity: props.detached ? 0 : 1,
+            opacity: isDetached ? 0 : 1,
         },
         buttonSolid: {
             fontSize: 14,
@@ -224,21 +244,21 @@ export const CoreStyles = props => {
         },
         navButtonContainer: {
             flex: 1,
-            textAlign: sessionLang == 'en' ? 'left' : 'right',
+            textAlign: isLtr ? 'left' : 'right',
             justifyContent: 'center',
             alignItems: 'center',
         },
         navProfileContainer: {
             flex: 1,
-            flexDirection: sessionLang == 'en' ? 'row' : 'row-reverse',
-            textAlign: sessionLang == 'en' ? 'left' : 'right',
+            flexDirection: isLtr ? 'row' : 'row-reverse',
+            textAlign: isLtr ? 'left' : 'right',
             width: '100%',
             justifyContent: 'space-between',
             alignItems: 'center',
         },
         profileImageContainer: {
             flex: 1,
-            flexDirection: sessionLang == 'en' ? 'row' : 'row-reverse',
+            flexDirection: isLtr ? 'row' : 'row-reverse',
         },
         profileUsername: {
             flex: 1,
@@ -246,7 +266,7 @@ export const CoreStyles = props => {
             color: THEME_CONFIG[THEME].text,
             paddingHorizontal: 10,
             alignSelf: 'center',
-            textAlign: sessionLang == 'en' ? 'right' : 'left',
+            textAlign: isLtr ? 'right' : 'left',
         },
         profileImage: {
             height: 30,
@@ -258,7 +278,7 @@ export const CoreStyles = props => {
             fontSize: 18,
             fontWeight: '500',
             color: THEME_CONFIG[THEME].text,
-            textAlign: sessionLang == 'en' ? 'left' : 'right',
+            textAlign: isLtr ? 'left' : 'right',
         },
         postContainer: {
             flex: 1,
@@ -276,22 +296,161 @@ export const CoreStyles = props => {
         },
         postTitle: {
             fontSize: 24,
+            textAlign: isLtr ? 'left' : 'right',
             color: THEME_CONFIG[THEME].text,
         },
         postTitleDetailsContainer: {
-            flexDirection: sessionLang == 'en' ? 'row' : 'row-reverse',
+            flexDirection: isLtr ? 'row' : 'row-reverse',
             justifyContent: 'space-between',
             paddingHorizontal: 12,
         },
         postDetailsContainer: {
             padding: 12,
         },
-        postCreator: {fontSize: 12, color: THEME_CONFIG[THEME].text},
-        postDate: {fontSize: 12, color: THEME_CONFIG[THEME].text},
+        postCreator: {
+            fontSize: 12,
+            textAlign: isLtr ? 'left' : 'right',
+            color: THEME_CONFIG[THEME].text,
+        },
+        postDate: {
+            fontSize: 12,
+            textAlign: isLtr ? 'left' : 'right',
+            color: THEME_CONFIG[THEME].text,
+        },
         postDescriptions: {
             fontSize: 16,
             padding: 12,
+            textAlign: isLtr ? 'left' : 'right',
             color: THEME_CONFIG[THEME].text,
+        },
+        postHeaderContainer: {
+            flex: 1,
+            flexDirection: isLtr ? 'row' : 'row-reverse',
+            textAlign: isLtr ? 'left' : 'right',
+            width: '100%',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+        },
+        postHeaderTitle: {
+            flex: 4,
+            fontSize: 18,
+            fontWeight: '500',
+            color: THEME_CONFIG[THEME].text,
+            textAlign: isLtr ? 'left' : 'right',
+        },
+        postHeaderbackIcon: {
+            color: THEME_CONFIG[THEME].text,
+            fontSize: 24,
+            paddingHorizontal: 12,
+            textAlign: isLtr ? 'left' : 'right',
+        },
+        createPostIconAnimation: {
+            position: 'absolute',
+            zIndex: 10,
+            borderRadius: 200,
+        },
+        createPostIconContainer: {
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 10,
+            borderRadius: 200,
+            width: 60,
+            height: 60,
+            backgroundColor: THEME_CONFIG[THEME].primary,
+
+            shadowColor: '#000',
+            shadowOffset: {
+                width: 0,
+                height: 2,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 3.84,
+            elevation: 5,
+        },
+        createPostIcon: {
+            fontSize: 24,
+            color: THEME_CONFIG[THEME].titleLight,
+        },
+        inputContainer: {
+            width: '100%',
+            position: 'relative',
+            flexDirection: isLtr ? 'row' : 'row-reverse',
+            textAlign: isLtr ? 'left' : 'right',
+            alignItems: 'flex-start',
+            borderRadius: 30,
+            borderWidth: 2,
+            marginTop: 10,
+            padding: 3,
+            paddingLeft: 20,
+            paddingRight: 20,
+        },
+        input: {
+            width: '95%',
+            textAlign: isLtr ? 'left' : 'right',
+        },
+        multilineInput: {
+            height: 150,
+            paddingVertical: 10,
+            alignSelf: 'flex-start',
+            alignItems: 'flex-start',
+            alignContent: 'flex-start',
+        },
+        icon: {
+            with: '100%',
+            alignSelf: 'center',
+            alignItems: 'center',
+            alignContent: 'center',
+        },
+        error: {
+            position: 'absolute',
+            bottom: 8,
+            fontSize: 12,
+            paddingHorizontal: 24,
+        },
+        submitButtonDouble: {
+            width: '100%',
+            justifyContent: 'space-between',
+            flexDirection: isLtr ? 'row' : 'row-reverse',
+            marginTop: 20,
+        },
+        assetPickerButton: {
+            width: '100%',
+            height: 100,
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: 30,
+            borderStyle: 'dashed',
+            borderWidth: 2,
+            marginTop: 10,
+            padding: 3,
+            paddingLeft: 20,
+            paddingRight: 20,
+            borderColor: THEME_CONFIG[THEME].borderColor,
+            backgroundColor: THEME_CONFIG[THEME].inputBackgroundColor,
+        },
+        assetPickerText: {
+            fontSize: 16,
+            fontWeight: '600',
+            textAlign: isLtr ? 'left' : 'right',
+            marginHorizontal: 12,
+            color: THEME_CONFIG[THEME].extra,
+        },
+        assetPickerTextContainer: {
+            alignItems: 'center',
+            flexDirection: isLtr ? 'row' : 'row-reverse',
+        },
+        clearButton: {
+            fontSize: 12,
+            fontWeight: '900',
+            borderRadius: 30,
+            margin: 0,
+            marginTop: 2,
+            paddingVertical: 10,
+            paddingHorizontal: 18,
+
+            flexDirection: isLtr ? 'row' : 'row-reverse',
+            alignSelf: isLtr ? 'flex-end' : 'flex-start',
+            justifyContent: isLtr ? 'flex-end' : 'flex-start',
         },
     });
 };
@@ -299,6 +458,7 @@ export const CoreStyles = props => {
 export const AuthStyles = () => {
     const THEME = themeSelector();
     const sessionLang = useSelector(state => state.sessionUser.userLang);
+    const isLtr = sessionLang == 'en';
 
     return StyleSheet.create({
         screenContainer: {
@@ -370,47 +530,21 @@ export const AuthStyles = () => {
             textAlign: 'center',
             marginTop: 10,
         },
-        inputContainer: {
-            width: '100%',
-            position: 'relative',
-            flexDirection: sessionLang == 'en' ? 'row' : 'row-reverse',
-            textAlign: sessionLang == 'en' ? 'left' : 'right',
-            alignItems: 'center',
-            borderRadius: 50,
-            borderWidth: 2,
-            marginTop: 10,
-            padding: 3,
-            paddingLeft: 20,
-            paddingRight: 20,
-        },
-        input: {
-            width: '95%',
-            textAlign: sessionLang == 'en' ? 'left' : 'right',
-        },
-        icon: {
-            with: '100%',
-            alignItems: 'flex-end',
-            alignContent: 'flex-end',
-        },
-        error: {
-            position: 'absolute',
-            bottom: 8,
-            fontSize: 12,
-            paddingHorizontal: 24,
-        },
     });
 };
 export const AlertStyles = () => {
-    const sessionLang = useSelector(state => state.sessionUser.userLang);
     const THEME = themeSelector();
+    const sessionLang = useSelector(state => state.sessionUser.userLang);
+    const isLtr = sessionLang == 'en';
+
     return StyleSheet.create({
         alertContainer: {
             marginHorizontal: 24,
         },
         alertMessageTitle: {
             fontSize: 18,
-            alignSelf: sessionLang == 'en' ? 'flex-start' : 'flex-end',
-            textAlign: sessionLang == 'en' ? 'left' : 'right',
+            alignSelf: isLtr ? 'flex-start' : 'flex-end',
+            textAlign: isLtr ? 'left' : 'right',
             color: THEME_CONFIG[THEME].text,
         },
         alertMessage: {
@@ -421,13 +555,13 @@ export const AlertStyles = () => {
         },
         alertButtonContainer: {
             marginTop: 24,
-            flexDirection: sessionLang == 'en' ? 'row' : 'row-reverse',
+            flexDirection: isLtr ? 'row' : 'row-reverse',
             justifyContent: 'space-evenly',
         },
         alertButton: {
             borderRadius: 30,
             justifyContent: 'center',
-            textAlign: sessionLang == 'en' ? 'right' : 'left',
+            textAlign: isLtr ? 'right' : 'left',
         },
         alertButtonText: {
             fontSize: 16,
@@ -438,11 +572,13 @@ export const AlertStyles = () => {
 };
 
 export const LangStyles = () => {
-    const sessionLang = useSelector(state => state.sessionUser.userLang);
     const THEME = themeSelector();
+    const sessionLang = useSelector(state => state.sessionUser.userLang);
+    const isLtr = sessionLang == 'en';
+
     return StyleSheet.create({
         langListContainer: {
-            flexDirection: sessionLang == 'en' ? 'row' : 'row-reverse',
+            flexDirection: isLtr ? 'row' : 'row-reverse',
             justifyContent: 'space-between',
             color: THEME_CONFIG[THEME].text,
         },
@@ -460,8 +596,10 @@ export const LangStyles = () => {
 };
 
 export const ThemeSelectStyles = () => {
-    const sessionLang = useSelector(state => state.sessionUser.userLang);
     const THEME = themeSelector();
+    const sessionLang = useSelector(state => state.sessionUser.userLang);
+    const isLtr = sessionLang == 'en';
+
     return StyleSheet.create({
         themeContainer: {
             paddingVertical: 12,
@@ -475,12 +613,12 @@ export const ThemeSelectStyles = () => {
             borderRadius: 30,
         },
         themeBtnContent: {
-            flexDirection: sessionLang == 'en' ? 'row' : 'row-reverse',
+            flexDirection: isLtr ? 'row' : 'row-reverse',
             justifyContent: 'space-between',
             padding: 12,
         },
         themeBtnContainer: {
-            flexDirection: sessionLang == 'en' ? 'row' : 'row-reverse',
+            flexDirection: isLtr ? 'row' : 'row-reverse',
             justifyContent: 'space-between',
             alignItems: 'center',
         },

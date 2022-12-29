@@ -16,11 +16,13 @@ import {themeSelector} from './theme';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Splash} from './screens/splash';
+import {CoreStyles} from './theme/Styles';
 
 export const THEME_CONFIG = require('./theme/themes.json');
 
-const AppContainer = () => {
+const AppContainer = props => {
     const THEME = themeSelector();
+    const CORE_STYLE = CoreStyles(props);
 
     return (
         <NavigationContainer
@@ -33,10 +35,7 @@ const AppContainer = () => {
                             'status ',
                         );
                     }}
-                    style={[
-                        styles.app,
-                        {backgroundColor: THEME_CONFIG[THEME].background},
-                    ]}>
+                    style={CORE_STYLE.app}>
                     <AppNav />
                 </View>
             </Splash>
@@ -45,7 +44,6 @@ const AppContainer = () => {
 };
 
 export default App = () => {
-
     return (
         <Provider store={store}>
             <SafeAreaProvider>
@@ -60,11 +58,3 @@ export default App = () => {
         </Provider>
     );
 };
-
-const styles = StyleSheet.create({
-    app: {
-        width: '100%',
-        height: '100%',
-        flex: 1,
-    },
-});

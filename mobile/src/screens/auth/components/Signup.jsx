@@ -103,6 +103,7 @@ const SignupComponent = () => {
                     {LANG.authScreen.welcomeMessage}
                 </Text>
                 <BottomSheetInput
+                    maxLength={40}
                     error={signUpForm.username == ''}
                     errorMessage={LANG.authScreen.usernameError}
                     placeholder={LANG.authScreen.usernameField}
@@ -129,6 +130,7 @@ const SignupComponent = () => {
                     }
                 />
                 <BottomSheetInput
+                    maxLength={40}
                     error={signUpForm.email == ''}
                     errorMessage={LANG.authScreen.emailError}
                     placeholder={LANG.authScreen.emailField}
@@ -151,6 +153,7 @@ const SignupComponent = () => {
                     }
                 />
                 <BottomSheetInput
+                    maxLength={40}
                     error={signUpForm.password == ''}
                     errorMessage={LANG.authScreen.passwordError}
                     placeholder={LANG.authScreen.passwordField}
@@ -181,6 +184,7 @@ const SignupComponent = () => {
                     }
                 />
                 <BottomSheetInput
+                    maxLength={40}
                     error={signUpForm.rePassword != signUpForm.password}
                     errorMessage={LANG.authScreen.rePasswordError}
                     placeholder={LANG.authScreen.rePasswordField}
@@ -210,7 +214,7 @@ const SignupComponent = () => {
                     }
                 />
                 <Button
-                    styles={AuthStyles().submitButton}
+                    customeStyle={AuthStyles().submitButton}
                     text={LANG.authScreen.signup}
                     buttonStyle="buttonSolid"
                     buttonTheme={
@@ -242,7 +246,7 @@ const SignupComponent = () => {
             </View>
             <BottomModal
                 detached={true}
-                componentRef={<AlertPopUp message={message} />}
+                component={<AlertPopUp message={message} />}
                 sheetRef={sheetRef}
             />
         </>

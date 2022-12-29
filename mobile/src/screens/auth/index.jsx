@@ -63,14 +63,14 @@ const Auth = () => {
                 </View>
                 <View style={AUTH_STYLE.buttonContainer}>
                     <Button
-                        styles={AUTH_STYLE.button}
+                        customeStyle={AUTH_STYLE.button}
                         text={LANG.authScreen.login}
                         buttonStyle="buttonOutline"
                         buttonTheme="buttonSecondaryOutline"
                         onPress={() => handleSnapPress(<Login />)}
                     />
                     <Button
-                        styles={AUTH_STYLE.button}
+                        customeStyle={AUTH_STYLE.button}
                         text={LANG.authScreen.signup}
                         buttonStyle="buttonSolid"
                         buttonTheme="buttonPrimary"
@@ -78,7 +78,7 @@ const Auth = () => {
                     />
                 </View>
             </View>
-            <BottomModal componentRef={authsheetContent} sheetRef={bottomRef} />
+            <BottomModal component={authsheetContent} sheetRef={bottomRef} />
         </>
     );
 };

@@ -8,7 +8,10 @@ import {themeSelector} from '../../../theme';
 import {useDispatch} from 'react-redux';
 import {useBottomSheetModal} from '@gorhom/bottom-sheet';
 import {request} from '../../../shared/Api';
-import {sessionUserProfileAction, sessionAccessTokenAction} from '../../../redux/actions/UserActions';
+import {
+    sessionUserProfileAction,
+    sessionAccessTokenAction,
+} from '../../../redux/actions/UserActions';
 import {langFileSelector} from '../../../shared/lang';
 import BottomModal, {AlertPopUp} from '../../../components/BottomModal';
 import {AuthStyles} from '../../../theme/Styles';
@@ -40,9 +43,7 @@ const LoginComponent = () => {
             .then(function (response) {
                 if (response.data['access_token']) {
                     dismiss();
-                    dispatch(
-                        sessionUserProfileAction(response.data),
-                    );
+                    dispatch(sessionUserProfileAction(response.data));
                     dispatch(
                         sessionAccessTokenAction(response.data.access_token),
                     );
@@ -72,6 +73,7 @@ const LoginComponent = () => {
                     {LANG.authScreen.welcomeMessage}
                 </Text>
                 <BottomSheetInput
+                    maxLength={40}
                     error={loginForm.username == ''}
                     errorMessage={LANG.authScreen.usernameError}
                     placeholder={LANG.authScreen.usernameField}
@@ -98,6 +100,7 @@ const LoginComponent = () => {
                     }
                 />
                 <BottomSheetInput
+                    maxLength={40}
                     error={loginForm.password == ''}
                     errorMessage={LANG.authScreen.passwordError}
                     placeholder={LANG.authScreen.passwordField}
@@ -128,7 +131,7 @@ const LoginComponent = () => {
                     }
                 />
                 <Button
-                    styles={AUTH_STYLE.submitButton}
+                    customeStyle={AUTH_STYLE.submitButton}
                     text={LANG.authScreen.login}
                     buttonStyle="buttonSolid"
                     buttonTheme={
@@ -150,7 +153,7 @@ const LoginComponent = () => {
             </View>
             <BottomModal
                 detached={true}
-                componentRef={<AlertPopUp message={message} />}
+                component={<AlertPopUp message={message} />}
                 sheetRef={sheetRef}
             />
         </>

@@ -11,10 +11,18 @@ import {langFileSelector} from '../shared/lang';
 import {useBottomSheetModal} from '@gorhom/bottom-sheet';
 import Button from '../components/Button';
 
+//Pop up alert content for the modal
 export const AlertPopUp = ({message}) => {
-    const LANG = langFileSelector();
-    const {dismissAll} = useBottomSheetModal();
+    //styles
     const ALERT_STYLE = AlertStyles();
+
+    //redux data selector
+    const LANG = langFileSelector();
+
+    //bottom seet modal dismiss method
+    const {dismissAll} = useBottomSheetModal();
+
+    //render
     return (
         <View style={ALERT_STYLE.alertContainer}>
             <Text style={ALERT_STYLE.alertMessageTitle}>
@@ -23,7 +31,7 @@ export const AlertPopUp = ({message}) => {
             <Text style={ALERT_STYLE.alertMessage}>{message}</Text>
             <View style={ALERT_STYLE.alertButtonContainer}>
                 <Button
-                    styles={ALERT_STYLE.alertButton}
+                    customeStyle={ALERT_STYLE.alertButton}
                     buttonStyle="buttonSolid"
                     buttonTheme="noneThemeButton"
                     onPress={dismissAll}>
@@ -36,10 +44,18 @@ export const AlertPopUp = ({message}) => {
     );
 };
 
+//Popup modal for a custom message and action
 export const ModalPopUp = props => {
-    const LANG = langFileSelector();
-    const {dismissAll} = useBottomSheetModal();
+    //styles
     const ALERT_STYLE = AlertStyles();
+
+    //redux data selector
+    const LANG = langFileSelector();
+
+    //bottom seet modal dismiss method
+    const {dismissAll} = useBottomSheetModal();
+
+    //render
     return (
         <View style={ALERT_STYLE.alertContainer}>
             <Text style={ALERT_STYLE.alertMessageTitle}>
@@ -88,15 +104,19 @@ export const ModalPopUp = props => {
     );
 };
 
+//bottom seet content renderer
 const BottomSheetContent = props => {
+    //styles
     const CORE_STYLE = CoreStyles(props);
+
+    //variables
     const snapPoints = useMemo(
         () => [props.detached ? '60%' : 'CONTENT_HEIGHT'],
         [],
     );
-    const handleSheetChange = useCallback(index => {
-        console.log(index);
-    }, []);
+
+    //handllers
+    const handleSheetChange = useCallback(index => {}, []);
     const renderBackdrop = useCallback(
         props => (
             <BottomSheetBackdrop
@@ -107,26 +127,29 @@ const BottomSheetContent = props => {
         ),
         [],
     );
+
+    //bottom shee dynamic height
     const {
         animatedHandleHeight,
         animatedSnapPoints,
         animatedContentHeight,
         handleContentLayout,
     } = useBottomSheetDynamicSnapPoints(snapPoints);
+
+    //render
     return (
         <BottomSheetModal
-            backgroundStyle={[CORE_STYLE.bottomSheetContainer]}
+            backgroundStyle={CORE_STYLE.bottomSheetContainer}
             handleIndicatorStyle={CORE_STYLE.bottomSheetIndicator}
             ref={props.sheetRef}
             index={0}
             detached={props.detached ? props.detached : false}
             enableDismissOnClose={true}
-            // keyboardBehavior="fillParent"
             keyboardBlurBehavior="restore"
             backdropComponent={
                 props.detached || props.backdrop ? renderBackdrop : ''
             }
-            // onChange={handleSheetChange}
+            onChange={handleSheetChange}
             snapPoints={animatedSnapPoints}
             handleHeight={animatedHandleHeight}
             contentHeight={animatedContentHeight}
@@ -134,7 +157,7 @@ const BottomSheetContent = props => {
             <BottomSheetView
                 style={CORE_STYLE.bottomSheetContent}
                 onLayout={handleContentLayout}>
-                {props.componentRef}
+                {props.component}
             </BottomSheetView>
         </BottomSheetModal>
     );

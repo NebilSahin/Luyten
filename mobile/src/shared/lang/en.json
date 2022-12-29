@@ -6,7 +6,10 @@
         "home": "Home",
         "profile": "Profile",
         "search": "Search",
-        "notification": "Notifications"
+        "notification": "Notifications",
+        "postDetails": "Post details",
+        "assetPicker": "Choose a file",
+        "clear": "Clear"
     },
     "navScreens": {
         "myPosts": "My posts",
@@ -49,5 +52,13 @@
         "update": "Update",
         "updateProfile": "Update your profile",
         "updatedAlert": "Your profile has been updated sucessfuly."
+    },
+    "home":{
+        "createPostTitle": "Create a Post",
+        "postTitleField": "Title of your post",
+        "postDescriptionField": "Description of your post",
+        "createButton": "Create Post",
+        "titleError": "Username field is require!",
+        "noDescription": "No description available."
     }
 }

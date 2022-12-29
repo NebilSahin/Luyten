@@ -6,7 +6,10 @@
         "home": "الرئيسية",
         "profile": "الحساب",
         "search": "البحث",
-        "notification": "التنبيهات"
+        "notification": "التنبيهات",
+        "postDetails": "تفاصيل المنشور",
+        "assetPicker": "إختر ملفاً",
+        "clear": "مسح"
     },
     "navScreens": {
         "myPosts": "منشوراتي",
@@ -49,5 +52,14 @@
         "update": "تحديث",
         "updateProfile": "حدث بياناتك الشخصية",
         "updatedAlert": "تم تحديث بياناتك بنجاح."
+    },
+    "home":{
+        "createPostTitle": "إنشاء منشور جديد",
+        "postTitleField": "عنوان المنشور",
+        "postDescriptionField": "وصف المنشور",
+        "createButton": "أنشئ المنشور",
+        "titleError": "خانة عنوان المنشور مطلوب!",
+        "noDescription": "لا يوجد وصف لهذا المنشور."
+
     }
 }

@@ -1,24 +1,13 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import MCIIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import MIIcon from 'react-native-vector-icons/MaterialIcons';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {StyleSheet, Text, TouchableOpacity, View, Image} from 'react-native';
 import {useSelector} from 'react-redux';
 import Home from '../screens/home';
 import Search from '../screens/search';
 import Profile from '../screens/profile';
 import Auth from '../screens/auth';
-// import AuthorDetailScreen from 'src/screens/author_detail';
-// import MangaDetailScreen from 'src/screens/manga_detail';
-// import CharacterDetailScreen from 'src/screens/character_detail';
-// import Onboarding from 'src/screens/onboarding';
-import {BottomBarParamList, RootStackParamList} from './types';
-import {RootState} from 'src/redux/AppStore';
-// import ChapterSelectModal from 'src/modals/ChapterSelectModal';
-// import ThemeSelectModal from 'src/modals/ThemeSelectModal';
-// import LanguageSelectModal from 'src/modals/LanguageSelectModal';
-// import DeleteDataWarnModal from 'src/modals/DeleteDataWarnModal';
 import {THEME} from '../shared/Constant';
 import * as Animatable from 'react-native-animatable';
 import {themeSelector} from '../theme';
@@ -92,7 +81,7 @@ const TabButton = props => {
                 ref={viewRef}
                 duration={600}
                 style={CORE_STYLE.navButtonContainer}>
-                <MCIIcon
+                <Icon
                     name={focused ? item.activeIcon : item.inActiveIcon}
                     color={
                         focused
@@ -125,6 +114,24 @@ const HeaderComponent = props => {
                     source={profileImgPlacholder}
                 />
             </TouchableOpacity>
+        </View>
+    );
+};
+
+const HeaderPostComponent = props => {
+    const CORE_STYLE = CoreStyles(props);
+    const navigation = useNavigation();
+    const sessionLang = useSelector(state => state.sessionUser.userLang);
+
+    return (
+        <View style={CORE_STYLE.postHeaderContainer}>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Icon
+                    name={sessionLang == 'en' ? 'arrow-left' : 'arrow-right'}
+                    style={CORE_STYLE.postHeaderbackIcon}
+                />
+            </TouchableOpacity>
+            <Text style={CORE_STYLE.postHeaderTitle}>{props.children}</Text>
         </View>
     );
 };
@@ -178,32 +185,13 @@ function BottomBarNav() {
 function AppNav() {
     const sessionIsActive = useSelector(state => state.sessionUser.isActive);
     const THEME = themeSelector();
+    const LANG = langFileSelector();
 
     return (
         <AppStack.Navigator
             initialRouteName={sessionIsActive ? 'BarNav' : 'AuthNav'}
             screenOptions={{
                 headerShown: false,
-                headerTintColor: THEME_CONFIG[THEME].text,
-                tabBarStyle: {
-                    borderTopWidth: 1,
-                    borderTopColor: THEME_CONFIG[THEME].screenBorder,
-                    elevation: 0,
-                    backgroundColor: THEME_CONFIG[THEME].background,
-                },
-                headerBackgroundContainerStyle: {
-                    borderBottomWidth: 1,
-                    borderBottomColor: THEME_CONFIG[THEME].screenBorder,
-                    backgroundColor: THEME_CONFIG[THEME].background,
-                },
-                headerStyle: {
-                    elevation: 0,
-                    backgroundColor: THEME_CONFIG[THEME].background,
-                },
-                headerTitleStyle: {
-                    fontSize: 18,
-                    color: THEME_CONFIG[THEME].text,
-                },
             }}>
             {sessionIsActive ? (
                 <>
@@ -243,9 +231,13 @@ function AppNav() {
                                 fontSize: 18,
                                 color: THEME_CONFIG[THEME].text,
                             },
+                            headerTitle: props => (
+                                <HeaderPostComponent {...props} />
+                            ),
+                            headerLeft: null,
                         }}>
                         <AppStack.Screen
-                            name="Post details"
+                            name={LANG.core.postDetails}
                             component={PostDetails}
                         />
                     </AppStack.Group>

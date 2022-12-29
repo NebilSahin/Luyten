@@ -1,19 +1,21 @@
 import React, {useRef} from 'react';
 import {TouchableWithoutFeedback, View, Text} from 'react-native';
 import {BottomSheetTextInput} from '@gorhom/bottom-sheet';
-import {THEME} from '../shared/Constant';
-import {useSelector} from 'react-redux';
-import {requestFrame} from 'react-native-reanimated/lib/reanimated2/core';
 import {themeSelector} from '../theme';
-import {AuthStyles} from '../theme/Styles';
-
+import {CoreStyles} from '../theme/Styles';
 const THEME_CONFIG = require('../theme/themes.json');
 
 const BottomSheetInputComponent = props => {
+    //styles
+    const CORE_STYLE = CoreStyles();
+
+    //redux data selector
     const THEME = themeSelector();
-    const AUTH_STYLE = AuthStyles();
+
+    //hooks
     const INPUT = useRef(null);
 
+    //render
     return (
         <TouchableWithoutFeedback
             onPress={() => {
@@ -21,7 +23,7 @@ const BottomSheetInputComponent = props => {
             }}>
             <View
                 style={[
-                    AUTH_STYLE.inputContainer,
+                    CORE_STYLE.inputContainer,
                     {
                         borderColor: props.error
                             ? THEME_CONFIG[THEME].error.textColor
@@ -33,9 +35,8 @@ const BottomSheetInputComponent = props => {
                 ]}>
                 <BottomSheetTextInput
                     ref={INPUT}
-                    maxLength={40}
                     style={[
-                        AUTH_STYLE.input,
+                        CORE_STYLE.input,
                         {
                             color: THEME_CONFIG[THEME].text,
                             bottom: props.error ? 8 : 0,
@@ -44,11 +45,13 @@ const BottomSheetInputComponent = props => {
                     placeholderTextColor={THEME_CONFIG[THEME].extra}
                     {...props}
                 />
-                <View style={AUTH_STYLE.icon}>{props.icon}</View>
+                <View style={[CORE_STYLE.icon, props.customeStyle]}>
+                    {props.icon}
+                </View>
                 {props.error ? (
                     <Text
                         style={[
-                            AUTH_STYLE.error,
+                            CORE_STYLE.error,
                             {
                                 color: THEME_CONFIG[THEME].error.textColor,
                                 opacity: props.error ? 1 : 0,

@@ -1,34 +1,28 @@
-import React, {useState, useEffect} from 'react';
-import {
-    Text,
-    StyleSheet,
-    View,
-    FlatList,
-    Image,
-    TouchableHighlight,
-} from 'react-native';
-import {CoreStyles, HomeStyles} from '../../../theme/Styles';
-import {useDispatch, useSelector} from 'react-redux';
-import {request} from '../../shared/Api';
+import React from 'react';
+import {Text, View, Image} from 'react-native';
+import {CoreStyles} from '../../../theme/Styles';
+import {useSelector} from 'react-redux';
 import {BaseStorageURL} from '../../../shared/Constant';
-import {useNavigation} from '@react-navigation/native';
+import { langFileSelector } from '../../../shared/lang';
 
 const PostDetails = ({route}, props) => {
-    const {post} = route.params;
+    //styles
     const CORE_STYLE = CoreStyles(props);
-    const HOME_STYLE = HomeStyles();
 
-    const userToken = useSelector(state => state.sessionUser.accessToken);
-    const dispatch = useDispatch();
-    const [posts, setPosts] = useState([]);
+    //post details
+    const {post} = route.params;
 
+    //redux data selector
+    const LANG = langFileSelector();
+
+    //render
     return (
         <View style={CORE_STYLE.postContainer}>
             <View style={CORE_STYLE.postImageContainer}>
                 <Image
                     style={CORE_STYLE.postImage}
                     source={
-                        post.file_path != ''
+                        post.file_path != '' && post.file_path != null
                             ? {uri: BaseStorageURL + post.file_path}
                             : require('../../../../assets/post-placeholder.png')
                     }
@@ -42,7 +36,9 @@ const PostDetails = ({route}, props) => {
                     </Text>
                     <Text style={CORE_STYLE.postDate}>{post.created_at}</Text>
                 </View>
-                <Text style={CORE_STYLE.postDescriptions}>{post.title}</Text>
+                <Text style={CORE_STYLE.postDescriptions}>
+                    {post.description != 'null' ? post.description : LANG.home.noDescription}
+                </Text>
             </View>
         </View>
     );

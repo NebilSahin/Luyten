@@ -69,6 +69,7 @@ const EditProfileForm = ({bottomSheet}) => {
                     {LANG.profile.updateProfile}
                 </Text>
                 <BottomSheetInput
+                    maxLength={40}
                     error={editForm.username == ''}
                     errorMessage={LANG.authScreen.usernameError}
                     placeholder={LANG.authScreen.usernameField}
@@ -95,6 +96,7 @@ const EditProfileForm = ({bottomSheet}) => {
                     }
                 />
                 <BottomSheetInput
+                    maxLength={40}
                     error={editForm.email == ''}
                     errorMessage={LANG.authScreen.emailError}
                     placeholder={LANG.authScreen.emailField}
@@ -121,7 +123,7 @@ const EditProfileForm = ({bottomSheet}) => {
                     }
                 />
                 <Button
-                    styles={AUTH_STYLE.submitButton}
+                    customeStyle={AUTH_STYLE.submitButton}
                     text={LANG.profile.update}
                     buttonStyle="buttonSolid"
                     buttonTheme={
@@ -140,7 +142,7 @@ const EditProfileForm = ({bottomSheet}) => {
             </View>
             <BottomModal
                 detached={true}
-                componentRef={
+                component={
                     <ModalPopUp modalTitle={LANG.core.alert}>
                         <Text style={ALERT_STYLE.alertMessage}>{message}</Text>
                     </ModalPopUp>
@@ -238,7 +240,7 @@ const ProfileDetails = () => {
             </View>
             <BottomModal
                 backdrop={true}
-                componentRef={<EditProfileForm bottomSheet={bottomRef} />}
+                component={<EditProfileForm bottomSheet={bottomRef} />}
                 sheetRef={bottomRef}
             />
         </>

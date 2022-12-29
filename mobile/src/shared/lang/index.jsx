@@ -108,10 +108,9 @@ export const LangChangeElement = props => {
                     </View>
                 </Button>
             </View>
-
             <BottomModal
                 detached={true}
-                componentRef={<LangList />}
+                component={<LangList />}
                 sheetRef={sheetRef}
             />
         </>

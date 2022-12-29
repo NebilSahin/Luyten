@@ -1,21 +1,28 @@
-import React, {useState, Component} from 'react';
-import {Text, TouchableHighlight, StyleSheet, View} from 'react-native';
+import React, {useState} from 'react';
+import {Text, TouchableHighlight} from 'react-native';
 import {themeSelector} from '../theme';
 import {CoreStyles} from '../theme/Styles';
 const THEME_CONFIG = require('../theme/themes.json');
 
-//custome button that has preset of themes to choss from defined in Themes.json
+//custome button from a preset of themes defined in Themes.json
 const CustomButton = props => {
-    const THEME = themeSelector();
+    //styles
     const CORE_STYLE = CoreStyles(props);
+
+    //redux data selector
+    const THEME = themeSelector();
+
+    //state variables
     const [color, setColor] = useState(
         THEME_CONFIG[THEME][props.buttonTheme].textColor,
     );
+
+    //render
     return (
         <TouchableHighlight
             style={[
                 CORE_STYLE[props.buttonStyle],
-                props.styles,
+                props.customeStyle ? props.customeStyle : {},
                 {
                     backgroundColor:
                         THEME_CONFIG[THEME][props.buttonTheme].backgroundColor,
@@ -34,7 +41,15 @@ const CustomButton = props => {
             }
             {...props}>
             {props.text ? (
-                <Text style={{color: color, fontSize: CORE_STYLE[props.buttonStyle].fontSize}}>{props.text}</Text>
+                <Text
+                    style={[
+                        {
+                            color: color,
+                            fontSize: CORE_STYLE[props.buttonStyle].fontSize,
+                        },
+                    ]}>
+                    {props.text}
+                </Text>
             ) : (
                 props.children
             )}

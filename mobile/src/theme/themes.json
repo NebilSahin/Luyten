@@ -44,18 +44,18 @@
             "backgroundFocusColor": "#CBCBCB"
         },
         "buttonSecondaryOutline": {
-            "backgroundColor": "#00000000",
-            "borderColor": "#FFFFFF",
-            "textFocusColor": "#0b2626",
-            "textColor": "#FFFFFF",
-            "backgroundFocusColor": "#FFFFFF"
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "borderColor": "#CBCBCB",
+            "textFocusColor": "#FFFFFF",
+            "textColor": "#CBCBCB",
+            "backgroundFocusColor": "#CBCBCB"
         },
         "buttonExtra": {
-            "backgroundColor": "#FFFFFF",
-            "borderColor": "#FFFFFF",
-            "textFocusColor": "#FAFAFA",
+            "backgroundColor": "#cfcfcf",
+            "borderColor": "#cfcfcf",
+            "textFocusColor": "#494949",
             "textColor": "#494949",
-            "backgroundFocusColor": "#23A1A1"
+            "backgroundFocusColor": "#b5b5b5"
         },
         "buttonDisabled": {
             "backgroundColor": "#b3b3b3",
@@ -134,11 +134,11 @@
             "backgroundFocusColor": "#FFFFFF"
         },
         "buttonExtra": {
-            "backgroundColor": "#FFFFFF",
-            "borderColor": "#FFFFFF",
+            "backgroundColor": "#FAFAFA",
+            "borderColor": "#FAFAFA",
             "textFocusColor": "#FAFAFA",
             "textColor": "#494949",
-            "backgroundFocusColor": "#23A1A1"
+            "backgroundFocusColor": "#494949"
         },
         "buttonDisabled": {
             "backgroundColor": "#b3b3b3",

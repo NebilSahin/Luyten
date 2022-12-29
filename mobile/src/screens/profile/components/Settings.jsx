@@ -45,7 +45,7 @@ const Settings = props => {
             <LangChangeElement />
             <View style={CORE_STYLE.settingsItemContainer}>
                 <Button
-                    styles={CORE_STYLE.settingsItemBtn}
+                    customeStyle={CORE_STYLE.settingsItemBtn}
                     buttonStyle="none"
                     buttonTheme="noneThemeButton"
                     onPress={handleSnapPress}>
@@ -66,7 +66,7 @@ const Settings = props => {
             </View>
             <BottomModal
                 detached={true}
-                componentRef={<Logout />}
+                component={<Logout />}
                 sheetRef={sheetRef}
             />
         </View>
