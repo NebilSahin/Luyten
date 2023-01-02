@@ -51,14 +51,17 @@
         "user": "User",
         "update": "Update",
         "updateProfile": "Update your profile",
-        "updatedAlert": "Your profile has been updated sucessfuly."
+        "updatedAlert": "Your profile has been updated sucessfuly.",
+        "editPost": "Edit the post",
+        "deletePost": "Delete the Post"
     },
     "home":{
         "createPostTitle": "Create a Post",
         "postTitleField": "Title of your post",
         "postDescriptionField": "Description of your post",
         "createButton": "Create Post",
-        "titleError": "Username field is require!",
-        "noDescription": "No description available."
+        "titleError": "Title field is require!",
+        "noDescription": "No description available.",
+        "backToTop": "Back to Top"
     }
 }

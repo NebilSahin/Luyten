@@ -1,4 +1,4 @@
-package com.signup_app.newarchitecture.components;
+package com.Luyten.newarchitecture.components;
 
 import com.facebook.jni.HybridData;
 import com.facebook.proguard.annotations.DoNotStrip;

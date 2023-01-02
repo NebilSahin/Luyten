@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "signup_app.app"
-               BlueprintName = "signup_app"
-               ReferencedContainer = "container:signup_app.xcodeproj">
+               BuildableName = "Luyten.app"
+               BlueprintName = "Luyten"
+               ReferencedContainer = "container:Luyten.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "signup_appTests.xctest"
-               BlueprintName = "signup_appTests"
-               ReferencedContainer = "container:signup_app.xcodeproj">
+               BuildableName = "LuytenTests.xctest"
+               BlueprintName = "LuytenTests"
+               ReferencedContainer = "container:Luyten.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "signup_app.app"
-            BlueprintName = "signup_app"
-            ReferencedContainer = "container:signup_app.xcodeproj">
+            BuildableName = "Luyten.app"
+            BlueprintName = "Luyten"
+            ReferencedContainer = "container:Luyten.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "signup_app.app"
-            BlueprintName = "signup_app"
-            ReferencedContainer = "container:signup_app.xcodeproj">
+            BuildableName = "Luyten.app"
+            BlueprintName = "Luyten"
+            ReferencedContainer = "container:Luyten.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

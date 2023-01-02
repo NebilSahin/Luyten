@@ -92,12 +92,12 @@ const SignupComponent = () => {
         <>
             <View
                 style={[
-                    AuthStyles().authSheetContainer,
+                    AuthStyles().SheetContainer,
                     {backgroundColor: THEME_CONFIG[THEME].background},
                 ]}>
                 <Text
                     style={[
-                        AuthStyles().welcomeText,
+                        AuthStyles().bottomSheetTitle,
                         {color: THEME_CONFIG[THEME].text},
                     ]}>
                     {LANG.authScreen.welcomeMessage}

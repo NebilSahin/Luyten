@@ -218,14 +218,12 @@ function AppNav() {
                                 backgroundColor: THEME_CONFIG[THEME].background,
                             },
                             headerBackgroundContainerStyle: {
-                                borderBottomWidth: 1,
-                                borderBottomColor:
-                                    THEME_CONFIG[THEME].screenBorder,
+                                borderBottomWidth: 0,
                                 backgroundColor: THEME_CONFIG[THEME].background,
                             },
                             headerStyle: {
                                 elevation: 0,
-                                backgroundColor: THEME_CONFIG[THEME].background,
+                                backgroundColor: THEME_CONFIG[THEME].headerAltColor,
                             },
                             headerTitleStyle: {
                                 fontSize: 18,

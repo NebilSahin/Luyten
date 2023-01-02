@@ -1,13 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.signup_app">
+  package="com.Luyten">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
       android:name=".MainApplication"
       android:label="@string/app_name"
-      android:icon="@mipmap/wasl_ic"
-      android:roundIcon="@mipmap/wasl_ic_round"
+      android:icon="@mipmap/luyten_ic"
+      android:roundIcon="@mipmap/luyten_ic"
       android:allowBackup="false"
       android:theme="@style/AppTheme">
       <activity

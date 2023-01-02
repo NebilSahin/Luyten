@@ -1,41 +1,25 @@
-// import React, {Component} from 'react';
-// import {Text, View, StyleSheet} from 'react-native';
-// import {useSelector} from 'react-redux';
-// import {useNavigation, StackActions} from '@react-navigation/native';
-
-// const Loading = () => {
-//   return (
-//     <View style={styles.container} >
-//       <Text> Loading </Text>
-//     </View>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//   },
-// });
-
-// export default Loading;
-
 import React, {useEffect, useRef, useState} from 'react';
 import {Animated, StyleSheet, Image} from 'react-native';
+import { CoreStyles } from '../../theme/Styles';
 
 export const Splash = ({children}) => {
+  //styles
+  const CORE_STYLE = CoreStyles();
+  //ref
   const containerOpacity = useRef(new Animated.Value(1)).current;
+
+  //state variables
   const [containerHidden, setContainerHidden] = useState(false);
   const [imageIsLoading, setimageIsLoading] = useState(true);
 
+  //animation effect (fade in / fade out)
   useEffect(() => {
     if (imageIsLoading === false) {
       Animated.sequence(
         Animated.timing(containerOpacity, {
           toValue: 1,
-          duration: 500, // Fade out duration
-          delay: 500, // Minimum time the logo will stay visible
+          duration: 500, 
+          delay: 0,
           useNativeDriver: true,
         }).start(),
         Animated.timing(containerOpacity, {
@@ -50,18 +34,19 @@ export const Splash = ({children}) => {
     }
   }, [containerOpacity, imageIsLoading, containerHidden]);
 
+  //render
   return (
     <>
       {children}
       <Animated.View
         collapsable={false}
-        style={[style.container, {opacity: containerOpacity, zIndex: containerHidden ? -100 : 0}]}>
+        style={[CORE_STYLE.splashContainer, {opacity: containerOpacity, zIndex: containerHidden ? -100 : 0}]}>
         <Image
-          source={require('../../../assets/wasl_ic_round.png')}
+          source={require('../../../assets/logo.png')}
           onLoad={() => {
             setimageIsLoading(false);
           }}
-          style={[style.image, {opacity: 1}]}
+          style={[CORE_STYLE.splashImage, {opacity: 1}]}
           resizeMode="contain"
         />
       </Animated.View>
@@ -69,15 +54,4 @@ export const Splash = ({children}) => {
   );
 };
 
-const style = StyleSheet.create({
-  container: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: '#0eb4b4',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  image: {
-    width: 250,
-    height: 250,
-  },
-});
+export default Splash;

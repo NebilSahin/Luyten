@@ -7,18 +7,31 @@ import Button from '../../components/Button';
 import BottomModal from '../../components/BottomModal';
 import {langFileSelector} from '../../shared/lang';
 import {AuthStyles} from '../../theme/Styles';
+import {themeSelector} from '../../theme';
+import {THEME_CONSTANT} from '../../shared/Constant';
 
+//app logo
 const logo = require('../../../assets/logo.png');
-const backgroundImagesArr = [
-    require('../../../assets/backgroundImage.jpg'),
-    require('../../../assets/backgroundImage2.jpg'),
-    require('../../../assets/backgroundImage3.jpg'),
+
+//background images
+const backgroundImagesDarkArr = [
+    require('../../../assets/bgImageDark-1.png'),
+    require('../../../assets/bgImageDark-2.png'),
+    require('../../../assets/bgImageDark-3.png'),
 ];
 
 const Auth = () => {
-    const LANG = langFileSelector();
+    //styles
     const AUTH_STYLE = AuthStyles();
+
+    //redux data selector
+    const THEME = themeSelector();
+    const LANG = langFileSelector();
+
+    //ref variables
     const bottomRef = useRef(null);
+
+    //state variables
     const [authsheetContent, setAuthsheetContent] = useState(null);
     const [imageSource, setImageSource] = useState(0);
 
@@ -34,7 +47,7 @@ const Auth = () => {
         if (!interval) {
             interval = setInterval(() => {
                 const newIndex =
-                    imageSource + 1 === backgroundImagesArr.length
+                    imageSource + 1 === backgroundImagesDarkArr.length
                         ? 0
                         : imageSource + 1;
                 setImageSource(newIndex);
@@ -43,17 +56,21 @@ const Auth = () => {
         return () => clearInterval(interval);
     }, [imageSource]);
 
+    //render
     return (
         <>
             <CrossfadeImage
                 style={AUTH_STYLE.backgroundImage}
-                source={backgroundImagesArr[imageSource]}
+                source={backgroundImagesDarkArr[imageSource]}
                 resizeMode="cover"
             />
-            <View style={[AUTH_STYLE.background]} />
             <View style={AUTH_STYLE.screenContainer}>
                 <View style={AUTH_STYLE.titleContainer}>
-                    <Image source={logo} style={AUTH_STYLE.logo} />
+                    <Image
+                        source={logo}
+                        style={AUTH_STYLE.logo}
+                        resizeMode="contain"
+                    />
                     <Text style={[AUTH_STYLE.titleText]}>
                         {LANG.authScreen.title}
                     </Text>

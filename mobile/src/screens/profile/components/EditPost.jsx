@@ -14,7 +14,7 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import {useSelector} from 'react-redux';
 const THEME_CONFIG = require('../../../theme/themes.json');
 
-const CreatePost = ({refreshData}) => {
+const EditPost = () => {
     //styles
     const HOME_STYLE = HomeStyles();
     const AUTH_STYLE = AuthStyles();
@@ -63,7 +63,6 @@ const CreatePost = ({refreshData}) => {
                 })
                 .then(function (response) {
                     dismiss();
-                    refreshData();
                     console.log(response.data);
                 })
                 .catch(function (error) {
@@ -191,4 +190,4 @@ const CreatePost = ({refreshData}) => {
     );
 };
 
-export default CreatePost;
+export default EditPost;

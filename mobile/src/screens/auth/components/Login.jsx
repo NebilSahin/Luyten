@@ -68,8 +68,8 @@ const LoginComponent = () => {
 
     return (
         <>
-            <View style={AUTH_STYLE.authSheetContainer}>
-                <Text style={AUTH_STYLE.welcomeText}>
+            <View style={AUTH_STYLE.SheetContainer}>
+                <Text style={AUTH_STYLE.bottomSheetTitle}>
                     {LANG.authScreen.welcomeMessage}
                 </Text>
                 <BottomSheetInput

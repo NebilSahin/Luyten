@@ -11,8 +11,35 @@ import * as Animatable from 'react-native-animatable';
 import Button from '../../components/Button';
 import BottomListModal from '../../components/BottomListModal';
 import CreatePost from '../home/components/CreatePost';
+import BackToTopButton from '../../components/BackToTopButton';
+import CreatePostButton from '../../components/CreatePostButton';
 
-const Post = ({post, style}) => {
+const profileImgPlacholder = require('../../../assets/profile-image.png');
+const emptyArray = {
+    id: 0,
+    title: null,
+    description: null,
+    file_path: null,
+    user_identifier: null,
+    created_at: null,
+    updated_at: null,
+    deleted_at: null,
+    creator: {
+        id: null,
+        username: null,
+        email: null,
+        email_verified_at: null,
+        role_identifier: null,
+        created_at: null,
+        updated_at: null,
+        deleted_at: null,
+    },
+};
+
+const Post = ({post}) => {
+    //styles
+    const HOME_STYLE = HomeStyles();
+
     //hooks
     const navigation = useNavigation();
 
@@ -22,7 +49,8 @@ const Post = ({post, style}) => {
     //render
     return (
         <TouchableHighlight
-            style={style.cardContainer}
+            disabled={post.id == 0}
+            style={[HOME_STYLE.cardContainer, {opacity: post.id == 0 ? 0 : 1}]}
             onPress={() =>
                 navigation.navigate(LANG.core.postDetails, {
                     itemId: post.id,
@@ -31,72 +59,35 @@ const Post = ({post, style}) => {
             }>
             <View>
                 <Image
-                    style={style.cardImageContainer}
+                    style={HOME_STYLE.cardImageContainer}
                     source={
-                        post.file_path != '' && post.file_path != null
-                            ? {uri: BaseStorageURL + post.file_path}
+                        post.post_image != '' && post.post_image != null
+                            ? {uri: BaseStorageURL + post.post_image}
                             : require('../../../assets/post-placeholder.png')
                     }
                 />
-                <View style={style.cardContentContainer}>
-                    <Text style={style.postTitle}>{post.title}</Text>
-                    <View>
-                        <Text style={style.postCreator}>
-                            {post.creator.username}
+                <View style={HOME_STYLE.cardContentContainer}>
+                    <Image
+                        style={HOME_STYLE.cardProfileImage}
+                        source={
+                            post.creator.profile_image
+                                ? post.creator.profile_image
+                                : profileImgPlacholder
+                        }
+                    />
+                    <View style={HOME_STYLE.cardTitleContainer}>
+                        <Text style={HOME_STYLE.postTitle} numberOfLines={1}>
+                            {post.title}
                         </Text>
-                        <Text style={style.postDate}>{post.created_at}</Text>
+                        <View style={HOME_STYLE.cardCreatorContainer}>
+                            <Text style={HOME_STYLE.postCreator}>
+                                {post.creator.username}
+                            </Text>
+                        </View>
                     </View>
                 </View>
             </View>
         </TouchableHighlight>
-    );
-};
-
-const CreatePostButton = ({scrollDown, onPress}) => {
-    //redux data selector
-    const sessionLang = useSelector(state => state.sessionUser.userLang);
-
-    //style
-    const CORE_STYLE = CoreStyles();
-    const createBtnDirection =
-        sessionLang == 'en' ? {right: '5%'} : {left: '5%'};
-
-    //hooks
-    const viewRef = useRef(null);
-
-    //effect
-    useEffect(() => {
-        if (scrollDown) {
-            viewRef.current.animate({
-                0: {bottom: -80, scale: 0.3},
-                1: {bottom: 20, scale: 1},
-            });
-        } else {
-            viewRef.current.animate({
-                0: {bottom: 20, scale: 1},
-                1: {bottom: -80, scale: 0.3},
-            });
-        }
-    }, [scrollDown]);
-
-    //render
-    return (
-        <Animatable.View
-            ref={viewRef}
-            duration={600}
-            style={[CORE_STYLE.createPostIconAnimation, createBtnDirection]}>
-            <Button
-                buttonStyle="buttonSolid"
-                buttonTheme="buttonPrimary"
-                style={CORE_STYLE.createPostIconContainer}
-                onPress={onPress}>
-                <Icon
-                    name="plus"
-                    style={CORE_STYLE.createPostIcon}
-                    color={CORE_STYLE.createPostIcon.color}
-                />
-            </Button>
-        </Animatable.View>
     );
 };
 
@@ -107,21 +98,47 @@ const Home = () => {
 
     //hooks
     const sheetRef = useRef(null);
+    const scrollRef = useRef(null);
 
     //redux state
     const userToken = useSelector(state => state.sessionUser.accessToken);
 
     //state variables
     const [posts, setPosts] = useState([]);
+    const [refreshing, setRefreshing] = useState(true);
+    const [nextPage, setNextPage] = useState(null);
     const [scrollDown, setScrollDown] = useState(true);
     const [offset, SetOffset] = useState(0);
 
     //render list items
-    const renderItem = ({item}) => <Post post={item} style={HOME_STYLE} />;
+    const renderItem = ({item}) => <Post post={item} />;
 
-    //effects
-    useEffect(() => {
-        //request posts from db
+    //request more posts from db
+    const loadData = () => {
+        if (nextPage) {
+            setRefreshing(true);
+            request
+                .get(nextPage, {
+                    headers: {
+                        Authorization: userToken ? 'Bearer ' + userToken : '',
+                    },
+                })
+                .then(function (response) {
+                    if (response.data.data.length % 2 != 0) {
+                        response.data.data.push(emptyArray);
+                    }
+                    setPosts([...posts, ...response.data.data]);
+                    setNextPage(response.data.next_page_url);
+                    setRefreshing(false);
+                })
+                .catch(function (error) {
+                    console.log(error.response);
+                });
+        }
+    };
+
+    //request refresh posts from db
+    const refreshData = () =>
         request
             .get('/posts', {
                 headers: {
@@ -129,12 +146,16 @@ const Home = () => {
                 },
             })
             .then(function (response) {
+                if (response.data.data.length % 2 != 0) {
+                    response.data.data.push(emptyArray);
+                }
                 setPosts(response.data.data);
+                setNextPage(response.data.next_page_url);
+                setRefreshing(false);
             })
             .catch(function (error) {
                 console.log(error.response);
             });
-    }, []);
 
     //callbacks
     const handleSnapPress = useCallback(index => {
@@ -143,12 +164,18 @@ const Home = () => {
 
     //render
     return (
-        <View style={CORE_STYLE.screeenContainer}>
+        <View onLayout={refreshData} style={CORE_STYLE.screeenContainer}>
             <CreatePostButton
                 onPress={() => handleSnapPress(0)}
                 scrollDown={scrollDown}
             />
+            <BackToTopButton scrollDown={scrollDown} scrollRef={scrollRef}/>
             <FlatList
+                style={HOME_STYLE.cardListContainer}
+                refreshing={refreshing}
+                ref={scrollRef}
+                onRefresh={refreshData}
+                onEndReached={loadData}
                 onScroll={event => {
                     let currentOffset = event.nativeEvent.contentOffset.y;
                     setScrollDown(
@@ -159,9 +186,13 @@ const Home = () => {
                 data={posts}
                 renderItem={renderItem}
                 keyExtractor={post => post.id}
+                numColumns={2}
                 showsVerticalScrollIndicator={false}
             />
-            <BottomListModal sheetRef={sheetRef} component={<CreatePost />} />
+            <BottomListModal
+                sheetRef={sheetRef}
+                component={<CreatePost refreshData={refreshData} />}
+            />
         </View>
     );
 };

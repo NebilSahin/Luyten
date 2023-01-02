@@ -16,38 +16,54 @@ const profileImgPlacholder = require('../../../../assets/profile-image.png');
 const THEME_CONFIG = require('../../../theme/themes.json');
 
 const EditProfileForm = ({bottomSheet}) => {
-    const LANG = langFileSelector();
+    //styles
     const AUTH_STYLE = AuthStyles();
     const ALERT_STYLE = AlertStyles();
     const PROFILE_STYLE = ProfileStyles();
+
+    //redux selectors and data dispatcher
+    const LANG = langFileSelector();
+    const THEME = themeSelector();
     const userProfile = useSelector(state => state.sessionUser.userProfile);
     const userToken = useSelector(state => state.sessionUser.accessToken);
-    const {dismiss} = useBottomSheetModal();
     const dispatch = useDispatch();
-    const THEME = themeSelector();
+
+    //dismissing the bottom sheet function
+    const {dismiss} = useBottomSheetModal();
+
+    //state variables
+    const [message, setMessage] = useState('');
     const [editForm, setEditForm] = useState({
         username: userProfile.user.username,
         email: userProfile.user.email,
     });
-    const [message, setMessage] = useState('');
+
+    //variables
+    let requestData = {};
+
+    //ref
     const sheetRef = useRef(null);
 
     //handling the update request and show the popup modal with the appropiate error message
     const handleUpdate = () => {
         Keyboard.dismiss();
+        if (userProfile.user.email == editForm.email) {
+            requestData = {username: editForm.username};
+        } else if (userProfile.user.username == editForm.username) {
+            requestData = {email: editForm.email};
+        } else {
+            requestData = {
+                username: editForm.username,
+                email: editForm.email,
+            };
+        }
+
         request
-            .put(
-                '/user/update-profile',
-                {
-                    username: editForm.username,
-                    email: editForm.email,
+            .put('/user/update-profile', requestData, {
+                headers: {
+                    Authorization: userToken ? 'Bearer ' + userToken : '',
                 },
-                {
-                    headers: {
-                        Authorization: userToken ? 'Bearer ' + userToken : '',
-                    },
-                },
-            )
+            })
             .then(function (response) {
                 dismiss(bottomSheet);
                 dispatch(sessionUserProfileAction(response.data));
@@ -65,7 +81,7 @@ const EditProfileForm = ({bottomSheet}) => {
     return (
         <>
             <View style={PROFILE_STYLE.editFormContainer}>
-                <Text style={AUTH_STYLE.welcomeText}>
+                <Text style={AUTH_STYLE.bottomSheetTitle}>
                     {LANG.profile.updateProfile}
                 </Text>
                 <BottomSheetInput

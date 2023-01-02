@@ -43,9 +43,9 @@ const CustomButton = props => {
             {props.text ? (
                 <Text
                     style={[
+                        CORE_STYLE.buttonText,
                         {
                             color: color,
-                            fontSize: CORE_STYLE[props.buttonStyle].fontSize,
                         },
                     ]}>
                     {props.text}

@@ -1,5 +1,5 @@
 import React, {Component, useRef, useState, useEffect} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, BackHandler} from 'react-native';
 import {
     NavigationContainer,
     DefaultTheme,
@@ -17,13 +17,30 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Splash} from './screens/splash';
 import {CoreStyles} from './theme/Styles';
+import {useBottomSheetModal} from '@gorhom/bottom-sheet';
 
 export const THEME_CONFIG = require('./theme/themes.json');
 
 const AppContainer = props => {
-    const THEME = themeSelector();
+    //styles
     const CORE_STYLE = CoreStyles(props);
 
+    //redux selectors
+    const THEME = themeSelector();
+
+    //bottom sheet dismiss
+    const {dismissAll} = useBottomSheetModal();
+
+    //effect to dismiss on back press
+    useEffect(() => {
+        const backHandler = BackHandler.addEventListener(
+            'hardwareBackPress',
+            dismissAll,
+        );
+        return () => backHandler.remove();
+    }, []);
+
+    //render
     return (
         <NavigationContainer
             theme={THEME === 'dark' ? DarkTheme : DefaultTheme}>
@@ -43,6 +60,7 @@ const AppContainer = props => {
     );
 };
 
+//rendering some essential componenets for base app
 export default App = () => {
     return (
         <Provider store={store}>

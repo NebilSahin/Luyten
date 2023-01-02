@@ -22,8 +22,8 @@ const PostDetails = ({route}, props) => {
                 <Image
                     style={CORE_STYLE.postImage}
                     source={
-                        post.file_path != '' && post.file_path != null
-                            ? {uri: BaseStorageURL + post.file_path}
+                        post.post_image != '' && post.post_image != null
+                            ? {uri: BaseStorageURL + post.post_image}
                             : require('../../../../assets/post-placeholder.png')
                     }
                 />

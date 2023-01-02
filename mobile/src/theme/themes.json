@@ -3,37 +3,38 @@
         "theme": "light",
         "opposite": "dark",
         "background": "#FFFFFF",
-        "screenBorder": "#e6e6e6",
-        "cardBackground": "#FFFFFF",
+        "screenBorder": "#c2cbd2",
+        "cardBackground": "rgba(0, 0, 0, 0.4)",
         "sheetBackground": "#FFFFFF",
+        "headerAltColor": "#d5dee6",
         "text": "#494949",
         "titleLight": "#FFFFFF",
         "titleDark": "#0b2626",
         "surface": "#FAFAFA",
-        "primary": "#0eb4b4",
+        "primary": "#6cc5cf",
         "secondary": "#E4E4E4",
-        "extra": "#CBCBCB",
+        "extra": "#c2cbd2",
         "primaryDark": "#23A1A1",
         "primaryDarkFaint": "#383e56",
         "primaryLight": "#FCF4E9",
-        "secondaryDarkFaint": "#7d7d7d",
+        "secondaryDarkFaint": "#a2acb3",
         "onView": "#4cacbc",
         "onViewFaint": "#9e9e9e",
         "onTextFocus": "#FAFAFA",
-        "borderColor": "#CBCBCB",
+        "borderColor": "#c2cbd2",
         "inputBackgroundColor": "#FFFFFF",
         "buttonPrimary": {
-            "backgroundColor": "#0eb4b4",
+            "backgroundColor": "#6cc5cf",
             "borderColor": "#FFFFFF",
             "textFocusColor": "#FAFAFA",
             "textColor": "#FAFAFA",
-            "backgroundFocusColor": "#0b8a8a"
+            "backgroundFocusColor": "#55a2ab"
         },
         "buttonPrimaryOutline": {
             "backgroundColor": "#000000",
-            "borderColor": "#0eb4b4",
+            "borderColor": "#3e1c86",
             "textFocusColor": "#FAFAFA",
-            "textColor": "#0eb4b4",
+            "textColor": "#3e1c86",
             "backgroundFocusColor": "#FAFAFA"
         },
         "buttonSecondary": {
@@ -45,17 +46,17 @@
         },
         "buttonSecondaryOutline": {
             "backgroundColor": "rgba(0, 0, 0, 0)",
-            "borderColor": "#CBCBCB",
-            "textFocusColor": "#FFFFFF",
-            "textColor": "#CBCBCB",
-            "backgroundFocusColor": "#CBCBCB"
+            "borderColor": "#FFFFFF",
+            "textFocusColor": "#ababab",
+            "textColor": "#FFFFFF",
+            "backgroundFocusColor": "#FFFFFF"
         },
         "buttonExtra": {
-            "backgroundColor": "#cfcfcf",
-            "borderColor": "#cfcfcf",
-            "textFocusColor": "#494949",
-            "textColor": "#494949",
-            "backgroundFocusColor": "#b5b5b5"
+            "backgroundColor": "#c2cbd2",
+            "borderColor": "#c2cbd2",
+            "textFocusColor": "#FFFFFF",
+            "textColor": "#FFFFFF",
+            "backgroundFocusColor": "#a2acb3"
         },
         "buttonDisabled": {
             "backgroundColor": "#b3b3b3",
@@ -85,51 +86,52 @@
     "dark": {
         "theme": "dark",
         "opposite": "light",
-        "background": "#0b2626",
-        "screenBorder": "#1e4242",
-        "cardBackground": "#113b3b",
-        "sheetBackground": "#0b2626",
+        "background": "#1a1429",
+        "screenBorder": "#2e2545",
+        "cardBackground": "rgba(0, 0, 0, 0.4)",
+        "sheetBackground": "#261c3d",
+        "headerAltColor": "#2e2545",
         "text": "#FAFAFA",
         "titleLight": "#FFFFFF",
-        "titleDark": "#0b2626",
+        "titleDark": "#261c3d",
         "surface": "#424242",
-        "primary": "#0eb4b4",
+        "primary": "#6cc5cf",
         "secondary": "#E0F0EC",
-        "extra": "#CBCBCB",
+        "extra": "#c2cbd2",
         "primaryDark": "#23A1A1",
         "primaryLight": "#8b6b61",
-        "secondaryDarkFaint": "#CBCBCB",
+        "secondaryDarkFaint": "#c2cbd2",
         "onView": "#FAFAFA",
         "onViewFaint": "#9e9e9e",
         "onTextFocus": "#FAFAFA",
-        "borderColor": "#103838",
-        "inputBackgroundColor": "#103838",
-        "placeholderTextColor": "#FAFAFA",
+        "borderColor": "#2e2545",
+        "inputBackgroundColor": "#2e2545",
+        "placeholderTextColor": "#c2cbd2",
         "buttonPrimary": {
-            "backgroundColor": "#0eb4b4",
+            "backgroundColor": "#6cc5cf",
             "borderColor": "#FFFFFF",
             "textFocusColor": "#FAFAFA",
             "textColor": "#FAFAFA",
-            "backgroundFocusColor": "#0b8a8a"
+            "backgroundFocusColor": "#55a2ab"
         },
         "buttonPrimaryOutline": {
             "backgroundColor": "#00000000",
             "borderColor": "#FFFFFF",
             "textFocusColor": "#FAFAFA",
-            "textColor": "#0eb4b4",
+            "textColor": "#6cc5cf",
             "backgroundFocusColor": ""
         },
         "buttonSecondary": {
             "backgroundColor": "#FFFFFF",
             "borderColor": "#FFFFFF",
             "textFocusColor": "#FFFFFF",
-            "textColor": "#0b2626",
+            "textColor": "#261c3d",
             "backgroundFocusColor": "#CBCBCB"
         },
         "buttonSecondaryOutline": {
             "backgroundColor": "#00000000",
             "borderColor": "#FFFFFF",
-            "textFocusColor": "#0b2626",
+            "textFocusColor": "#261c3d",
             "textColor": "#FFFFFF",
             "backgroundFocusColor": "#FFFFFF"
         },
@@ -138,7 +140,7 @@
             "borderColor": "#FAFAFA",
             "textFocusColor": "#FAFAFA",
             "textColor": "#494949",
-            "backgroundFocusColor": "#494949"
+            "backgroundFocusColor": "#a2acb3"
         },
         "buttonDisabled": {
             "backgroundColor": "#b3b3b3",
@@ -155,10 +157,10 @@
             "backgroundFocusColor": "rgba(255, 255, 255, 0.05)"
         },
         "switch": {
-            "thumbColorActive": "#0eb4b4",
+            "thumbColorActive": "#6cc5cf",
             "thumbColorNotActive": "#FAFAFA",
             "trackColorNotActive": "#CBCBCB",
-            "trackColorActive": "#2a7373"
+            "trackColorActive": "#3b7980"
         },
         "error": {
             "textColor": "#ff596d",

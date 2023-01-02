@@ -1,4 +1,4 @@
-package com.signup_app.newarchitecture;
+package com.Luyten.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -19,9 +19,9 @@ import com.facebook.react.fabric.CoreComponentsRegistry;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.fabric.ReactNativeConfig;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.signup_app.BuildConfig;
-import com.signup_app.newarchitecture.components.MainComponentsRegistry;
-import com.signup_app.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import com.Luyten.BuildConfig;
+import com.Luyten.newarchitecture.components.MainComponentsRegistry;
+import com.Luyten.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 
