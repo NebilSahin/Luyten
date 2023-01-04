@@ -22,13 +22,13 @@ const CustomButton = props => {
         <TouchableHighlight
             style={[
                 CORE_STYLE[props.buttonStyle],
-                props.customeStyle ? props.customeStyle : {},
                 {
                     backgroundColor:
                         THEME_CONFIG[THEME][props.buttonTheme].backgroundColor,
                     borderColor:
                         THEME_CONFIG[THEME][props.buttonTheme].borderColor,
                 },
+                props.customeStyle ? props.customeStyle : {},
             ]}
             onShowUnderlay={() =>
                 setColor(THEME_CONFIG[THEME][props.buttonTheme].textFocusColor)

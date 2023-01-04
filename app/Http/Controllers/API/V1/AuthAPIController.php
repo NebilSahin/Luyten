@@ -11,6 +11,7 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class AuthAPIController extends Controller
 {
@@ -61,13 +62,37 @@ class AuthAPIController extends Controller
 
     public function updateProfile(UpdateProfileRequest $request)
     {
+        $validatedRequest = $request->validated();
         $user = Auth::user();
-        $user->update($request->all());
         $role = Role::find($user->role_identifier);
+
+        $imagePath = $request->file('profile_image');
+        if ($imagePath) {
+            $imageName = $imagePath->getClientOriginalName();
+            $validatedRequest['profile_image'] = $imagePath->storeAs('images', $imageName, 'public');
+            Storage::delete(['public/images/' . $user->profile_image]);
+        }
+        $user->update($validatedRequest);
+
         $result = $user->toArray();
         $result['role'] = $role->title;
 
         return response()->json(['user' => $result]);
+    }
+
+
+    public function deleteImage(UpdateProfileRequest $request)
+    {
+        $validatedRequest = $request->validated();
+        
+        $user = Auth::user();
+
+        $validatedRequest['profile_image'] = null;
+        Storage::delete(['public/' . $user->profile_image]);
+        
+        $user->update($validatedRequest);
+
+        return response()->json(['user' => $user]);
     }
 
     public function destroy()

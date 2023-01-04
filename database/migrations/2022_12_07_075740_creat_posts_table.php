@@ -17,7 +17,7 @@ class CreatPostsTable extends Migration
             $table->bigIncrements('id');
             $table->string('title');
             $table->string('description')->nullable();
-            $table->string('file_path')->nullable();
+            $table->string('post_image')->nullable();
             $table->bigInteger('user_identifier')->unsigned();
             $table->index('user_identifier');
             $table->foreign('user_identifier')->references('id')->on('users')->onDelete('cascade');

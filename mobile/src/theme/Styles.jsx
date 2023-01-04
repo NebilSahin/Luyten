@@ -7,6 +7,20 @@ import {useSelector} from 'react-redux';
 
 const THEME_CONFIG = require('../theme/themes.json');
 
+const themeVariables = {
+    paddingS: 6,
+    paddingM: 12,
+    paddingL: 18,
+    paddingXL: 24,
+    paddingXXL: 32,
+
+    fontSizeS: 8,
+    fontSizeM: 12,
+    fontSizeL: 16,
+    fontSizeXL: 18,
+    fontSizeXXL: 24,
+};
+
 export const ProfileStyles = () => {
     const THEME = themeSelector();
     const sessionLang = useSelector(state => state.sessionUser.userLang);
@@ -21,12 +35,12 @@ export const ProfileStyles = () => {
         profileTabContainer: {
             height: '100%',
             backgroundColor: THEME_CONFIG[THEME].background,
-            paddingHorizontal: 12,
-            paddingVertical: 12,
+            paddingHorizontal: themeVariables.paddingM,
+            paddingVertical: themeVariables.paddingM,
         },
         profileDetailsContainer: {
-            paddingHorizontal: 32,
-            paddingVertical: 24,
+            paddingHorizontal: themeVariables.paddingXXL,
+            paddingVertical: themeVariables.paddingXL,
         },
         profileTopTab: {
             tabBarPressOpacity: 0.2,
@@ -87,7 +101,7 @@ export const ProfileStyles = () => {
         },
         profileCreatedat: {
             flexDirection: isLtr ? 'row' : 'row-reverse',
-            fontSize: 12,
+            fontSize: themeVariables.fontSizeM,
             textAlign: isLtr ? 'left' : 'right',
         },
         profileRole: {
@@ -107,7 +121,7 @@ export const HomeStyles = () => {
 
     return StyleSheet.create({
         cardListContainer: {
-            marginHorizontal: 6,
+            marginHorizontal: themeVariables.paddingS,
         },
         cardImageContainer: {
             borderRadius: 30,
@@ -117,8 +131,8 @@ export const HomeStyles = () => {
         cardContainer: {
             flex: 1,
             justifyContent: 'center',
-            marginHorizontal: 6,
-            marginVertical: 12,
+            marginHorizontal: themeVariables.paddingS,
+            marginVertical: themeVariables.paddingM,
             borderRadius: 30,
             shadowColor: '#000',
             shadowOffset: {
@@ -135,8 +149,8 @@ export const HomeStyles = () => {
             bottom: 0,
             borderBottomLeftRadius: 30,
             borderBottomRightRadius: 30,
-            paddingHorizontal: 12,
-            paddingVertical: 6,
+            paddingHorizontal: themeVariables.paddingM,
+            paddingVertical: themeVariables.paddingS,
             width: '100%',
             flexDirection: isLtr ? 'row' : 'row-reverse',
             justifyContent: 'flex-start',
@@ -147,7 +161,7 @@ export const HomeStyles = () => {
             borderRadius: 30,
         },
         cardTitleContainer: {
-            paddingHorizontal: 12,
+            paddingHorizontal: themeVariables.paddingM,
             flexDirection: 'column',
             width: '90%',
         },
@@ -156,7 +170,7 @@ export const HomeStyles = () => {
             justifyContent: 'space-between',
         },
         postTitle: {
-            fontSize: 16,
+            fontSize: themeVariables.fontSizeL,
             fontWeight: '600',
             textAlign: isLtr ? 'left' : 'right',
             color: THEME_CONFIG[THEME].titleLight,
@@ -167,12 +181,12 @@ export const HomeStyles = () => {
             borderRadius: 30,
         },
         postCreator: {
-            fontSize: 12,
+            fontSize: themeVariables.fontSizeM,
             textAlign: isLtr ? 'left' : 'right',
             color: THEME_CONFIG[THEME].titleLight,
         },
         postDate: {
-            fontSize: 12,
+            fontSize: themeVariables.fontSizeM,
             textAlign: isLtr ? 'left' : 'right',
             color: THEME_CONFIG[THEME].titleLight,
         },
@@ -213,7 +227,7 @@ export const CoreStyles = (props = null) => {
             backgroundColor: THEME_CONFIG[THEME].background,
         },
         settingsItemContainer: {
-            paddingVertical: 6,
+            paddingVertical: themeVariables.paddingS,
             borderBottomWidth: 1,
             borderBottomColor: THEME_CONFIG[THEME].screenBorder,
         },
@@ -224,7 +238,7 @@ export const CoreStyles = (props = null) => {
         settingsItemBtnContainer: {
             flexDirection: isLtr ? 'row' : 'row-reverse',
             justifyContent: 'space-between',
-            padding: 12,
+            padding: themeVariables.paddingM,
         },
         settingsItemBtnContentContainer: {
             flexDirection: isLtr ? 'row' : 'row-reverse',
@@ -274,7 +288,7 @@ export const CoreStyles = (props = null) => {
             height: 300,
         },
         icon: {
-            marginHorizontal: 12,
+            marginHorizontal: themeVariables.paddingM,
         },
         navButtonContainer: {
             flex: 1,
@@ -294,7 +308,7 @@ export const CoreStyles = (props = null) => {
             flexDirection: isLtr ? 'row' : 'row-reverse',
         },
         profileUsername: {
-            fontSize: 12,
+            fontSize: themeVariables.fontSizeM,
             color: THEME_CONFIG[THEME].text,
             paddingHorizontal: 10,
             alignSelf: 'center',
@@ -307,7 +321,7 @@ export const CoreStyles = (props = null) => {
         },
         profileNavTitle: {
             flex: 3,
-            fontSize: 18,
+            fontSize: themeVariables.fontSizeXL,
             fontWeight: '500',
             color: THEME_CONFIG[THEME].text,
             textAlign: isLtr ? 'left' : 'right',
@@ -335,42 +349,60 @@ export const CoreStyles = (props = null) => {
             color: THEME_CONFIG[THEME].text,
         },
         postTitleDetailsContainer: {
-            paddingVertical: 12,
+            paddingVertical: themeVariables.paddingM,
             flexDirection: isLtr ? 'row' : 'row-reverse',
             justifyContent: 'space-between',
         },
         postDetailsContainer: {
-            padding: 12,
+            paddingHorizontal: themeVariables.paddingL,
         },
         postCreator: {
-            fontSize: 12,
+            fontSize: themeVariables.fontSizeM,
             textAlign: isLtr ? 'left' : 'right',
             color: THEME_CONFIG[THEME].text,
         },
         postDate: {
-            fontSize: 12,
+            fontSize: themeVariables.fontSizeM,
             textAlign: isLtr ? 'left' : 'right',
             color: THEME_CONFIG[THEME].text,
         },
         postDescriptions: {
-            fontSize: 16,
+            fontSize: themeVariables.fontSizeL,
             borderTopWidth: 1,
             borderTopColor: THEME_CONFIG[THEME].borderColor,
-            paddingVertical: 12,
+            paddingVertical: themeVariables.paddingM,
             textAlign: isLtr ? 'left' : 'right',
             color: THEME_CONFIG[THEME].text,
         },
         postHeaderContainer: {
-            flex: 1,
+            height: 300,
+            width: '100%',
+            paddingTop: themeVariables.paddingXXL,
+            overflow: 'hidden',
+        },
+        postHeaderTitleContainer: {
             flexDirection: isLtr ? 'row' : 'row-reverse',
             textAlign: isLtr ? 'left' : 'right',
-            width: '100%',
-            alignItems: 'center',
             justifyContent: 'space-between',
+            backgroundColor: THEME_CONFIG[THEME].navHeaderBackground,
+            margin: themeVariables.paddingM,
+            paddingVertical: themeVariables.paddingM,
+            paddingHorizontal: themeVariables.paddingS,
+            borderRadius: 30,
+        },
+        postHeaderBottomPadding:{
+            position: 'absolute',
+            bottom: 0,
+            width: '100%',
+            borderTopLeftRadius: 30,
+            borderTopRightRadius: 30,
+            padding: 15,
+            backgroundColor: THEME_CONFIG[THEME].background,
+
         },
         postHeaderTitle: {
             flex: 4,
-            fontSize: 18,
+            fontSize: themeVariables.fontSizeXL,
             fontWeight: '500',
             color: THEME_CONFIG[THEME].text,
             textAlign: isLtr ? 'left' : 'right',
@@ -378,7 +410,7 @@ export const CoreStyles = (props = null) => {
         postHeaderbackIcon: {
             color: THEME_CONFIG[THEME].text,
             fontSize: 24,
-            paddingHorizontal: 12,
+            paddingHorizontal: themeVariables.paddingM,
             textAlign: isLtr ? 'left' : 'right',
         },
         createPostIconAnimation: {
@@ -409,7 +441,7 @@ export const CoreStyles = (props = null) => {
             zIndex: 10,
             borderRadius: 200,
             paddingHorizontal: 16,
-            paddingVertical: 6,
+            paddingVertical: themeVariables.paddingS,
             backgroundColor: THEME_CONFIG[THEME].primary,
             shadowColor: '#000',
             shadowOffset: {
@@ -439,7 +471,7 @@ export const CoreStyles = (props = null) => {
             justifyContent: 'center',
             zIndex: 10,
             borderRadius: 200,
-            padding: 6,
+            padding: themeVariables.paddingS,
             backgroundColor: THEME_CONFIG[THEME].cardBackground,
             shadowColor: '#000',
             shadowOffset: {
@@ -454,23 +486,22 @@ export const CoreStyles = (props = null) => {
             fontSize: 24,
             color: THEME_CONFIG[THEME].titleLight,
         },
-        editMenuContainer:{
+        editMenuContainer: {
             borderRadius: 30,
-            paddingVertical: 6,
-            paddingHorizontal: 12,
-
+            paddingVertical: themeVariables.paddingM,
+            paddingHorizontal: themeVariables.paddingM,
         },
-        editMenuIconContainer:{
+        editMenuIconContainer: {
             flexDirection: isLtr ? 'row' : 'row-reverse',
             alignItems: 'center',
         },
-        editMenuIcon:{
+        editMenuIcon: {
             fontSize: 28,
             color: THEME_CONFIG[THEME].primary,
         },
-        editMenutext:{
-            fontSize: 16,
-            paddingHorizontal: 12,
+        editMenutext: {
+            fontSize: themeVariables.fontSizeL,
+            paddingHorizontal: themeVariables.paddingM,
             color: THEME_CONFIG[THEME].text,
         },
         inputContainer: {
@@ -506,8 +537,8 @@ export const CoreStyles = (props = null) => {
         error: {
             position: 'absolute',
             bottom: 8,
-            fontSize: 12,
-            paddingHorizontal: 24,
+            fontSize: themeVariables.fontSizeM,
+            paddingHorizontal: themeVariables.paddingXL,
         },
         submitButtonDouble: {
             width: '100%',
@@ -515,44 +546,80 @@ export const CoreStyles = (props = null) => {
             flexDirection: isLtr ? 'row' : 'row-reverse',
             marginTop: 20,
         },
+        profilePickerButton: {
+            width: 170,
+            height: 170,
+            alignSelf: 'center',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: 300,
+            borderStyle: 'dashed',
+            borderWidth: 2,
+            marginTop: 10,
+            padding: themeVariables.paddingXXL,
+            overflow: 'hidden',
+            borderColor: THEME_CONFIG[THEME].borderColor,
+            backgroundColor: THEME_CONFIG[THEME].inputBackgroundColor,
+        },
         assetPickerButton: {
             width: '100%',
-            height: 100,
+            height: 125,
             alignItems: 'center',
             justifyContent: 'center',
             borderRadius: 30,
             borderStyle: 'dashed',
             borderWidth: 2,
             marginTop: 10,
-            padding: 3,
-            paddingLeft: 20,
-            paddingRight: 20,
+            overflow: 'hidden',
             borderColor: THEME_CONFIG[THEME].borderColor,
             backgroundColor: THEME_CONFIG[THEME].inputBackgroundColor,
         },
         assetPickerText: {
-            fontSize: 16,
+            fontSize: themeVariables.fontSizeL,
             fontWeight: '600',
             textAlign: isLtr ? 'left' : 'right',
-            marginHorizontal: 12,
+            marginHorizontal: themeVariables.paddingM,
             color: THEME_CONFIG[THEME].extra,
         },
         assetPickerTextContainer: {
+            opacity: 0.8,
             alignItems: 'center',
+            justifyContent: 'space-between',
             flexDirection: isLtr ? 'row' : 'row-reverse',
         },
+        assetPickerTextEmptyContainer: {
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexDirection: isLtr ? 'row' : 'row-reverse',
+        },
+        assetImageContainer: {
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: 125,
+            width: '100%',
+        },
+        profileEditImageContainer: {
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: themeVariables.paddingXXL,
+            height: 170,
+            width: 170,
+        },
         clearButton: {
-            fontSize: 12,
+            opacity: 0.8,
+            position: 'absolute',
+            bottom: 0,
+            backgroundColor: 'rgba(255, 255, 255, 0.6)',
+            color: THEME_CONFIG[THEME].extra,
+            fontSize: themeVariables.fontSizeM,
+            width: '120%',
             fontWeight: '900',
             borderRadius: 30,
-            margin: 0,
-            marginTop: 2,
-            paddingVertical: 10,
-            paddingHorizontal: 18,
-
-            flexDirection: isLtr ? 'row' : 'row-reverse',
-            alignSelf: isLtr ? 'flex-end' : 'flex-start',
-            justifyContent: isLtr ? 'flex-end' : 'flex-start',
+            borderTopRightRadius: 0,
+            borderTopLeftRadius: 0,
+            marginHorizontal: themeVariables.paddingM,
+            paddingVertical: 8,
+            paddingHorizontal: themeVariables.paddingM,
         },
     });
 };
@@ -615,7 +682,7 @@ export const AuthStyles = () => {
             backgroundColor: THEME_CONFIG[THEME].background,
         },
         bottomSheetTitle: {
-            fontSize: 18,
+            fontSize: themeVariables.fontSizeXL,
             textAlign: 'center',
             color: THEME_CONFIG[THEME].text,
         },
@@ -636,22 +703,22 @@ export const AlertStyles = () => {
 
     return StyleSheet.create({
         alertContainer: {
-            marginHorizontal: 24,
+            marginHorizontal: themeVariables.paddingXL,
         },
         alertMessageTitle: {
-            fontSize: 18,
-            alignSelf:'center',
+            fontSize: themeVariables.fontSizeXL,
+            alignSelf: 'center',
             textAlign: 'center',
             color: THEME_CONFIG[THEME].text,
         },
         alertMessage: {
             marginTop: 20,
-            fontSize: 16,
+            fontSize: themeVariables.fontSizeL,
             textAlign: 'center',
             color: THEME_CONFIG[THEME].text,
         },
         alertButtonContainer: {
-            marginTop: 24,
+            marginTop: themeVariables.paddingXL,
             flexDirection: isLtr ? 'row' : 'row-reverse',
             justifyContent: 'space-evenly',
         },
@@ -661,7 +728,7 @@ export const AlertStyles = () => {
             textAlign: isLtr ? 'right' : 'left',
         },
         alertButtonText: {
-            fontSize: 16,
+            fontSize: themeVariables.fontSizeL,
             textAlign: 'center',
             color: THEME_CONFIG[THEME].primary,
         },
@@ -699,7 +766,7 @@ export const ThemeSelectStyles = () => {
 
     return StyleSheet.create({
         themeContainer: {
-            paddingVertical: 12,
+            paddingVertical: themeVariables.paddingM,
             borderBottomWidth: 1,
             borderBottomColor: THEME_CONFIG[THEME].screenBorder,
         },
@@ -712,7 +779,7 @@ export const ThemeSelectStyles = () => {
         themeBtnContent: {
             flexDirection: isLtr ? 'row' : 'row-reverse',
             justifyContent: 'space-between',
-            padding: 12,
+            padding: themeVariables.paddingM,
         },
         themeBtnContainer: {
             flexDirection: isLtr ? 'row' : 'row-reverse',

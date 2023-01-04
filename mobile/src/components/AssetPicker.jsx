@@ -1,16 +1,18 @@
 import React from 'react';
-import {Text, TouchableHighlight, View} from 'react-native';
+import {ImageBackground, Text, TouchableHighlight, View} from 'react-native';
 import {themeSelector} from '../theme';
-import {CoreStyles} from '../theme/Styles';
+import {CoreStyles, HomeStyles} from '../theme/Styles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {langFileSelector} from '../shared/lang';
 import Button from '../components/Button';
+
 const THEME_CONFIG = require('../theme/themes.json');
 
 //renders a button for picken assets
 const AssetPickerButton = props => {
     //styles
     const CORE_STYLE = CoreStyles();
+    const HOME_STYLE = HomeStyles();
 
     //redux data selectors
     const THEME = themeSelector();
@@ -19,44 +21,46 @@ const AssetPickerButton = props => {
     //render
     return (
         <TouchableHighlight
-            style={CORE_STYLE.assetPickerButton}
             underlayColor={
                 THEME_CONFIG[THEME][props.buttonTheme].backgroundFocusColor
             }
             {...props}>
-            {props.text != '' ? (
-                <>
+            {props.imageURI ? (
+                <ImageBackground
+                    style={[CORE_STYLE.assetImageContainer, props.customeStyle]}
+                    resizeMode="cover"
+                    imageStyle={{opacity: 0.4}}
+                    source={{
+                        uri: props.imageURI,
+                    }}>
                     <View style={CORE_STYLE.assetPickerTextContainer}>
-                        <Icon
-                            name="image-multiple"
-                            size={20}
-                            color={THEME_CONFIG[THEME].primary}
-                        />
                         <Text
                             style={[
                                 CORE_STYLE.assetPickerText,
-                                {
-                                    fontSize: 14,
-                                    fontWeight: '400',
-                                    color: THEME_CONFIG[THEME].extra,
-                                },
+                                {color: THEME_CONFIG[THEME].text},
                             ]}>
-                            {props.text}
+                            {LANG.core.assetChangeImage}
                         </Text>
+                        <Icon
+                            name="image-multiple"
+                            size={40}
+                            color={THEME_CONFIG[THEME].text}
+                        />
                     </View>
                     <Button
                         text={LANG.core.clear}
-                        buttonStyle="clearButton"
+                        customeStyle={CORE_STYLE.clearButton}
+                        buttonStyle="buttonSolid"
                         buttonTheme="noneThemeButton"
                         onPress={() => {
                             props.clear();
                         }}
                     />
-                </>
+                </ImageBackground>
             ) : (
-                <View style={CORE_STYLE.assetPickerTextContainer}>
+                <View style={CORE_STYLE.assetPickerTextEmptyContainer}>
                     <Text style={CORE_STYLE.assetPickerText}>
-                        {LANG.core.assetPicker}
+                        {LANG.core.assetPickImage}
                     </Text>
                     <Icon
                         name="image-multiple"

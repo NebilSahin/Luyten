@@ -1,16 +1,28 @@
 import React, {useRef, useState} from 'react';
 import {Text, View, Image, Keyboard} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {ProfileStyles, AuthStyles, AlertStyles} from '../../../theme/Styles';
+import {
+    ProfileStyles,
+    AuthStyles,
+    AlertStyles,
+    CoreStyles,
+    HomeStyles,
+} from '../../../theme/Styles';
 import {langFileSelector} from '../../../shared/lang';
 import Button from '../../../components/Button';
-import BottomModal, {ModalPopUp} from '../../../components/BottomModal';
+import BottomModal, {
+    ModalPopUp,
+    AlertPopUp,
+} from '../../../components/BottomModal';
 import BottomSheetInput from '../../../components/BottomSheetInput';
 import {themeSelector} from '../../../theme';
 import {useDispatch, useSelector} from 'react-redux';
 import {request} from '../../../shared/Api';
 import {sessionUserProfileAction} from '../../../redux/actions/UserActions';
 import {useBottomSheetModal} from '@gorhom/bottom-sheet';
+import AssetPicker from '../../../components/AssetPicker';
+import {launchImageLibrary} from 'react-native-image-picker';
+import {BaseStorageURL} from '../../../shared/Constant';
 
 const profileImgPlacholder = require('../../../../assets/profile-image.png');
 const THEME_CONFIG = require('../../../theme/themes.json');
@@ -20,6 +32,7 @@ const EditProfileForm = ({bottomSheet}) => {
     const AUTH_STYLE = AuthStyles();
     const ALERT_STYLE = AlertStyles();
     const PROFILE_STYLE = ProfileStyles();
+    const CORE_STYLE = CoreStyles();
 
     //redux selectors and data dispatcher
     const LANG = langFileSelector();
@@ -33,9 +46,13 @@ const EditProfileForm = ({bottomSheet}) => {
 
     //state variables
     const [message, setMessage] = useState('');
+    const [asset, setAsset] = useState(null);
     const [editForm, setEditForm] = useState({
         username: userProfile.user.username,
         email: userProfile.user.email,
+        profile_image: userProfile.user.profile_image
+            ? BaseStorageURL + userProfile.user.profile_image
+            : null,
     });
 
     //variables
@@ -44,23 +61,66 @@ const EditProfileForm = ({bottomSheet}) => {
     //ref
     const sheetRef = useRef(null);
 
+    //form
+    const formData = new FormData();
+    formData.append('_method', 'PUT');
+
+    //clear image path
+    const clearImage = () => {
+        setEditForm({...editForm, profile_image: null});
+        setAsset(null);
+    };
+
+    //handle asset picking
+    const handleAssetPicker = () => {
+        launchImageLibrary(
+            {mediaType: 'photo', selectionLimit: 1},
+            response => {
+                setAsset(response.assets ? response.assets[0] : null);
+            },
+        );
+    };
+
     //handling the update request and show the popup modal with the appropiate error message
     const handleUpdate = () => {
         Keyboard.dismiss();
-        if (userProfile.user.email == editForm.email) {
-            requestData = {username: editForm.username};
-        } else if (userProfile.user.username == editForm.username) {
-            requestData = {email: editForm.email};
-        } else {
-            requestData = {
-                username: editForm.username,
-                email: editForm.email,
-            };
+        // if (userProfile.user.email == editForm.email) {
+        //     requestData = {username: editForm.username};
+        // } else if (userProfile.user.username == editForm.username) {
+        //     requestData = {email: editForm.email};
+        // } else {
+        //     requestData = {
+        //         username: editForm.username,
+        //         email: editForm.email,
+        //     };
+        // }
+        formData.append('username', editForm.username);
+        formData.append('email', editForm.email);
+        if (asset) {
+            formData.append('profile_image', {
+                uri: asset.uri,
+                name: asset.fileName,
+                type: asset.type,
+            });
+        } else if (!editForm.profile_image) {
+            request
+                .post('/user/delete-image', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        Authorization: userToken ? 'Bearer ' + userToken : '',
+                    },
+                })
+                .then(function (response) {
+                    // console.log(response);
+                })
+                .catch(function (error) {
+                    console.log(error.response);
+                });
         }
-
         request
-            .put('/user/update-profile', requestData, {
+            .post('/user/update-profile', formData, {
                 headers: {
+                    'Content-Type': 'multipart/form-data',
                     Authorization: userToken ? 'Bearer ' + userToken : '',
                 },
             })
@@ -84,6 +144,17 @@ const EditProfileForm = ({bottomSheet}) => {
                 <Text style={AUTH_STYLE.bottomSheetTitle}>
                     {LANG.profile.updateProfile}
                 </Text>
+                <AssetPicker
+                    style={CORE_STYLE.profilePickerButton}
+                    customeStyle={CORE_STYLE.profileEditImageContainer}
+                    imageURI={asset ? asset.uri : editForm.profile_image}
+                    clear={clearImage}
+                    buttonStyle="buttonSolid"
+                    buttonTheme="noneThemeButton"
+                    onPress={() => {
+                        handleAssetPicker();
+                    }}
+                />
                 <BottomSheetInput
                     maxLength={40}
                     error={editForm.username == ''}
@@ -174,13 +245,23 @@ const ProfileDetails = () => {
     const LANG = langFileSelector();
     const bottomRef = useRef(null);
     const userProfile = useSelector(state => state.sessionUser.userProfile);
+
     return (
         <>
             <View style={PROFILE_STYLE.profileTopContainer}>
                 <View style={PROFILE_STYLE.profileImageContainer}>
                     <Image
                         style={PROFILE_STYLE.profileImage}
-                        source={profileImgPlacholder}
+                        source={
+                            userProfile.user.profile_image != '' &&
+                            userProfile.user.profile_image != null
+                                ? {
+                                      uri:
+                                          BaseStorageURL +
+                                          userProfile.user.profile_image,
+                                  }
+                                : profileImgPlacholder
+                        }
                     />
                 </View>
                 <View style={PROFILE_STYLE.profileDataContainer}>

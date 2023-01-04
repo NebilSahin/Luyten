@@ -3,11 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
-class UpdateUserRequest extends FormRequest
+class UpdatePostRequest extends FormRequest
 {
-
     public function authorize()
     {
         return true;
@@ -16,18 +14,14 @@ class UpdateUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'username' => [
+            'title' => [
                 'string',
-                'unique:users,username,' . Auth::user()->id
+                'required',
             ],
-            'email' => [
+            'description' => [
                 'string',
-                'unique:users,email,' . Auth::user()->id,
             ],
-            'role_identifier' => [
-                'bigInteger',
-            ],
-            'profile_image' => [
+            'post_image' => [
                 'image',
                 'mimes:jpg,png,jpeg,gif,svg',
                 'max:2048'

@@ -21,10 +21,7 @@ class StorePostRequest extends FormRequest
             'description' => [
                 'string',
             ],
-            'user_identifier' => [
-                'required',
-            ],
-            'file_path' => [
+            'post_image' => [
                 'image',
                 'mimes:jpg,png,jpeg,gif,svg',
                 'max:2048'

@@ -41,6 +41,12 @@ const CreatePost = ({refreshData}) => {
     //form
     const formData = new FormData();
 
+    //clear image path
+    const clearImage = () => {
+        setPostForm({...postForm, post_image: null});
+        setAsset(null);
+    };
+
     //handle creating post request
     const handlePost = () => {
         Keyboard.dismiss();
@@ -64,7 +70,6 @@ const CreatePost = ({refreshData}) => {
                 .then(function (response) {
                     dismiss();
                     refreshData();
-                    console.log(response.data);
                 })
                 .catch(function (error) {
                     if (!error.response) {
@@ -140,8 +145,9 @@ const CreatePost = ({refreshData}) => {
                     }
                 />
                 <AssetPicker
-                    text={asset ? asset.fileName : ''}
-                    clear={setAsset}
+                    style={CORE_STYLE.assetPickerButton}
+                    imageURI={asset ? asset.uri : postForm.post_image}
+                    clear={clearImage}
                     buttonStyle="buttonSolid"
                     buttonTheme="noneThemeButton"
                     onPress={() => {

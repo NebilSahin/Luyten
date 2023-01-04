@@ -2,7 +2,14 @@ import React, {useEffect, useRef, useState} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {StyleSheet, Text, TouchableOpacity, View, Image} from 'react-native';
+import {
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
+    Image,
+    ImageBackground,
+} from 'react-native';
 import {useSelector} from 'react-redux';
 import Home from '../screens/home';
 import Search from '../screens/search';
@@ -15,6 +22,7 @@ import {useNavigation} from '@react-navigation/native';
 import {ProfileStyles, AuthStyles, CoreStyles} from '../theme/Styles';
 import {langFileSelector} from '../shared/lang';
 import PostDetails from '../screens/home/components/PostDetails';
+import {BaseStorageURL} from '../shared/Constant';
 
 const THEME_CONFIG = require('../theme/themes.json');
 const profileImgPlacholder = require('../../assets/profile-image.png');
@@ -111,28 +119,51 @@ const HeaderComponent = props => {
                 </Text>
                 <Image
                     style={CORE_STYLE.profileImage}
-                    source={profileImgPlacholder}
+                    source={
+                        userProfile.user.profile_image != '' &&
+                        userProfile.user.profile_image != null
+                            ? {
+                                  uri:
+                                      BaseStorageURL +
+                                      userProfile.user.profile_image,
+                              }
+                            : profileImgPlacholder
+                    }
                 />
             </TouchableOpacity>
         </View>
     );
 };
 
-const HeaderPostComponent = props => {
+const HeaderPost = props => {
     const CORE_STYLE = CoreStyles(props);
     const navigation = useNavigation();
     const sessionLang = useSelector(state => state.sessionUser.userLang);
 
     return (
-        <View style={CORE_STYLE.postHeaderContainer}>
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-                <Icon
-                    name={sessionLang == 'en' ? 'arrow-left' : 'arrow-right'}
-                    style={CORE_STYLE.postHeaderbackIcon}
-                />
-            </TouchableOpacity>
-            <Text style={CORE_STYLE.postHeaderTitle}>{props.children}</Text>
-        </View>
+        <ImageBackground
+            style={CORE_STYLE.postHeaderContainer}
+            source={
+                props.route.params.post.post_image != '' &&
+                props.route.params.post.post_image != null
+                    ? {uri: BaseStorageURL + props.route.params.post.post_image}
+                    : require('../../assets/post-placeholder.png')
+            }>
+            <View style={CORE_STYLE.postHeaderTitleContainer}>
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <Icon
+                        name={
+                            sessionLang == 'en' ? 'arrow-left' : 'arrow-right'
+                        }
+                        style={CORE_STYLE.postHeaderbackIcon}
+                    />
+                </TouchableOpacity>
+                <Text style={CORE_STYLE.postHeaderTitle}>
+                    {props.route.name}
+                </Text>
+            </View>
+            <View style={CORE_STYLE.postHeaderBottomPadding}></View>
+        </ImageBackground>
     );
 };
 
@@ -217,13 +248,10 @@ function AppNav() {
                                 elevation: 0,
                                 backgroundColor: THEME_CONFIG[THEME].background,
                             },
-                            headerBackgroundContainerStyle: {
-                                borderBottomWidth: 0,
-                                backgroundColor: THEME_CONFIG[THEME].background,
-                            },
                             headerStyle: {
                                 elevation: 0,
-                                backgroundColor: THEME_CONFIG[THEME].headerAltColor,
+                                backgroundColor:
+                                    THEME_CONFIG[THEME].headerAltColor,
                             },
                             headerTitleStyle: {
                                 fontSize: 18,
@@ -237,41 +265,15 @@ function AppNav() {
                         <AppStack.Screen
                             name={LANG.core.postDetails}
                             component={PostDetails}
+                            options={props => ({
+                                header: () => <HeaderPost {...props} />,
+                            })}
                         />
                     </AppStack.Group>
                 </>
             ) : (
                 <AppStack.Screen name="AuthNav" component={Auth} />
             )}
-
-            {/* <AppStack.Screen name="category" component={Category} />
-      <AppStack.Screen name="manga_detail" component={MangaDetailScreen} />
-      <AppStack.Screen
-        name="character_detail"
-        component={CharacterDetailScreen}
-      /> */}
-            {/* <AppStack.Group
-        screenOptions={{
-          presentation: 'modal',
-          animation: 'slide_from_bottom',
-        }}>
-        <AppStack.Screen
-          name="chapter_selection_modal"
-          component={ChapterSelectModal}
-        />
-        <AppStack.Screen
-          name="theme_selection_modal"
-          component={ThemeSelectModal}
-        />
-        <AppStack.Screen
-          name="language_selection_modal"
-          component={LanguageSelectModal}
-        />
-        <AppStack.Screen
-          name="delete_data_warn_modal"
-          component={DeleteDataWarnModal}
-        />
-      </AppStack.Group> */}
         </AppStack.Navigator>
     );
 }

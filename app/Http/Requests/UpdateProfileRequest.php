@@ -17,14 +17,17 @@ class UpdateProfileRequest extends FormRequest
         return [
             'username' => [
                 'string',
-                'required',
                 'unique:users,username,' . Auth::user()->id
             ],
             'email' => [
-                'required',
                 'string',
                 'email',
                 'unique:users,email,' . Auth::user()->id,
+            ],
+            'profile_image' => [
+                'image',
+                'mimes:jpg,png,jpeg,gif,svg',
+                'max:2048'
             ],
         ];
     }

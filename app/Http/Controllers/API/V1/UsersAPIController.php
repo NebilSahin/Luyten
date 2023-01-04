@@ -11,12 +11,13 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UsersAPIController extends Controller
 {
     public function index()
     {
-        $users = User::latest()->cursorPaginate(15);
+        $users = User::latest()->cursorPaginate(16);
         return new UserResource($users);
     }
 
@@ -39,8 +40,26 @@ class UsersAPIController extends Controller
     public function update(UpdateUserRequest $request, User $user)
     {
         if($request['password']) $request['password'] = Hash::make($request['password']);
-        $user->update($request->all());
+        $validatedRequest = $request->validated();
+        
+        $imagePath = $request->file('profile_image');
+        if ($imagePath) {
+            $imageName = $imagePath->getClientOriginalName();
+            $validatedRequest['profile_image'] = $imagePath->storeAs('images', $imageName, 'public');
+            Storage::delete(['public/images/' . $user->profile_image]);
+        }
 
+        $user->update($validatedRequest);
+
+        return new UserResource($user);
+    }
+
+    public function deleteImage(UpdateUserRequest $request, User $user)
+    {
+        $validatedRequest = $request->validated();
+        $validatedRequest['profile_image'] = null;
+        Storage::delete(['public/' . $user->profile_image]);
+        $user->update($validatedRequest);
         return new UserResource($user);
     }
 

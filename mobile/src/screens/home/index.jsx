@@ -71,7 +71,11 @@ const Post = ({post}) => {
                         style={HOME_STYLE.cardProfileImage}
                         source={
                             post.creator.profile_image
-                                ? post.creator.profile_image
+                                ? {
+                                      uri:
+                                          BaseStorageURL +
+                                          post.creator.profile_image,
+                                  }
                                 : profileImgPlacholder
                         }
                     />
@@ -169,7 +173,7 @@ const Home = () => {
                 onPress={() => handleSnapPress(0)}
                 scrollDown={scrollDown}
             />
-            <BackToTopButton scrollDown={scrollDown} scrollRef={scrollRef}/>
+            <BackToTopButton scrollDown={scrollDown} scrollRef={scrollRef} />
             <FlatList
                 style={HOME_STYLE.cardListContainer}
                 refreshing={refreshing}

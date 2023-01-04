@@ -20,6 +20,7 @@ class User extends Authenticatable
         'password',
         'email_verified_at',
         'remember_token',
+        'profile_image',
         'user_identifier',
         'created_at',
         'updated_at',

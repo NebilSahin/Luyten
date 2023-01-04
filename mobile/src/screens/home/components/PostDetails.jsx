@@ -18,16 +18,6 @@ const PostDetails = ({route}, props) => {
     //render
     return (
         <View style={CORE_STYLE.postContainer}>
-            <View style={CORE_STYLE.postImageContainer}>
-                <Image
-                    style={CORE_STYLE.postImage}
-                    source={
-                        post.post_image != '' && post.post_image != null
-                            ? {uri: BaseStorageURL + post.post_image}
-                            : require('../../../../assets/post-placeholder.png')
-                    }
-                />
-            </View>
             <View style={CORE_STYLE.postDetailsContainer}>
                 <Text style={CORE_STYLE.postTitle}>{post.title}</Text>
                 <View style={CORE_STYLE.postTitleDetailsContainer}>

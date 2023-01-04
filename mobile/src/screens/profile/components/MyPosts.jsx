@@ -1,6 +1,11 @@
 import React, {useState, useEffect, useRef, useCallback} from 'react';
 import {Text, View, FlatList, Image, TouchableHighlight} from 'react-native';
-import {AuthStyles, CoreStyles, HomeStyles} from '../../../theme/Styles';
+import {
+    AuthStyles,
+    CoreStyles,
+    HomeStyles,
+    AlertStyles,
+} from '../../../theme/Styles';
 import {useSelector} from 'react-redux';
 import {request} from '../../../shared/Api';
 import {BaseStorageURL} from '../../../shared/Constant';
@@ -9,13 +14,18 @@ import {langFileSelector} from '../../../shared/lang';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as Animatable from 'react-native-animatable';
 import Button from '../../../components/Button';
-import BottomModal from '../../../components/BottomModal';
+import BottomModal, {ModalPopUp} from '../../../components/BottomModal';
+import BottomListModal from '../../../components/BottomListModal';
 import BackToTopButton from '../../../components/BackToTopButton';
 import EditPost from '../components/EditPost';
+import {themeSelector} from '../../../theme';
+import {useBottomSheetModal} from '@gorhom/bottom-sheet';
+import DeletePost from './DeletePost';
 
 const profileImgPlacholder = require('../../../../assets/profile-image.png');
+const THEME_CONFIG = require('../../../theme/themes.json');
 
-const Post = ({post, handleSnapPress}) => {
+const Post = ({post, sheetRef, setPostMenuData}) => {
     //styles
     const HOME_STYLE = HomeStyles();
     const CORE_STYLE = CoreStyles();
@@ -30,6 +40,12 @@ const Post = ({post, handleSnapPress}) => {
     const createBtnDirection =
         sessionLang == 'en' ? {right: '3%'} : {left: '3%'};
 
+    //callbacks
+    const handleSnapPress = useCallback(index => {
+        setPostMenuData(post);
+        sheetRef.current?.present();
+    }, []);
+    console.log(post.creator.profile_image);
     //render
     return (
         <TouchableHighlight
@@ -66,7 +82,11 @@ const Post = ({post, handleSnapPress}) => {
                         style={HOME_STYLE.cardProfileImage}
                         source={
                             post.creator.profile_image
-                                ? post.creator.profile_image
+                                ? {
+                                      uri:
+                                          BaseStorageURL +
+                                          post.creator.profile_image,
+                                  }
                                 : profileImgPlacholder
                         }
                     />
@@ -89,21 +109,38 @@ const Post = ({post, handleSnapPress}) => {
     );
 };
 
-const PostMenu = () => {
+const PostMenu = ({post, refreshData}) => {
     //styles
     const CORE_STYLE = CoreStyles();
-    const HOME_STYLE = HomeStyles();
     const AUTH_STYLE = AuthStyles();
 
+    //redux selectors
     const LANG = langFileSelector();
+    const THEME = themeSelector();
 
+    //state variables
+    const [popupComponent, setPopupComponent] = useState(null);
+    const [isDetached, setIsDetached] = useState(true);
+
+    //ref
+    const popupRef = useRef(null);
+    const sheetListRef = useRef(null);
+
+    //callbacks
+    const handleSnapPress = useCallback(ref => {
+        ref.current?.present();
+    }, []);
+
+    //render
     return (
         <View style={AUTH_STYLE.SheetContainer}>
             <Button
                 buttonStyle="buttonSolid"
                 buttonTheme="noneThemeButton"
                 style={[CORE_STYLE.editMenuContainer]}
-                onPress={() => {}}>
+                onPress={() => {
+                    handleSnapPress(sheetListRef);
+                }}>
                 <View style={CORE_STYLE.editMenuIconContainer}>
                     <Icon
                         name="square-edit-outline"
@@ -119,7 +156,9 @@ const PostMenu = () => {
                 buttonStyle="buttonSolid"
                 buttonTheme="noneThemeButton"
                 style={[CORE_STYLE.editMenuContainer]}
-                onPress={() => {}}>
+                onPress={() => {
+                    handleSnapPress(popupRef);
+                }}>
                 <View style={CORE_STYLE.editMenuIconContainer}>
                     <Icon
                         name="delete-outline"
@@ -131,6 +170,15 @@ const PostMenu = () => {
                     </Text>
                 </View>
             </Button>
+            <BottomModal
+                detached={true}
+                component={<DeletePost post={post} refreshData={refreshData} />}
+                sheetRef={popupRef}
+            />
+            <BottomListModal
+                sheetRef={sheetListRef}
+                component={<EditPost post={post} refreshData={refreshData} />}
+            />
         </View>
     );
 };
@@ -144,7 +192,7 @@ const MyPosts = props => {
     const sheetRef = useRef(null);
     const scrollRef = useRef(null);
 
-    //redux state
+    //redux state variable
     const userToken = useSelector(state => state.sessionUser.accessToken);
 
     //state variables
@@ -152,11 +200,16 @@ const MyPosts = props => {
     const [refreshing, setRefreshing] = useState(true);
     const [nextPage, setNextPage] = useState(null);
     const [scrollDown, setScrollDown] = useState(true);
-    const [offset, SetOffset] = useState(0);
+    const [offset, setOffset] = useState(0);
+    const [postMenuData, setPostMenuData] = useState({});
 
     //render list items
     const renderItem = ({item}) => (
-        <Post post={item} handleSnapPress={handleSnapPress} />
+        <Post
+            post={item}
+            sheetRef={sheetRef}
+            setPostMenuData={setPostMenuData}
+        />
     );
 
     //request more posts from db
@@ -192,6 +245,7 @@ const MyPosts = props => {
                 },
             })
             .then(function (response) {
+                setPosts(null);
                 setPosts(response.data.data);
                 setNextPage(response.data.next_page_url);
                 setRefreshing(false);
@@ -199,11 +253,6 @@ const MyPosts = props => {
             .catch(function (error) {
                 console.log(error.response);
             });
-
-    //callbacks
-    const handleSnapPress = useCallback(index => {
-        sheetRef.current?.present();
-    }, []);
 
     return (
         <View onLayout={refreshData} style={CORE_STYLE.screeenContainer}>
@@ -219,7 +268,7 @@ const MyPosts = props => {
                     setScrollDown(
                         currentOffset <= offset || offset <= 0 ? true : false,
                     );
-                    SetOffset(currentOffset);
+                    setOffset(currentOffset);
                 }}
                 data={posts}
                 renderItem={renderItem}
@@ -230,7 +279,9 @@ const MyPosts = props => {
             <BottomModal
                 backdrop={true}
                 sheetRef={sheetRef}
-                component={<PostMenu />}
+                component={
+                    <PostMenu post={postMenuData} refreshData={refreshData} />
+                }
             />
         </View>
     );

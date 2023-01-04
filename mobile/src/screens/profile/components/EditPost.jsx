@@ -12,16 +12,18 @@ import BottomModal, {AlertPopUp} from '../../../components/BottomModal';
 import {AuthStyles, CoreStyles, HomeStyles} from '../../../theme/Styles';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {useSelector} from 'react-redux';
+import {BaseStorageURL} from '../../../shared/Constant';
+
 const THEME_CONFIG = require('../../../theme/themes.json');
 
-const EditPost = () => {
+const EditPost = ({refreshData, post}) => {
     //styles
     const HOME_STYLE = HomeStyles();
     const AUTH_STYLE = AuthStyles();
     const CORE_STYLE = CoreStyles();
 
     //hooks
-    const {dismiss} = useBottomSheetModal();
+    const {dismissAll} = useBottomSheetModal();
     const sheetRef = useRef(null);
 
     //redux data selectors
@@ -33,45 +35,22 @@ const EditPost = () => {
     const [message, setMessage] = useState('');
     const [asset, setAsset] = useState(null);
     const [postForm, setPostForm] = useState({
-        title: null,
-        description: null,
-        post_image: null,
+        title: post.title,
+        description:
+            !post.description || post.description == 'null'
+                ? null
+                : post.description,
+        post_image: post.post_image ? BaseStorageURL + post.post_image : null,
     });
 
     //form
     const formData = new FormData();
+    formData.append('_method', 'PUT');
 
-    //handle creating post request
-    const handlePost = () => {
-        Keyboard.dismiss();
-        if (postForm.title) {
-            formData.append('title', postForm.title);
-            formData.append('description', postForm.description);
-            asset
-                ? formData.append('post_image', {
-                      uri: asset.uri,
-                      name: asset.fileName,
-                      type: asset.type,
-                  })
-                : null;
-            request
-                .post('/posts', formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                        Authorization: userToken ? 'Bearer ' + userToken : '',
-                    },
-                })
-                .then(function (response) {
-                    dismiss();
-                    console.log(response.data);
-                })
-                .catch(function (error) {
-                    if (!error.response) {
-                        setMessage(LANG.authScreen.pleaseTryLater);
-                        sheetRef.current?.present();
-                    }
-                });
-        }
+    //clear image path
+    const clearImage = () => {
+        setPostForm({...postForm, post_image: null});
+        setAsset(null);
     };
 
     //handle asset picking
@@ -84,12 +63,60 @@ const EditPost = () => {
         );
     };
 
+    //handle creating post request
+    const handlePost = () => {
+        Keyboard.dismiss();
+        if (postForm.title) {
+            formData.append('title', postForm.title);
+            formData.append('description', postForm.description);
+            if (asset) {
+                formData.append('post_image', {
+                    uri: asset.uri,
+                    name: asset.fileName,
+                    type: asset.type,
+                });
+            } else if (!postForm.post_image) {
+                request
+                    .post(`/posts/delete-image/${post.id}`, formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                            Authorization: userToken
+                                ? 'Bearer ' + userToken
+                                : '',
+                        },
+                    })
+                    .then(function (response) {})
+                    .catch(function (error) {
+                        console.log(error.response);
+                    });
+            }
+            request
+                .post(`/posts/${post.id}`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        Authorization: userToken ? 'Bearer ' + userToken : '',
+                    },
+                })
+                .then(function (response) {
+                    dismissAll();
+                    refreshData();
+                })
+                .catch(function (error) {
+                    if (!error.response) {
+                        setMessage(LANG.authScreen.pleaseTryLater);
+                        sheetRef.current?.present();
+                    }
+                    console.log(error.response.data);
+                });
+        }
+    };
+
     //render
     return (
         <>
             <View style={AUTH_STYLE.SheetContainer}>
                 <Text style={AUTH_STYLE.bottomSheetTitle}>
-                    {LANG.home.createPostTitle}
+                    {LANG.home.updatePostTitle}
                 </Text>
                 <BottomSheetInput
                     maxLength={40}
@@ -139,8 +166,9 @@ const EditPost = () => {
                     }
                 />
                 <AssetPicker
-                    text={asset ? asset.fileName : ''}
-                    clear={setAsset}
+                    style={CORE_STYLE.assetPickerButton}
+                    imageURI={asset ? asset.uri : postForm.post_image}
+                    clear={clearImage}
                     buttonStyle="buttonSolid"
                     buttonTheme="noneThemeButton"
                     onPress={() => {
@@ -154,12 +182,12 @@ const EditPost = () => {
                         buttonStyle="buttonSolid"
                         buttonTheme={'buttonExtra'}
                         onPress={() => {
-                            dismiss();
+                            dismissAll();
                         }}
                     />
                     <Button
                         customeStyle={HOME_STYLE.creatPostButton}
-                        text={LANG.home.createButton}
+                        text={LANG.home.updatePostButton}
                         buttonStyle="buttonSolid"
                         buttonTheme={
                             postForm.title == ''
