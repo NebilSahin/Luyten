@@ -1,10 +1,9 @@
-import React, {useState, useEffect, useRef, useCallback} from 'react';
+import React, {useState, useRef, useCallback} from 'react';
 import {Text, View, FlatList, Image, TouchableHighlight} from 'react-native';
 import {
     AuthStyles,
     CoreStyles,
-    HomeStyles,
-    AlertStyles,
+    PostStyles,
 } from '../../../theme/Styles';
 import {useSelector} from 'react-redux';
 import {request} from '../../../shared/Api';
@@ -12,22 +11,19 @@ import {BaseStorageURL} from '../../../shared/Constant';
 import {useNavigation} from '@react-navigation/native';
 import {langFileSelector} from '../../../shared/lang';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import * as Animatable from 'react-native-animatable';
 import Button from '../../../components/Button';
-import BottomModal, {ModalPopUp} from '../../../components/BottomModal';
+import BottomModal from '../../../components/BottomModal';
 import BottomListModal from '../../../components/BottomListModal';
 import BackToTopButton from '../../../components/BackToTopButton';
 import EditPost from '../components/EditPost';
 import {themeSelector} from '../../../theme';
-import {useBottomSheetModal} from '@gorhom/bottom-sheet';
 import DeletePost from './DeletePost';
 
 const profileImgPlacholder = require('../../../../assets/profile-image.png');
-const THEME_CONFIG = require('../../../theme/themes.json');
 
 const Post = ({post, sheetRef, setPostMenuData}) => {
     //styles
-    const HOME_STYLE = HomeStyles();
+    const HOME_STYLE = PostStyles();
     const CORE_STYLE = CoreStyles();
 
     //hooks
@@ -45,7 +41,7 @@ const Post = ({post, sheetRef, setPostMenuData}) => {
         setPostMenuData(post);
         sheetRef.current?.present();
     }, []);
-    console.log(post.creator.profile_image);
+
     //render
     return (
         <TouchableHighlight
@@ -74,7 +70,6 @@ const Post = ({post, sheetRef, setPostMenuData}) => {
                     <Icon
                         name="dots-vertical"
                         style={CORE_STYLE.editIcon}
-                        color={CORE_STYLE.editIcon.color}
                     />
                 </Button>
                 <View style={HOME_STYLE.cardContentContainer}>
@@ -118,10 +113,6 @@ const PostMenu = ({post, refreshData}) => {
     const LANG = langFileSelector();
     const THEME = themeSelector();
 
-    //state variables
-    const [popupComponent, setPopupComponent] = useState(null);
-    const [isDetached, setIsDetached] = useState(true);
-
     //ref
     const popupRef = useRef(null);
     const sheetListRef = useRef(null);
@@ -145,7 +136,6 @@ const PostMenu = ({post, refreshData}) => {
                     <Icon
                         name="square-edit-outline"
                         style={CORE_STYLE.editMenuIcon}
-                        color={CORE_STYLE.editMenuIcon.color}
                     />
                     <Text style={CORE_STYLE.editMenutext}>
                         {LANG.profile.editPost}
@@ -163,7 +153,6 @@ const PostMenu = ({post, refreshData}) => {
                     <Icon
                         name="delete-outline"
                         style={CORE_STYLE.editMenuIcon}
-                        color={CORE_STYLE.createPostIcon.color}
                     />
                     <Text style={CORE_STYLE.editMenutext}>
                         {LANG.profile.deletePost}
@@ -186,7 +175,7 @@ const PostMenu = ({post, refreshData}) => {
 const MyPosts = props => {
     //styles
     const CORE_STYLE = CoreStyles();
-    const HOME_STYLE = HomeStyles();
+    const HOME_STYLE = PostStyles();
 
     //hooks
     const sheetRef = useRef(null);

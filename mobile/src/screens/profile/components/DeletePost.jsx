@@ -3,7 +3,7 @@ import {Text, Keyboard, FlatList, Image, TouchableHighlight} from 'react-native'
 import {
     AuthStyles,
     CoreStyles,
-    HomeStyles,
+    PostStyles,
     AlertStyles,
 } from '../../../theme/Styles';
 import {useSelector} from 'react-redux';

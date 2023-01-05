@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Animated, StyleSheet, Image} from 'react-native';
+import {Animated, Image} from 'react-native';
 import { CoreStyles } from '../../theme/Styles';
 
 export const Splash = ({children}) => {

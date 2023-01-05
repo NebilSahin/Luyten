@@ -1,10 +1,7 @@
-import React, {useState, useEffect, useRef, useCallback} from 'react';
-import {Text, View, FlatList, Image, TouchableHighlight} from 'react-native';
-import {CoreStyles, HomeStyles} from '../theme/Styles';
+import React, {useEffect, useRef} from 'react';
+import {Text, View} from 'react-native';
+import {PostStyles, CoreStyles} from '../theme/Styles';
 import {useSelector} from 'react-redux';
-import {request} from '../../shared/Api';
-import {BaseStorageURL} from '../../shared/Constant';
-import {useNavigation} from '@react-navigation/native';
 import {langFileSelector} from '../shared/lang';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as Animatable from 'react-native-animatable';
@@ -16,7 +13,9 @@ const BackToTopButton = ({scrollDown, scrollRef}) => {
     const LANG = langFileSelector();
 
     //style
+    const POST_STYLE = PostStyles();
     const CORE_STYLE = CoreStyles();
+
     const createBtnDirection =
         sessionLang == 'en' ? {right: '34%'} : {left: '34%'};
 
@@ -47,7 +46,8 @@ const BackToTopButton = ({scrollDown, scrollRef}) => {
         <Animatable.View
             ref={viewRef}
             duration={600}
-            style={[CORE_STYLE.createPostIconAnimation, createBtnDirection]}>
+            style={[POST_STYLE.createPostIconAnimation, createBtnDirection]}
+            >
             <Button
                 buttonStyle="buttonSolid"
                 buttonTheme="buttonPrimary"
@@ -56,8 +56,8 @@ const BackToTopButton = ({scrollDown, scrollRef}) => {
                 <View style={CORE_STYLE.backTopIconContainer}>
                     <Icon
                         name="arrow-up"
-                        style={CORE_STYLE.createPostIcon}
-                        color={CORE_STYLE.createPostIcon.color}
+                        style={POST_STYLE.createPostIcon}
+                        color={POST_STYLE.createPostIcon.color}
                     />
                     <Text style={CORE_STYLE.backToptext}>{LANG.home.backToTop}</Text>
                 </View>

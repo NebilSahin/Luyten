@@ -9,8 +9,9 @@ import {themeToggleAction} from '../redux/actions/UserActions';
 import Button from '../components/Button';
 import {langFileSelector} from '../shared/lang';
 import {useCallback} from 'react';
-import {CoreStyles} from '../theme/Styles';
+import {SettingsStyles} from '../theme/Styles';
 
+//teme selector function
 export const themeSelector = () => {
     const sessionTheme = useSelector(
         state => state.sessionTheme.isDarkThemeActive,
@@ -23,28 +24,35 @@ export const themeSelector = () => {
 };
 
 export const ThemeToggleElement = (props) => {
+    //styles
+    const SETTINGS_STYLE = SettingsStyles(props);
+
+    //redux data selector
     const THEME = themeSelector();
     const LANG = langFileSelector();
-    const CORE_STYLE = CoreStyles(props);
 
+    //redux dispatcer
     const dispatch = useDispatch();
+
+    //theme change handler
     const handleThemeChange = useCallback(() => {
         SystemNavigationBar.setBarMode(THEME, 'status ');
         dispatch(themeToggleAction(THEME));
     });
 
+    //render
     return (
-        <View style={CORE_STYLE.settingsItemContainer}>
+        <View style={SETTINGS_STYLE.settingsItemContainer}>
             <Button
-                style={CORE_STYLE.settingsItemBtn}
+                style={SETTINGS_STYLE.settingsItemBtn}
                 buttonStyle="none"
                 buttonTheme="noneThemeButton"
                 onPress={handleThemeChange}>
-                <View style={CORE_STYLE.settingsItemBtnContainer}>
-                    <Text style={CORE_STYLE.settingsItemTitle}>
+                <View style={SETTINGS_STYLE.settingsItemBtnContainer}>
+                    <Text style={SETTINGS_STYLE.settingsItemTitle}>
                         {LANG.core.toggleTheme}
                     </Text>
-                    <View style={CORE_STYLE.settingsItemBtnContentContainer}>
+                    <View style={SETTINGS_STYLE.settingsItemBtnContentContainer}>
                         <Switch
                             trackColor={{
                                 false: THEME_CONFIG[THEME].switch

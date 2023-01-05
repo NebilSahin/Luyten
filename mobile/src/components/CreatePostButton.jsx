@@ -1,5 +1,5 @@
-import React, {useState, useEffect, useRef, useCallback} from 'react';
-import {CoreStyles} from '../theme/Styles';
+import React, {useEffect, useRef} from 'react';
+import {PostStyles} from '../theme/Styles';
 import {useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as Animatable from 'react-native-animatable';
@@ -10,7 +10,7 @@ const CreatePostButton = ({scrollDown, onPress}) => {
     const sessionLang = useSelector(state => state.sessionUser.userLang);
 
     //style
-    const CORE_STYLE = CoreStyles();
+    const POST_STYLE = PostStyles();
     const createBtnDirection =
         sessionLang == 'en' ? {right: '5%'} : {left: '5%'};
 
@@ -37,16 +37,16 @@ const CreatePostButton = ({scrollDown, onPress}) => {
         <Animatable.View
             ref={viewRef}
             duration={600}
-            style={[CORE_STYLE.createPostIconAnimation, createBtnDirection]}>
+            style={[POST_STYLE.createPostIconAnimation, createBtnDirection]}>
             <Button
                 buttonStyle="buttonSolid"
                 buttonTheme="buttonPrimary"
-                style={CORE_STYLE.createPostIconContainer}
+                style={POST_STYLE.createPostIconContainer}
                 onPress={onPress}>
                 <Icon
                     name="plus"
-                    style={CORE_STYLE.createPostIcon}
-                    color={CORE_STYLE.createPostIcon.color}
+                    style={POST_STYLE.createPostIcon}
+                    color={POST_STYLE.createPostIcon.color}
                 />
             </Button>
         </Animatable.View>

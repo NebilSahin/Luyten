@@ -8,7 +8,7 @@ import BottomModal from '../../components/BottomModal';
 import CheckBox from '@react-native-community/checkbox';
 import {LANGUAGE_CODE_LIST, LANGUAGE} from '../Constant';
 import {sessionUserLangAction} from '../../redux/actions/UserActions';
-import {CoreStyles, LangStyles} from '../../theme/Styles';
+import {SettingsStyles, LangStyles} from '../../theme/Styles';
 import {ModalPopUp} from '../../components/BottomModal';
 import MCIIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {themeSelector} from '../../theme';
@@ -25,17 +25,25 @@ export const langFileSelector = () => {
 };
 
 const LangList = props => {
-    const dispatch = useDispatch();
+    //styles
     const LANG_STYLE = LangStyles(props);
+
+    //redux state data selector
     const LANG = langFileSelector();
     const THEME = themeSelector();
-
     const sessionLang = useSelector(state => state.sessionUser.userLang);
+
+    //redux state data dispatcher
+    const dispatch = useDispatch();
+
+    //state variable
     const [checkBoxState, setCheckBoxState] = useState(
         LANGUAGE_CODE_LIST.map((item, index) => ({
             [item]: sessionLang == item ? true : false,
         })),
     );
+
+    //toogle checkbox function
     const toggleCheckBox = (langIndex, langName) => {
         if (sessionLang != checkBoxState[langIndex][langName]) {
             dispatch(sessionUserLangAction(langName));
@@ -46,6 +54,7 @@ const LangList = props => {
         setCheckBoxState(updatedCheckBoxState);
     };
 
+    //render
     return (
         <ModalPopUp modalTitle={LANG.profile.changeLangModal}>
             <ScrollView>
@@ -73,30 +82,36 @@ const LangList = props => {
 };
 
 export const LangChangeElement = props => {
+    //styles
+    const SETTINGS_STYLE = SettingsStyles(props);
+
+    //redux state data selector
     const LANG = langFileSelector();
     const THEME = themeSelector();
 
-    const CORE_STYLE = CoreStyles(props);
+    //ref
     const sheetRef = useRef(null);
+
+    //hooks
     const handleSnapPress = useCallback(() => {
         sheetRef.current?.present();
     }, []);
 
     return (
         <>
-            <View style={CORE_STYLE.settingsItemContainer}>
+            <View style={SETTINGS_STYLE.settingsItemContainer}>
                 <Button
-                    style={CORE_STYLE.settingsItemBtn}
+                    style={SETTINGS_STYLE.settingsItemBtn}
                     buttonStyle="none"
                     buttonTheme="noneThemeButton"
                     onPress={handleSnapPress}>
-                    <View style={CORE_STYLE.settingsItemBtnContainer}>
-                        <Text style={CORE_STYLE.settingsItemTitle}>
+                    <View style={SETTINGS_STYLE.settingsItemBtnContainer}>
+                        <Text style={SETTINGS_STYLE.settingsItemTitle}>
                             {LANG.profile.changeLang}
                         </Text>
                         <View
-                            style={CORE_STYLE.settingsItemBtnContentContainer}>
-                            <Text style={[CORE_STYLE.settingsItemTitle, , {marginHorizontal: 6}]}>
+                            style={SETTINGS_STYLE.settingsItemBtnContentContainer}>
+                            <Text style={[SETTINGS_STYLE.settingsItemTitle, , {marginHorizontal: 6}]}>
                                 {LANG.langTitle}
                             </Text>
                             <MCIIcon

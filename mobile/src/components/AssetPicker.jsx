@@ -1,7 +1,7 @@
 import React from 'react';
 import {ImageBackground, Text, TouchableHighlight, View} from 'react-native';
 import {themeSelector} from '../theme';
-import {CoreStyles, HomeStyles} from '../theme/Styles';
+import {CoreStyles, PostStyles} from '../theme/Styles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {langFileSelector} from '../shared/lang';
 import Button from '../components/Button';
@@ -12,7 +12,7 @@ const THEME_CONFIG = require('../theme/themes.json');
 const AssetPickerButton = props => {
     //styles
     const CORE_STYLE = CoreStyles();
-    const HOME_STYLE = HomeStyles();
+    const HOME_STYLE = PostStyles();
 
     //redux data selectors
     const THEME = themeSelector();

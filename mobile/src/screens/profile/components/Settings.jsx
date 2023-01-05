@@ -4,7 +4,7 @@ import {ThemeToggleElement} from '../../../theme';
 import Button from '../../../components/Button';
 import {langFileSelector, LangChangeElement} from '../../../shared/lang';
 import {useDispatch} from 'react-redux';
-import {ProfileStyles, CoreStyles} from '../../../theme/Styles';
+import {ProfileStyles, SettingsStyles} from '../../../theme/Styles';
 import MCIIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {themeSelector} from '../../../theme';
 import BottomModal, {ModalPopUp} from '../../../components/BottomModal';
@@ -12,12 +12,19 @@ import {useBottomSheetModal} from '@gorhom/bottom-sheet';
 
 const THEME_CONFIG = require('../../../theme/themes.json');
 
+//logout popup modal content
 const Logout = () => {
+    //redux state data selector
     const LANG = langFileSelector();
-    const dispatch = useDispatch();
-    const {dismissAll} = useBottomSheetModal();
     const THEME = themeSelector();
 
+    //redux dispatcer
+    const dispatch = useDispatch();
+
+    //bottom sheet dismiss function
+    const {dismissAll} = useBottomSheetModal();
+
+    //render
     return (
         <ModalPopUp
             modalTitle={LANG.profile.logoutMessage}
@@ -30,31 +37,39 @@ const Logout = () => {
     );
 };
 const Settings = props => {
-    const LANG = langFileSelector();
+    //styles
     const PROFILE_STYLE = ProfileStyles();
-    const CORE_STYLE = CoreStyles(props);
+    const SETTINGS_STYLE = SettingsStyles();
+
+    //redux state data selector
+    const LANG = langFileSelector();
     const THEME = themeSelector();
+
+    //ref
     const sheetRef = useRef(null);
+
+    //bottom sheet handler
     const handleSnapPress = useCallback(() => {
         sheetRef.current?.present();
     }, []);
 
+    //render
     return (
         <View style={PROFILE_STYLE.profileTabContainer}>
             <ThemeToggleElement />
             <LangChangeElement />
-            <View style={CORE_STYLE.settingsItemContainer}>
+            <View style={SETTINGS_STYLE.settingsItemContainer}>
                 <Button
-                    customeStyle={CORE_STYLE.settingsItemBtn}
+                    customeStyle={SETTINGS_STYLE.settingsItemBtn}
                     buttonStyle="none"
                     buttonTheme="noneThemeButton"
                     onPress={handleSnapPress}>
-                    <View style={CORE_STYLE.settingsItemBtnContainer}>
-                        <Text style={CORE_STYLE.settingsItemTitle}>
+                    <View style={SETTINGS_STYLE.settingsItemBtnContainer}>
+                        <Text style={SETTINGS_STYLE.settingsItemTitle}>
                             {LANG.authScreen.logout}
                         </Text>
                         <View
-                            style={CORE_STYLE.settingsItemBtnContentContainer}>
+                            style={SETTINGS_STYLE.settingsItemBtnContentContainer}>
                             <MCIIcon
                                 size={24}
                                 color={THEME_CONFIG[THEME].error.textColor}

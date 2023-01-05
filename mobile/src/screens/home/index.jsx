@@ -1,20 +1,17 @@
 import React, {useState, useEffect, useRef, useCallback} from 'react';
-import {Text, View, FlatList, Image, TouchableHighlight} from 'react-native';
-import {CoreStyles, HomeStyles} from '../../theme/Styles';
+import {View, FlatList, ActivityIndicator} from 'react-native';
+import {CoreStyles, PostStyles} from '../../theme/Styles';
 import {useSelector} from 'react-redux';
 import {request} from '../../shared/Api';
-import {BaseStorageURL} from '../../shared/Constant';
-import {useNavigation} from '@react-navigation/native';
-import {langFileSelector} from '../../shared/lang';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import * as Animatable from 'react-native-animatable';
-import Button from '../../components/Button';
+import {useIsFocused} from '@react-navigation/native';
 import BottomListModal from '../../components/BottomListModal';
 import CreatePost from '../home/components/CreatePost';
 import BackToTopButton from '../../components/BackToTopButton';
 import CreatePostButton from '../../components/CreatePostButton';
+import PostToggleViewButton from './components/PostToggleViewButton';
+import PostCardView from './components/PostCardView';
+import PostListView from './components/PostListView';
 
-const profileImgPlacholder = require('../../../assets/profile-image.png');
 const emptyArray = {
     id: 0,
     title: null,
@@ -36,73 +33,15 @@ const emptyArray = {
     },
 };
 
-const Post = ({post}) => {
-    //styles
-    const HOME_STYLE = HomeStyles();
-
-    //hooks
-    const navigation = useNavigation();
-
-    //language file
-    const LANG = langFileSelector();
-
-    //render
-    return (
-        <TouchableHighlight
-            disabled={post.id == 0}
-            style={[HOME_STYLE.cardContainer, {opacity: post.id == 0 ? 0 : 1}]}
-            onPress={() =>
-                navigation.navigate(LANG.core.postDetails, {
-                    itemId: post.id,
-                    post: post,
-                })
-            }>
-            <View>
-                <Image
-                    style={HOME_STYLE.cardImageContainer}
-                    source={
-                        post.post_image != '' && post.post_image != null
-                            ? {uri: BaseStorageURL + post.post_image}
-                            : require('../../../assets/post-placeholder.png')
-                    }
-                />
-                <View style={HOME_STYLE.cardContentContainer}>
-                    <Image
-                        style={HOME_STYLE.cardProfileImage}
-                        source={
-                            post.creator.profile_image
-                                ? {
-                                      uri:
-                                          BaseStorageURL +
-                                          post.creator.profile_image,
-                                  }
-                                : profileImgPlacholder
-                        }
-                    />
-                    <View style={HOME_STYLE.cardTitleContainer}>
-                        <Text style={HOME_STYLE.postTitle} numberOfLines={1}>
-                            {post.title}
-                        </Text>
-                        <View style={HOME_STYLE.cardCreatorContainer}>
-                            <Text style={HOME_STYLE.postCreator}>
-                                {post.creator.username}
-                            </Text>
-                        </View>
-                    </View>
-                </View>
-            </View>
-        </TouchableHighlight>
-    );
-};
-
 const Home = () => {
     //styles
     const CORE_STYLE = CoreStyles();
-    const HOME_STYLE = HomeStyles();
+    const POST_STYLE = PostStyles();
 
     //hooks
     const sheetRef = useRef(null);
     const scrollRef = useRef(null);
+    const isFocused = useIsFocused();
 
     //redux state
     const userToken = useSelector(state => state.sessionUser.accessToken);
@@ -112,10 +51,22 @@ const Home = () => {
     const [refreshing, setRefreshing] = useState(true);
     const [nextPage, setNextPage] = useState(null);
     const [scrollDown, setScrollDown] = useState(true);
-    const [offset, SetOffset] = useState(0);
+    const [offset, setOffset] = useState(0);
+    const [cardView, setCardView] = useState(true);
 
     //render list items
-    const renderItem = ({item}) => <Post post={item} />;
+    const renderItem = ({item}) =>
+        cardView ? <PostCardView post={item} /> : <PostListView post={item} />;
+
+    //callbacks
+    const handleSnapPress = useCallback(index => {
+        sheetRef.current?.present();
+    }, []);
+
+    //effects
+    useEffect(() => {
+        cardView ? refreshData() : refreshData();
+    }, []);
 
     //request more posts from db
     const loadData = () => {
@@ -161,43 +112,62 @@ const Home = () => {
                 console.log(error.response);
             });
 
-    //callbacks
-    const handleSnapPress = useCallback(index => {
-        sheetRef.current?.present();
-    }, []);
-
     //render
     return (
-        <View onLayout={refreshData} style={CORE_STYLE.screeenContainer}>
-            <CreatePostButton
-                onPress={() => handleSnapPress(0)}
-                scrollDown={scrollDown}
-            />
-            <BackToTopButton scrollDown={scrollDown} scrollRef={scrollRef} />
-            <FlatList
-                style={HOME_STYLE.cardListContainer}
-                refreshing={refreshing}
-                ref={scrollRef}
-                onRefresh={refreshData}
-                onEndReached={loadData}
-                onScroll={event => {
-                    let currentOffset = event.nativeEvent.contentOffset.y;
-                    setScrollDown(
-                        currentOffset <= offset || offset <= 0 ? true : false,
-                    );
-                    SetOffset(currentOffset);
-                }}
-                data={posts}
-                renderItem={renderItem}
-                keyExtractor={post => post.id}
-                numColumns={2}
-                showsVerticalScrollIndicator={false}
-            />
-            <BottomListModal
-                sheetRef={sheetRef}
-                component={<CreatePost refreshData={refreshData} />}
-            />
-        </View>
+        <>
+            {isFocused && posts ? (
+                <View
+                    onLayout={refreshData}
+                    style={CORE_STYLE.screeenContainer}>
+                    <PostToggleViewButton
+                        cardView={cardView}
+                        setCardView={setCardView}
+                    />
+                    <CreatePostButton
+                        onPress={() => handleSnapPress(0)}
+                        scrollDown={scrollDown}
+                    />
+                    <BackToTopButton
+                        scrollDown={scrollDown}
+                        scrollRef={scrollRef}
+                    />
+                    <FlatList
+                        style={POST_STYLE.cardListContainer}
+                        refreshing={refreshing}
+                        ref={scrollRef}
+                        onRefresh={refreshData}
+                        onEndReached={loadData}
+                        onScroll={event => {
+                            let currentOffset =
+                                event.nativeEvent.contentOffset.y;
+                            setScrollDown(
+                                currentOffset <= offset || offset <= 0
+                                    ? true
+                                    : false,
+                            );
+                            setOffset(currentOffset);
+                        }}
+                        data={posts}
+                        renderItem={renderItem}
+                        key={cardView ? '_' : '#'}
+                        keyExtractor={post => post.id}
+                        numColumns={cardView ? 2 : 1}
+                        showsVerticalScrollIndicator={false}
+                    />
+                    <BottomListModal
+                        sheetRef={sheetRef}
+                        component={<CreatePost refreshData={refreshData} />}
+                    />
+                </View>
+            ) : (
+                <View style={CORE_STYLE.loadingIndicator}>
+                    <ActivityIndicator
+                        size="large"
+                        color={CORE_STYLE.loadingIndicator.color}
+                    />
+                </View>
+            )}
+        </>
     );
 };
 

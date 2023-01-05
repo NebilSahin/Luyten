@@ -1,10 +1,6 @@
-import React, {useEffect, useState} from 'react';
-import {StyleSheet, View, Image, Text, ActivityIndicator} from 'react-native';
-import Button from '../../components/Button';
+import React, {useEffect} from 'react';
+import {View, ActivityIndicator} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {ThemeToggleElement} from '../../theme';
-import {themeSelector} from '../../theme';
-import {LangChangeElement} from '../../shared/lang';
 import {request} from '../../shared/Api';
 import ProfileDetails from './components/ProfileDetails';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
@@ -12,15 +8,18 @@ import {langFileSelector} from '../../shared/lang';
 import Settings from './components/Settings';
 import MyPosts from './components/MyPosts';
 import {CoreStyles, ProfileStyles} from '../../theme/Styles';
-import {useIsFocused} from '@react-navigation/native';
 import {sessionUserProfileAction} from '../../redux/actions/UserActions';
+import {useIsFocused} from '@react-navigation/native';
 
-const THEME_CONFIG = require('../../theme/themes.json');
 const TabNav = createMaterialTopTabNavigator();
 
 const ProfileTabs = () => {
-    const LANG = langFileSelector();
+    //styles
     const PROFILE_STYLE = ProfileStyles();
+
+    //redux state data selector
+    const LANG = langFileSelector();
+
     return (
         <TabNav.Navigator screenOptions={PROFILE_STYLE.profileTopTab}>
             <TabNav.Screen name={LANG.navScreens.myPosts} component={MyPosts} />
@@ -33,18 +32,26 @@ const ProfileTabs = () => {
 };
 
 const Profile = props => {
+    //styles
+    const CORE_STYLE = CoreStyles(props);
+    const PROFILE_STYLE = ProfileStyles(props);
+
+    //redux data selectors
     const userProfile = useSelector(state => state.sessionUser.userProfile);
     const userToken = useSelector(state => state.sessionUser.accessToken);
-    const PROFILE_STYLE = ProfileStyles(props);
+
+    //redux data dispatcher
     const dispatch = useDispatch();
 
+    //hooks
+    const isFocused = useIsFocused();
+
+    //effects
     useEffect(() => {
         request
             .get('/user/profile', {
                 headers: {
-                    Authorization: userToken
-                        ? 'Bearer ' + userToken
-                        : '',
+                    Authorization: userToken ? 'Bearer ' + userToken : '',
                 },
             })
             .then(function (response) {
@@ -55,9 +62,10 @@ const Profile = props => {
             });
     }, []);
 
+    //render
     return (
         <>
-            {userProfile ? (
+            {userProfile && isFocused ? (
                 <View style={PROFILE_STYLE.profileContainer}>
                     <View style={PROFILE_STYLE.profileDetailsContainer}>
                         <ProfileDetails />
@@ -67,7 +75,9 @@ const Profile = props => {
                     </View>
                 </View>
             ) : (
-                <ActivityIndicator size="large" color="#0000ff" />
+                <View style={CORE_STYLE.loadingIndicator}>
+                    <ActivityIndicator size="large" color={CORE_STYLE.loadingIndicator.color} />
+                </View>
             )}
         </>
     );

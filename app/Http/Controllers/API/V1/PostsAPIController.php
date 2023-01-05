@@ -7,6 +7,7 @@ use App\Http\Requests\UpdatePostRequest;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -63,6 +64,16 @@ class PostsAPIController extends Controller
         Storage::delete(['public/' . $post->post_image]);
         $post->update($validatedRequest);
         return new PostResource($post);
+    }
+
+    public function search(Request $request)
+    {
+        $searchResult = [];
+        // foreach (explode(' ', $request->search_text) as $text) {
+            $searchResult = Post::search(explode(' ', $request->search_text))->paginate(16);
+        // }
+        // dd($searchResult);
+        return new PostResource($searchResult);
     }
 
     public function destroy(Post $post)

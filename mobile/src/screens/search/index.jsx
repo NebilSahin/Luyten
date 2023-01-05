@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {StyleSheet, View} from 'react-native';
+import React, {} from 'react';
+import {View} from 'react-native';
 import {themeSelector} from '../../theme';
 const THEME_CONFIG = require('../../theme/themes.json');
 
@@ -10,15 +10,10 @@ const Search = () => {
     <View
       style={[
         styles.container,
-        {backgroundColor: THEME_CONFIG[THEME].screenBackground},
+        {backgroundColor: THEME_CONFIG[THEME].background},
       ]}></View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
 
 export default Search;

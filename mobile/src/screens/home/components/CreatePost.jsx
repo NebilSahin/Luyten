@@ -9,14 +9,14 @@ import {useBottomSheetModal} from '@gorhom/bottom-sheet';
 import {request} from '../../../shared/Api';
 import {langFileSelector} from '../../../shared/lang';
 import BottomModal, {AlertPopUp} from '../../../components/BottomModal';
-import {AuthStyles, CoreStyles, HomeStyles} from '../../../theme/Styles';
+import {AuthStyles, CoreStyles, PostStyles} from '../../../theme/Styles';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {useSelector} from 'react-redux';
 const THEME_CONFIG = require('../../../theme/themes.json');
 
 const CreatePost = ({refreshData}) => {
     //styles
-    const HOME_STYLE = HomeStyles();
+    const HOME_STYLE = PostStyles();
     const AUTH_STYLE = AuthStyles();
     const CORE_STYLE = CoreStyles();
 

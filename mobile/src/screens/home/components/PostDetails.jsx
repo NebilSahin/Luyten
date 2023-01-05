@@ -1,13 +1,11 @@
 import React from 'react';
 import {Text, View, Image} from 'react-native';
-import {CoreStyles} from '../../../theme/Styles';
-import {useSelector} from 'react-redux';
-import {BaseStorageURL} from '../../../shared/Constant';
-import { langFileSelector } from '../../../shared/lang';
+import {PostStyles} from '../../../theme/Styles';
+import {langFileSelector} from '../../../shared/lang';
 
 const PostDetails = ({route}, props) => {
     //styles
-    const CORE_STYLE = CoreStyles(props);
+    const POST_STYLE = PostStyles(props);
 
     //post details
     const {post} = route.params;
@@ -17,17 +15,23 @@ const PostDetails = ({route}, props) => {
 
     //render
     return (
-        <View style={CORE_STYLE.postContainer}>
-            <View style={CORE_STYLE.postDetailsContainer}>
-                <Text style={CORE_STYLE.postTitle}>{post.title}</Text>
-                <View style={CORE_STYLE.postTitleDetailsContainer}>
-                    <Text style={CORE_STYLE.postCreator}>
+        <View style={POST_STYLE.postContainer}>
+            <View style={POST_STYLE.postDetailsContainer}>
+                <Text style={POST_STYLE.postTitleDetails}>{post.title}</Text>
+                <View style={POST_STYLE.postTitleDetailsContainer}>
+                    <Text style={POST_STYLE.postCreatorDetails}>
                         {post.creator.username}
                     </Text>
-                    <Text style={CORE_STYLE.postDate}>{post.created_at}</Text>
+                    <Text style={POST_STYLE.postDateDetails}>
+                        {`${post.created_at}`.split(':', 2)[0] +
+                            ':' +
+                            `${post.created_at}`.split(':', 2)[1]}
+                    </Text>
                 </View>
-                <Text style={CORE_STYLE.postDescriptions}>
-                    {post.description != 'null' ? post.description : LANG.home.noDescription}
+                <Text style={POST_STYLE.postDescriptionsDetails}>
+                    {post.description != 'null'
+                        ? post.description
+                        : LANG.home.noDescription}
                 </Text>
             </View>
         </View>

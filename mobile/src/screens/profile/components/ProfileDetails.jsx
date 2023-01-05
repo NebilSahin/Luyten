@@ -6,13 +6,11 @@ import {
     AuthStyles,
     AlertStyles,
     CoreStyles,
-    HomeStyles,
 } from '../../../theme/Styles';
 import {langFileSelector} from '../../../shared/lang';
 import Button from '../../../components/Button';
 import BottomModal, {
     ModalPopUp,
-    AlertPopUp,
 } from '../../../components/BottomModal';
 import BottomSheetInput from '../../../components/BottomSheetInput';
 import {themeSelector} from '../../../theme';
@@ -84,16 +82,6 @@ const EditProfileForm = ({bottomSheet}) => {
     //handling the update request and show the popup modal with the appropiate error message
     const handleUpdate = () => {
         Keyboard.dismiss();
-        // if (userProfile.user.email == editForm.email) {
-        //     requestData = {username: editForm.username};
-        // } else if (userProfile.user.username == editForm.username) {
-        //     requestData = {email: editForm.email};
-        // } else {
-        //     requestData = {
-        //         username: editForm.username,
-        //         email: editForm.email,
-        //     };
-        // }
         formData.append('username', editForm.username);
         formData.append('email', editForm.email);
         if (asset) {
@@ -145,8 +133,8 @@ const EditProfileForm = ({bottomSheet}) => {
                     {LANG.profile.updateProfile}
                 </Text>
                 <AssetPicker
-                    style={CORE_STYLE.profilePickerButton}
-                    customeStyle={CORE_STYLE.profileEditImageContainer}
+                    style={PROFILE_STYLE.profilePickerButton}
+                    customeStyle={PROFILE_STYLE.profileEditImageContainer}
                     imageURI={asset ? asset.uri : editForm.profile_image}
                     clear={clearImage}
                     buttonStyle="buttonSolid"

@@ -25,6 +25,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'App\Http\Control
     //my posts APIs
     Route::get('/myposts', 'V1\PostsAPIController@showMyPosts');
     Route::put('/posts/delete-image/{post}', 'V1\PostsAPIController@deleteImage');
+    Route::post('/posts/search', 'V1\PostsAPIController@search');
 
 
 });
