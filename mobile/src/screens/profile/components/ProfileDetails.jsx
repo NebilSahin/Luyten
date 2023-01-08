@@ -1,17 +1,10 @@
 import React, {useRef, useState} from 'react';
 import {Text, View, Image, Keyboard} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {
-    ProfileStyles,
-    AuthStyles,
-    AlertStyles,
-    CoreStyles,
-} from '../../../theme/Styles';
+import {ProfileStyles, AuthStyles, AlertStyles} from '../../../theme/Styles';
 import {langFileSelector} from '../../../shared/lang';
 import Button from '../../../components/Button';
-import BottomModal, {
-    ModalPopUp,
-} from '../../../components/BottomModal';
+import BottomModal, {ModalPopUp} from '../../../components/BottomModal';
 import BottomSheetInput from '../../../components/BottomSheetInput';
 import {themeSelector} from '../../../theme';
 import {useDispatch, useSelector} from 'react-redux';
@@ -21,16 +14,15 @@ import {useBottomSheetModal} from '@gorhom/bottom-sheet';
 import AssetPicker from '../../../components/AssetPicker';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {BaseStorageURL} from '../../../shared/Constant';
+import THEME_CONFIG from '../../../theme/themes.json';
 
 const profileImgPlacholder = require('../../../../assets/profile-image.png');
-const THEME_CONFIG = require('../../../theme/themes.json');
 
 const EditProfileForm = ({bottomSheet}) => {
     //styles
     const AUTH_STYLE = AuthStyles();
     const ALERT_STYLE = AlertStyles();
     const PROFILE_STYLE = ProfileStyles();
-    const CORE_STYLE = CoreStyles();
 
     //redux selectors and data dispatcher
     const LANG = langFileSelector();
@@ -52,9 +44,6 @@ const EditProfileForm = ({bottomSheet}) => {
             ? BaseStorageURL + userProfile.user.profile_image
             : null,
     });
-
-    //variables
-    let requestData = {};
 
     //ref
     const sheetRef = useRef(null);
@@ -98,11 +87,11 @@ const EditProfileForm = ({bottomSheet}) => {
                         Authorization: userToken ? 'Bearer ' + userToken : '',
                     },
                 })
-                .then(function (response) {
-                    // console.log(response);
-                })
                 .catch(function (error) {
-                    console.log(error.response);
+                    if (!error.response) {
+                        setMessage(LANG.authScreen.pleaseTryLater);
+                        sheetRef.current?.present();
+                    }
                 });
         }
         request
@@ -119,13 +108,14 @@ const EditProfileForm = ({bottomSheet}) => {
                 sheetRef.current?.present();
             })
             .catch(function (error) {
-                console.log(error.response);
-                if (error.response) {
+                if (!error.response) {
                     setMessage(LANG.authScreen.pleaseTryLater);
                     sheetRef.current?.present();
                 }
             });
     };
+
+    //render
     return (
         <>
             <View style={PROFILE_STYLE.editFormContainer}>
@@ -229,11 +219,17 @@ const EditProfileForm = ({bottomSheet}) => {
 };
 
 const ProfileDetails = () => {
+    //styles
     const PROFILE_STYLE = ProfileStyles();
+
+    //redux data selector
     const LANG = langFileSelector();
-    const bottomRef = useRef(null);
     const userProfile = useSelector(state => state.sessionUser.userProfile);
 
+    //ref
+    const bottomRef = useRef(null);
+
+    //render
     return (
         <>
             <View style={PROFILE_STYLE.profileTopContainer}>

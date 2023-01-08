@@ -3,7 +3,6 @@ import {Text, Pressable, View, Keyboard} from 'react-native';
 import BottomSheetInput from '../../../components/BottomSheetInput';
 import Button from '../../../components/Button';
 import {request} from '../../../shared/Api';
-import {useBottomSheetModal} from '@gorhom/bottom-sheet';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
     TogglePasswordVisibility,
@@ -13,24 +12,33 @@ import {themeSelector} from '../../../theme';
 import {langFileSelector} from '../../../shared/lang';
 import {AuthStyles} from '../../../theme/Styles';
 import BottomModal, {AlertPopUp} from '../../../components/BottomModal';
+import THEME_CONFIG from '../../../theme/themes.json';
 
-const THEME_CONFIG = require('../../../theme/themes.json');
+const Signup = () => {
+    //styles
+    const AUTH_STYLE = AuthStyles();
 
-const SignupComponent = () => {
+    //redux data selector
     const THEME = themeSelector();
     const LANG = langFileSelector();
+
+    //ref
     const sheetRef = useRef(null);
+
+    //password toggle visibility
     const {passwordVisibility, rightIcon, handlePasswordVisibility} =
         TogglePasswordVisibility();
     const {rePasswordVisibility, reRightIcon, handleRePasswordVisibility} =
         ToggleRePasswordVisibility();
+
+    //state variable
+    const [message, setMessage] = useState('');
     const [signUpForm, setSignUpForm] = useState({
         username: null,
         email: null,
         password: null,
         rePassword: null,
     });
-    const [message, setMessage] = useState('');
 
     //handles the signup request and showes appropriate message in case of error
     const handleRegister = () => {
@@ -88,16 +96,17 @@ const SignupComponent = () => {
             });
     };
 
+    //render
     return (
         <>
             <View
                 style={[
-                    AuthStyles().SheetContainer,
+                    AUTH_STYLE.SheetContainer,
                     {backgroundColor: THEME_CONFIG[THEME].background},
                 ]}>
                 <Text
                     style={[
-                        AuthStyles().bottomSheetTitle,
+                        AUTH_STYLE.bottomSheetTitle,
                         {color: THEME_CONFIG[THEME].text},
                     ]}>
                     {LANG.authScreen.welcomeMessage}
@@ -214,7 +223,7 @@ const SignupComponent = () => {
                     }
                 />
                 <Button
-                    customeStyle={AuthStyles().submitButton}
+                    customeStyle={AUTH_STYLE.submitButton}
                     text={LANG.authScreen.signup}
                     buttonStyle="buttonSolid"
                     buttonTheme={
@@ -238,7 +247,7 @@ const SignupComponent = () => {
                 />
                 <Text
                     style={[
-                        AuthStyles().forgotPasswordText,
+                        AUTH_STYLE.forgotPasswordText,
                         {color: THEME_CONFIG[THEME].text},
                     ]}>
                     {LANG.authScreen.forgotPassword}
@@ -253,4 +262,4 @@ const SignupComponent = () => {
     );
 };
 
-export default SignupComponent;
+export default Signup;

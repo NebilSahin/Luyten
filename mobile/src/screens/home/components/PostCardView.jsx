@@ -12,7 +12,7 @@ const PostCardView = ({post}) => {
     //styles
     const POST_STYLE = PostStyles();
 
-    //hooks
+    //functions
     const navigation = useNavigation();
 
     //language file

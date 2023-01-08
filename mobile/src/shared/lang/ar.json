@@ -8,8 +8,12 @@
         "search": "البحث",
         "notification": "التنبيهات",
         "postDetails": "تفاصيل المنشور",
-        "assetPicker": "إختر ملفاً",
-        "clear": "مسح"
+        "assetPickImage": "إختر صورة",
+        "assetChangeImage": "تغيير الصورة",
+        "clear": "مسح",
+        "delete": "حذف",
+        "edit": "تعديل",
+        "noNotifications": "لم تصلك أي تنبيهات."
     },
     "navScreens": {
         "myPosts": "منشوراتي",
@@ -51,15 +55,24 @@
         "user": "مستخدم",
         "update": "تحديث",
         "updateProfile": "حدث بياناتك الشخصية",
-        "updatedAlert": "تم تحديث بياناتك بنجاح."
+        "updatedAlert": "تم تحديث بياناتك بنجاح.",
+        "editPost": "تعديل المنشور",
+        "deletePost": "حذف المنشور",
+        "deletePostMessage": "أمتأكد من حذف لمنشور؟"
     },
-    "home":{
+    "post":{
         "createPostTitle": "إنشاء منشور جديد",
         "postTitleField": "عنوان المنشور",
         "postDescriptionField": "وصف المنشور",
         "createButton": "أنشئ المنشور",
         "titleError": "خانة عنوان المنشور مطلوب!",
-        "noDescription": "لا يوجد وصف لهذا المنشور."
+        "noDescription": "لا يوجد وصف لهذا المنشور.",
+        "backToTop": "ألعودة إلى الأعلى",
+        "updatePostButton": "تحديث المنشور",
+        "updatePostTitle": "حدث بيانات المنشور",
+        "noPosts": "لم يتم العثور على أي منشور.",
+        "searchPosts": "إبحث في عنوان أو وصف المنشور.",
+        "latestPosts": "آخر المنشورات"
 
     }
 }

@@ -1,4 +1,4 @@
-import React, {Component, useRef, useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {View, BackHandler} from 'react-native';
 import {
     NavigationContainer,
@@ -19,7 +19,7 @@ import {Splash} from './screens/splash';
 import {CoreStyles} from './theme/Styles';
 import {useBottomSheetModal} from '@gorhom/bottom-sheet';
 
-export const THEME_CONFIG = require('./theme/themes.json');
+import THEME_CONFIG from './theme/themes.json';
 
 const AppContainer = props => {
     //styles

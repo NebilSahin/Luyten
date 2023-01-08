@@ -1,12 +1,6 @@
-
 import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {
-    Text,
-    TouchableOpacity,
-    View,
-    ImageBackground,
-} from 'react-native';
+import {Text, TouchableOpacity, View, ImageBackground} from 'react-native';
 import {useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {NavStyles} from '../../theme/Styles';

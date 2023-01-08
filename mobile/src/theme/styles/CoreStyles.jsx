@@ -1,16 +1,17 @@
 import {StyleSheet} from 'react-native';
 import {themeSelector} from '../../theme';
 import {useSelector} from 'react-redux';
-import {ThemeVariables} from '../../shared/Constant'
-
-const THEME_CONFIG = require('../../theme/themes.json');
+import {ThemeVariables} from '../../shared/Constant';
+import THEME_CONFIG from '../../theme/themes.json';
 
 export const CoreStyles = (props = null) => {
+    //redux stored lang and theme
     const THEME = themeSelector();
     const sessionLang = useSelector(state => state.sessionUser.userLang);
     const isDetached = props != null ? (props.detached ? true : false) : false;
     const isLtr = sessionLang == 'en';
 
+    //return stylesheet
     return StyleSheet.create({
         app: {
             width: '100%',
@@ -133,11 +134,25 @@ export const CoreStyles = (props = null) => {
             color: THEME_CONFIG[THEME].titleLight,
         },
         toggleViewContainer: {
-            paddingTop: ThemeVariables.paddingM,
-            paddingHorizontal: ThemeVariables.paddingL,
-
+            // paddingTop: ThemeVariables.paddingM,
+            // paddingHorizontal: ThemeVariables.paddingL,
             flexDirection: isLtr ? 'row-reverse' : 'row',
             alignItems: 'center',
+        },
+        latestPostsTitleContainer: {
+            paddingTop: ThemeVariables.paddingM,
+            paddingHorizontal: ThemeVariables.paddingL,
+            flexDirection: isLtr ? 'row' : 'row-reverse',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            width: '100%'
+        },
+        latestPostsTitle: {
+            flexDirection: isLtr ? 'row' : 'row-reverse',
+            textAlign: isLtr ? 'left' : 'right',
+            fontWeight: '600',
+            color: THEME_CONFIG[THEME].text,
+            fontSize: ThemeVariables.fontSizeXL
         },
         gridIcon: {
             paddingHorizontal: ThemeVariables.paddingS,
@@ -258,6 +273,13 @@ export const CoreStyles = (props = null) => {
             marginHorizontal: ThemeVariables.paddingM,
             paddingVertical: 8,
             paddingHorizontal: ThemeVariables.paddingM,
+        },
+        notificationContainer: {
+            justifyContent: 'center',
+        },
+        noNotificationText: {
+            textAlign: 'center',
+            color: THEME_CONFIG[THEME].text,
         },
     });
 };

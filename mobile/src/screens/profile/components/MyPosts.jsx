@@ -1,10 +1,6 @@
 import React, {useState, useRef, useCallback} from 'react';
 import {Text, View, FlatList, Image, TouchableHighlight} from 'react-native';
-import {
-    AuthStyles,
-    CoreStyles,
-    PostStyles,
-} from '../../../theme/Styles';
+import {AuthStyles, CoreStyles, PostStyles} from '../../../theme/Styles';
 import {useSelector} from 'react-redux';
 import {request} from '../../../shared/Api';
 import {BaseStorageURL} from '../../../shared/Constant';
@@ -12,21 +8,21 @@ import {useNavigation} from '@react-navigation/native';
 import {langFileSelector} from '../../../shared/lang';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Button from '../../../components/Button';
-import BottomModal from '../../../components/BottomModal';
+import BottomModal, {AlertPopUp} from '../../../components/BottomModal';
 import BottomListModal from '../../../components/BottomListModal';
 import BackToTopButton from '../../../components/BackToTopButton';
 import EditPost from '../components/EditPost';
-import {themeSelector} from '../../../theme';
 import DeletePost from './DeletePost';
 
 const profileImgPlacholder = require('../../../../assets/profile-image.png');
+const postImgPlacholder = require('../../../../assets/post-placeholder.png');
 
 const Post = ({post, sheetRef, setPostMenuData}) => {
     //styles
     const HOME_STYLE = PostStyles();
     const CORE_STYLE = CoreStyles();
 
-    //hooks
+    //functions
     const navigation = useNavigation();
 
     //language file
@@ -59,7 +55,7 @@ const Post = ({post, sheetRef, setPostMenuData}) => {
                     source={
                         post.post_image != '' && post.post_image != null
                             ? {uri: BaseStorageURL + post.post_image}
-                            : require('../../../../assets/post-placeholder.png')
+                            : postImgPlacholder
                     }
                 />
                 <Button
@@ -67,10 +63,7 @@ const Post = ({post, sheetRef, setPostMenuData}) => {
                     buttonTheme="noneThemeButton"
                     style={[CORE_STYLE.editIconContainer, createBtnDirection]}
                     onPress={handleSnapPress}>
-                    <Icon
-                        name="dots-vertical"
-                        style={CORE_STYLE.editIcon}
-                    />
+                    <Icon name="dots-vertical" style={CORE_STYLE.editIcon} />
                 </Button>
                 <View style={HOME_STYLE.cardContentContainer}>
                     <Image
@@ -104,14 +97,13 @@ const Post = ({post, sheetRef, setPostMenuData}) => {
     );
 };
 
-const PostMenu = ({post, refreshData}) => {
+const PostMenu = ({post, refreshData, sheetRef, setMessage}) => {
     //styles
     const CORE_STYLE = CoreStyles();
     const AUTH_STYLE = AuthStyles();
 
     //redux selectors
     const LANG = langFileSelector();
-    const THEME = themeSelector();
 
     //ref
     const popupRef = useRef(null);
@@ -177,11 +169,13 @@ const MyPosts = props => {
     const CORE_STYLE = CoreStyles();
     const HOME_STYLE = PostStyles();
 
-    //hooks
+    //functions
     const sheetRef = useRef(null);
+    const popupRef = useRef(null);
     const scrollRef = useRef(null);
 
     //redux state variable
+    const LANG = langFileSelector();
     const userToken = useSelector(state => state.sessionUser.accessToken);
 
     //state variables
@@ -191,6 +185,7 @@ const MyPosts = props => {
     const [scrollDown, setScrollDown] = useState(true);
     const [offset, setOffset] = useState(0);
     const [postMenuData, setPostMenuData] = useState({});
+    const [message, setMessage] = useState('');
 
     //render list items
     const renderItem = ({item}) => (
@@ -212,15 +207,16 @@ const MyPosts = props => {
                     },
                 })
                 .then(function (response) {
-                    if (response.data.data.length % 2 != 0) {
-                        response.data.data.push(emptyArray);
-                    }
+                    setMessage('');
                     setPosts([...posts, ...response.data.data]);
                     setNextPage(response.data.next_page_url);
                     setRefreshing(false);
                 })
                 .catch(function (error) {
-                    console.log(error.response);
+                    if (!error.response) {
+                        setMessage(LANG.authScreen.pleaseTryLater);
+                        popupRef.current?.present();
+                    }
                 });
         }
     };
@@ -235,12 +231,16 @@ const MyPosts = props => {
             })
             .then(function (response) {
                 setPosts(null);
+                setMessage('');
                 setPosts(response.data.data);
                 setNextPage(response.data.next_page_url);
                 setRefreshing(false);
             })
             .catch(function (error) {
-                console.log(error.response);
+                if (!error.response) {
+                    setMessage(LANG.authScreen.pleaseTryLater);
+                    popupRef.current?.present();
+                }
             });
 
     return (
@@ -271,6 +271,11 @@ const MyPosts = props => {
                 component={
                     <PostMenu post={postMenuData} refreshData={refreshData} />
                 }
+            />
+            <BottomModal
+                detached={true}
+                component={<AlertPopUp message={message} />}
+                sheetRef={popupRef}
             />
         </View>
     );

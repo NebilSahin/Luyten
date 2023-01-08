@@ -12,7 +12,8 @@
         "assetChangeImage": "Change the image",
         "clear": "Clear",
         "delete": "Delete",
-        "edit": "Edit"
+        "edit": "Edit",
+        "noNotifications": "You have no notification."
     },
     "navScreens": {
         "myPosts": "My posts",
@@ -60,7 +61,7 @@
         "deletePostMessage": "Are you sure you want to delete this post?"
 
     },
-    "home":{
+    "post":{
         "createPostTitle": "Create a Post",
         "postTitleField": "Title of your post",
         "postDescriptionField": "Description of your post",
@@ -69,6 +70,9 @@
         "noDescription": "No description available.",
         "backToTop": "Back to Top",
         "updatePostButton": "Update Post",
-        "updatePostTitle": "Update your post" 
+        "updatePostTitle": "Update your post",
+        "noPosts": "No posts has been found.",
+        "searchPosts": "Search for a post title or description.",
+        "latestPosts": "Latest Posts"
     }
 }

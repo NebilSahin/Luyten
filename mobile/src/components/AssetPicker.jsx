@@ -5,8 +5,7 @@ import {CoreStyles, PostStyles} from '../theme/Styles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {langFileSelector} from '../shared/lang';
 import Button from '../components/Button';
-
-const THEME_CONFIG = require('../theme/themes.json');
+import THEME_CONFIG from'../theme/themes.json';
 
 //renders a button for picken assets
 const AssetPickerButton = props => {

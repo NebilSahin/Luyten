@@ -50,10 +50,8 @@ class PostsAPIController extends Controller
             $validatedRequest['post_image'] = $imagePath->storeAs('images', $imageName, 'public');
             Storage::delete(['public/images/' . $post->post_image]);
         }
-        
-        $post->update($validatedRequest);
-        dd($post, $validatedRequest);
 
+        $post->update($validatedRequest);
         return new PostResource($post);
     }
 
@@ -68,11 +66,7 @@ class PostsAPIController extends Controller
 
     public function search(Request $request)
     {
-        $searchResult = [];
-        // foreach (explode(' ', $request->search_text) as $text) {
-            $searchResult = Post::search(explode(' ', $request->search_text))->paginate(16);
-        // }
-        // dd($searchResult);
+        $searchResult = Post::search($request->search_text)->query(fn ($query) => $query->with('creator'))->paginate(16);
         return new PostResource($searchResult);
     }
 

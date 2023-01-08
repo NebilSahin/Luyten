@@ -19,7 +19,7 @@ const BackToTopButton = ({scrollDown, scrollRef}) => {
     const createBtnDirection =
         sessionLang == 'en' ? {right: '34%'} : {left: '34%'};
 
-    //hooks
+    //functions
     const viewRef = useRef(null);
 
     //effect
@@ -27,12 +27,12 @@ const BackToTopButton = ({scrollDown, scrollRef}) => {
         if (!scrollDown) {
             viewRef.current.animate({
                 1: {top: 10, scale: 1},
-                0: {top: -80, scale: 0.3},
+                0: {top: -100, scale: 0.3},
             });
         } else {
             viewRef.current.animate({
                 0: {top: 10, scale: 1},
-                1: {top: -80, scale: 0.3},
+                1: {top: -100, scale: 0.3},
             });
         }
     }, [scrollDown]);
@@ -59,7 +59,7 @@ const BackToTopButton = ({scrollDown, scrollRef}) => {
                         style={POST_STYLE.createPostIcon}
                         color={POST_STYLE.createPostIcon.color}
                     />
-                    <Text style={CORE_STYLE.backToptext}>{LANG.home.backToTop}</Text>
+                    <Text style={CORE_STYLE.backToptext}>{LANG.post.backToTop}</Text>
                 </View>
             </Button>
         </Animatable.View>

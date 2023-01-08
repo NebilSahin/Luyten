@@ -4,14 +4,15 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {TouchableOpacity} from 'react-native';
 import Home from '../../screens/home';
 import Search from '../../screens/search';
+import Notification from '../../screens/notification';
 import Profile from '../../screens/profile';
 import * as Animatable from 'react-native-animatable';
 import {themeSelector} from '../../theme';
 import {langFileSelector} from '../../shared/lang';
 import NavHeader from './NavHeader';
 import {NavStyles} from '../../theme/Styles';
+import THEME_CONFIG from'../../theme/themes.json';
 
-const THEME_CONFIG = require('../../theme/themes.json');
 const BottomBar = createBottomTabNavigator();
 
 //all screen of te app with teir icons
@@ -35,7 +36,7 @@ const AppScreens = [
         label: 'notification',
         activeIcon: 'bell',
         inActiveIcon: 'bell-outline',
-        component: Search,
+        component: Notification,
     },
     {
         route: 'Profile',

@@ -15,20 +15,33 @@ import {
 import {langFileSelector} from '../../../shared/lang';
 import BottomModal, {AlertPopUp} from '../../../components/BottomModal';
 import {AuthStyles} from '../../../theme/Styles';
-const THEME_CONFIG = require('../../../theme/themes.json');
+import THEME_CONFIG from '../../../theme/themes.json';
 
 const LoginComponent = () => {
-    const {dismiss} = useBottomSheetModal();
-    const dispatch = useDispatch();
+    //styles
+    const AUTH_STYLE = AuthStyles();
+
+    //redux data selector
     const THEME = themeSelector();
     const LANG = langFileSelector();
+
+    //modal dismiss hook
+    const {dismiss} = useBottomSheetModal();
+
+    //redux dispatcher
+    const dispatch = useDispatch();
+
+    //state variables
     const [loginForm, setLoginForm] = useState({
         username: null,
         password: null,
     });
     const [message, setMessage] = useState('');
+
+    //ref
     const sheetRef = useRef(null);
-    const AUTH_STYLE = AuthStyles();
+
+    //password visibility function
     const {passwordVisibility, rightIcon, handlePasswordVisibility} =
         TogglePasswordVisibility();
 
@@ -66,6 +79,7 @@ const LoginComponent = () => {
             });
     };
 
+    //render
     return (
         <>
             <View style={AUTH_STYLE.SheetContainer}>

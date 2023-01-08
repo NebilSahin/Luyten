@@ -1,4 +1,6 @@
 import {combineReducers} from 'redux';
+
+//session teme
 const sessionTheme = (state = {isDarkThemeActive: null}, action) => {
     switch (action.type) {
         case 'user/themeToggle':
@@ -8,6 +10,7 @@ const sessionTheme = (state = {isDarkThemeActive: null}, action) => {
     }
 };
 
+//user session data
 const sessionUser = (
     state = {accessToken: null, isActive: false, userLang: 'en', userProfile: {}},
     action,

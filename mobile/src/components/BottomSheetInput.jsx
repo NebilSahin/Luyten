@@ -3,7 +3,7 @@ import {TouchableWithoutFeedback, View, Text} from 'react-native';
 import {BottomSheetTextInput} from '@gorhom/bottom-sheet';
 import {themeSelector} from '../theme';
 import {CoreStyles} from '../theme/Styles';
-const THEME_CONFIG = require('../theme/themes.json');
+import THEME_CONFIG from'../theme/themes.json';
 
 const BottomSheetInputComponent = props => {
     //styles
@@ -12,7 +12,7 @@ const BottomSheetInputComponent = props => {
     //redux data selector
     const THEME = themeSelector();
 
-    //hooks
+    //functions
     const INPUT = useRef(null);
 
     //render

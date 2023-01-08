@@ -14,7 +14,7 @@ const CreatePostButton = ({scrollDown, onPress}) => {
     const createBtnDirection =
         sessionLang == 'en' ? {right: '5%'} : {left: '5%'};
 
-    //hooks
+    //functions
     const viewRef = useRef(null);
 
     //effect

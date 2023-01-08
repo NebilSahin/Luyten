@@ -9,8 +9,7 @@ import MCIIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {themeSelector} from '../../../theme';
 import BottomModal, {ModalPopUp} from '../../../components/BottomModal';
 import {useBottomSheetModal} from '@gorhom/bottom-sheet';
-
-const THEME_CONFIG = require('../../../theme/themes.json');
+import THEME_CONFIG from '../../../theme/themes.json';
 
 //logout popup modal content
 const Logout = () => {
@@ -36,6 +35,7 @@ const Logout = () => {
             }}></ModalPopUp>
     );
 };
+
 const Settings = props => {
     //styles
     const PROFILE_STYLE = ProfileStyles();

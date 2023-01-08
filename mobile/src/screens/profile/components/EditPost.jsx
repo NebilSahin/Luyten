@@ -13,8 +13,7 @@ import {AuthStyles, CoreStyles, PostStyles} from '../../../theme/Styles';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {useSelector} from 'react-redux';
 import {BaseStorageURL} from '../../../shared/Constant';
-
-const THEME_CONFIG = require('../../../theme/themes.json');
+import THEME_CONFIG from '../../../theme/themes.json';
 
 const EditPost = ({refreshData, post}) => {
     //styles
@@ -22,7 +21,7 @@ const EditPost = ({refreshData, post}) => {
     const AUTH_STYLE = AuthStyles();
     const CORE_STYLE = CoreStyles();
 
-    //hooks
+    //functions
     const {dismissAll} = useBottomSheetModal();
     const sheetRef = useRef(null);
 
@@ -85,9 +84,11 @@ const EditPost = ({refreshData, post}) => {
                                 : '',
                         },
                     })
-                    .then(function (response) {})
                     .catch(function (error) {
-                        console.log(error.response);
+                        if (!error.response) {
+                            setMessage(LANG.authScreen.pleaseTryLater);
+                            sheetRef.current?.present();
+                        }
                     });
             }
             request
@@ -97,7 +98,7 @@ const EditPost = ({refreshData, post}) => {
                         Authorization: userToken ? 'Bearer ' + userToken : '',
                     },
                 })
-                .then(function (response) {
+                .then(function () {
                     dismissAll();
                     refreshData();
                 })
@@ -106,7 +107,6 @@ const EditPost = ({refreshData, post}) => {
                         setMessage(LANG.authScreen.pleaseTryLater);
                         sheetRef.current?.present();
                     }
-                    console.log(error.response.data);
                 });
         }
     };
@@ -116,13 +116,13 @@ const EditPost = ({refreshData, post}) => {
         <>
             <View style={AUTH_STYLE.SheetContainer}>
                 <Text style={AUTH_STYLE.bottomSheetTitle}>
-                    {LANG.home.updatePostTitle}
+                    {LANG.post.updatePostTitle}
                 </Text>
                 <BottomSheetInput
                     maxLength={40}
                     error={postForm.title == ''}
-                    errorMessage={LANG.home.titleError}
-                    placeholder={LANG.home.postTitleField}
+                    errorMessage={LANG.post.titleError}
+                    placeholder={LANG.post.postTitleField}
                     cursorColor={
                         postForm.title == ''
                             ? THEME_CONFIG[THEME].error.textColor
@@ -147,7 +147,7 @@ const EditPost = ({refreshData, post}) => {
                 <BottomSheetInput
                     multiline={true}
                     customeStyle={CORE_STYLE.multilineInput}
-                    placeholder={LANG.home.postDescriptionField}
+                    placeholder={LANG.post.postDescriptionField}
                     cursorColor={THEME_CONFIG[THEME].primary}
                     keyboardAppearance={THEME_CONFIG[THEME].theme}
                     value={postForm.description}
@@ -187,7 +187,7 @@ const EditPost = ({refreshData, post}) => {
                     />
                     <Button
                         customeStyle={HOME_STYLE.creatPostButton}
-                        text={LANG.home.updatePostButton}
+                        text={LANG.post.updatePostButton}
                         buttonStyle="buttonSolid"
                         buttonTheme={
                             postForm.title == ''

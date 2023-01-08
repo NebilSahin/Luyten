@@ -3,8 +3,7 @@ import {View, TouchableOpacity} from 'react-native';
 import {CoreStyles} from '../../../theme/Styles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {themeSelector} from '../../../theme';
-
-const THEME_CONFIG = require('../../../theme/themes.json');
+import THEME_CONFIG from'../../../theme/themes.json';
 
 const PostToggleViewButton = ({cardView, setCardView}) => {
     //styles

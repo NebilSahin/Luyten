@@ -1,29 +1,16 @@
-import React, {useState, useEffect, useRef, useCallback} from 'react';
-import {Text, Keyboard, FlatList, Image, TouchableHighlight} from 'react-native';
-import {
-    AuthStyles,
-    CoreStyles,
-    PostStyles,
-    AlertStyles,
-} from '../../../theme/Styles';
+import React, {useState, useRef} from 'react';
+import {Text, Keyboard} from 'react-native';
+import {AlertStyles} from '../../../theme/Styles';
 import {useSelector} from 'react-redux';
 import {request} from '../../../shared/Api';
-import {BaseStorageURL} from '../../../shared/Constant';
-import {useNavigation} from '@react-navigation/native';
 import {langFileSelector} from '../../../shared/lang';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import * as Animatable from 'react-native-animatable';
-import Button from '../../../components/Button';
-import BottomModal, {ModalPopUp} from '../../../components/BottomModal';
-import BackToTopButton from '../../../components/BackToTopButton';
-import EditPost from '../components/EditPost';
+import {ModalPopUp} from '../../../components/BottomModal';
 import {themeSelector} from '../../../theme';
 import {useBottomSheetModal} from '@gorhom/bottom-sheet';
+import BottomModal, {AlertPopUp} from '../../../components/BottomModal';
+import THEME_CONFIG from '../../../theme/themes.json';
 
-const profileImgPlacholder = require('../../../../assets/profile-image.png');
-const THEME_CONFIG = require('../../../theme/themes.json');
-
-export const DeletePost = ({refreshData, post}) => {
+export const DeletePost = ({post, refreshData}) => {
     //styles
     const ALERT_STYLE = AlertStyles();
 
@@ -35,6 +22,12 @@ export const DeletePost = ({refreshData, post}) => {
     //modal dismiss function
     const {dismissAll} = useBottomSheetModal();
 
+    //ref
+    const sheetRef = useRef(null);
+
+    //state variables
+    const [message, setMessage] = useState('');
+
     //handle delete post request
     const handlePost = () => {
         Keyboard.dismiss();
@@ -44,7 +37,8 @@ export const DeletePost = ({refreshData, post}) => {
                     Authorization: userToken ? 'Bearer ' + userToken : '',
                 },
             })
-            .then(function (response) {
+            .then(function () {
+                setMessage('');
                 dismissAll();
                 refreshData();
             })
@@ -53,24 +47,30 @@ export const DeletePost = ({refreshData, post}) => {
                     setMessage(LANG.authScreen.pleaseTryLater);
                     sheetRef.current?.present();
                 }
-                console.log(error.response.data);
             });
     };
     //render
     return (
-        <ModalPopUp
-            modalTitle={LANG.profile.logoutMessage}
-            actionMessage={LANG.core.delete}
-            actionStyle={{
-                color: THEME_CONFIG[THEME].error.textColor,
-            }}
-            action={() => {
-                handlePost();
-            }}>
-            <Text style={ALERT_STYLE.alertMessage}>
-                {LANG.profile.deletePostMessage}
-            </Text>
-        </ModalPopUp>
+        <>
+            <ModalPopUp
+                modalTitle={LANG.profile.logoutMessage}
+                actionMessage={LANG.core.delete}
+                actionStyle={{
+                    color: THEME_CONFIG[THEME].error.textColor,
+                }}
+                action={() => {
+                    handlePost();
+                }}>
+                <Text style={ALERT_STYLE.alertMessage}>
+                    {LANG.profile.deletePostMessage}
+                </Text>
+            </ModalPopUp>
+            <BottomModal
+                detached={true}
+                component={<AlertPopUp message={message} />}
+                sheetRef={sheetRef}
+            />
+        </>
     );
 };
 

@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Text, TouchableHighlight} from 'react-native';
 import {themeSelector} from '../theme';
 import {CoreStyles} from '../theme/Styles';
-const THEME_CONFIG = require('../theme/themes.json');
+import THEME_CONFIG from'../theme/themes.json';
 
 //custome button from a preset of themes defined in Themes.json
 const CustomButton = props => {

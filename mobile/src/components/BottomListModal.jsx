@@ -1,6 +1,5 @@
-import React, {useCallback, useRef, useMemo} from 'react';
-import {StyleSheet, View, Text, Button} from 'react-native';
-import BottomSheet, {
+import React, {useCallback, useMemo} from 'react';
+import {
     BottomSheetModal,
     BottomSheetScrollView,
     BottomSheetBackdrop,

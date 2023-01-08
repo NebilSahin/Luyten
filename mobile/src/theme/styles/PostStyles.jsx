@@ -1,15 +1,16 @@
 import {StyleSheet} from 'react-native';
 import {themeSelector} from '../index';
 import {useSelector} from 'react-redux';
-import {ThemeVariables} from '../../shared/Constant'
-
-const THEME_CONFIG = require('../themes.json');
+import {ThemeVariables} from '../../shared/Constant';
+import THEME_CONFIG from '../themes.json';
 
 export const PostStyles = () => {
+    //redux stored lang and theme
     const THEME = themeSelector();
     const sessionLang = useSelector(state => state.sessionUser.userLang);
     const isLtr = sessionLang == 'en';
 
+    //return stylesheet
     return StyleSheet.create({
         cardListContainer: {
             marginHorizontal: ThemeVariables.paddingS,
@@ -233,5 +234,21 @@ export const PostStyles = () => {
             fontSize: 24,
             color: THEME_CONFIG[THEME].titleLight,
         },
+        searchScreenContainer:{
+            flex: 0,
+        },
+        searchButtonContainer:{
+            flex: 0,
+            marginHorizontal: ThemeVariables.paddingM,
+        },
+        searchDataContainer:{
+            flex: 1,
+        },
+        searchNoDataText:{
+            flex: 1,
+            marginVertical: ThemeVariables.paddingL,
+            textAlign: 'center',
+            color: THEME_CONFIG[THEME].text,
+        }
     });
 };

@@ -20,6 +20,7 @@ const ProfileTabs = () => {
     //redux state data selector
     const LANG = langFileSelector();
 
+    //render
     return (
         <TabNav.Navigator screenOptions={PROFILE_STYLE.profileTopTab}>
             <TabNav.Screen name={LANG.navScreens.myPosts} component={MyPosts} />
@@ -43,7 +44,7 @@ const Profile = props => {
     //redux data dispatcher
     const dispatch = useDispatch();
 
-    //hooks
+    //functions
     const isFocused = useIsFocused();
 
     //effects

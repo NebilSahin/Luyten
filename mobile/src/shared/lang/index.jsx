@@ -12,11 +12,13 @@ import {SettingsStyles, LangStyles} from '../../theme/Styles';
 import {ModalPopUp} from '../../components/BottomModal';
 import MCIIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {themeSelector} from '../../theme';
-
-const THEME_CONFIG = require('../../theme/themes.json');
+import THEME_CONFIG from'../../theme/themes.json';
 
 export const langFileSelector = () => {
+    //session redux stored lang
     const sessionLang = useSelector(state => state.sessionUser.userLang);
+
+    //set the lang file to be returned
     if (sessionLang == LANGUAGE.en.code) {
         return LANG_CONFIG_EN;
     } else if (sessionLang == LANGUAGE.ar.code) {
@@ -92,11 +94,12 @@ export const LangChangeElement = props => {
     //ref
     const sheetRef = useRef(null);
 
-    //hooks
+    //functions
     const handleSnapPress = useCallback(() => {
         sheetRef.current?.present();
     }, []);
 
+    //render
     return (
         <>
             <View style={SETTINGS_STYLE.settingsItemContainer}>

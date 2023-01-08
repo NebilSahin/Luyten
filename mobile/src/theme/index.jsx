@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
-import {Appearance, NativeModules} from 'react-native';
+import React from 'react';
+import {Appearance} from 'react-native';
 import {THEME_CONSTANT} from '../shared/Constant';
 import {useSelector, useDispatch} from 'react-redux';
-export const THEME_CONFIG = require('./themes.json');
-import {View, Switch, StyleSheet, Text} from 'react-native';
+import THEME_CONFIG from'./themes.json';
+import {View, Switch, Text} from 'react-native';
 import SystemNavigationBar from 'react-native-system-navigation-bar';
 import {themeToggleAction} from '../redux/actions/UserActions';
 import Button from '../components/Button';

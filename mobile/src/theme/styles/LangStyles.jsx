@@ -1,14 +1,15 @@
 import {StyleSheet} from 'react-native';
 import {themeSelector} from '../../theme';
 import {useSelector} from 'react-redux';
-
-const THEME_CONFIG = require('../../theme/themes.json');
+import THEME_CONFIG from '../../theme/themes.json';
 
 export const LangStyles = () => {
+    //redux stored lang and theme
     const THEME = themeSelector();
     const sessionLang = useSelector(state => state.sessionUser.userLang);
     const isLtr = sessionLang == 'en';
 
+    //return stylesheet
     return StyleSheet.create({
         langListContainer: {
             flexDirection: isLtr ? 'row' : 'row-reverse',

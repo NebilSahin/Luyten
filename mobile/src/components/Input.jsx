@@ -1,51 +1,67 @@
-import React, {Component} from 'react';
-import {TextInput, View, StyleSheet} from 'react-native';
-import {THEME} from '../shared/Constant';
-import {useSelector} from 'react-redux';
+import React, {useRef} from 'react';
+import {TouchableWithoutFeedback, View, Text, TextInput} from 'react-native';
+import {themeSelector} from '../theme';
+import {CoreStyles} from '../theme/Styles';
+import THEME_CONFIG from'../theme/themes.json';
 
-const THEME_CONFIG = require('../theme/themes.json');
+const BottomSheetInputComponent = props => {
+    //styles
+    const CORE_STYLE = CoreStyles();
 
-const themeSelector = () => {
-  const sessionTheme = useSelector(
-    state => state.themeSelector.darkThemeEnabled,
-  );
-  return sessionTheme ? THEME.LIGHT : THEME.DARK;
+    //redux data selector
+    const THEME = themeSelector();
+
+    //functions
+    const INPUT = useRef(null);
+
+    //render
+    return (
+        <TouchableWithoutFeedback
+            onPress={() => {
+                INPUT.current.focus();
+            }}>
+            <View
+                style={[
+                    CORE_STYLE.inputContainer,
+                    {
+                        borderColor: props.error
+                            ? THEME_CONFIG[THEME].error.textColor
+                            : THEME_CONFIG[THEME].borderColor,
+                        backgroundColor: props.error
+                            ? THEME_CONFIG[THEME].error.backgroundColor
+                            : THEME_CONFIG[THEME].inputBackgroundColor,
+                    },
+                ]}>
+                <TextInput
+                    ref={INPUT}
+                    style={[
+                        CORE_STYLE.input,
+                        {
+                            color: THEME_CONFIG[THEME].text,
+                            bottom: props.error ? 8 : 0,
+                        },
+                    ]}
+                    placeholderTextColor={THEME_CONFIG[THEME].extra}
+                    {...props}
+                />
+                <View style={[CORE_STYLE.icon, props.customeStyle]}>
+                    {props.icon}
+                </View>
+                {props.error ? (
+                    <Text
+                        style={[
+                            CORE_STYLE.error,
+                            {
+                                color: THEME_CONFIG[THEME].error.textColor,
+                                opacity: props.error ? 1 : 0,
+                            },
+                        ]}>
+                        {props.errorMessage}
+                    </Text>
+                ) : null}
+            </View>
+        </TouchableWithoutFeedback>
+    );
 };
 
-const InputComponent = (props) => {
-  const THEME = themeSelector();
-  const styles = StyleSheet.create({
-    inputContainer: {
-      borderRadius: 50,
-      borderColor: THEME_CONFIG[THEME].extra,
-      borderWidth: 1,
-      marginTop: 10,
-      padding: 2,
-      paddingLeft: 20,
-      paddingRight: 20,
-    },
-    input: {
-      color: THEME_CONFIG[THEME].test,
-    },
-  });
-  return (
-    <View style={styles.inputContainer}>
-      <TextInput
-        maxLength={40}
-        style={styles.input}
-        placeholder={props.placeholder}
-        placeholderTextColor={THEME_CONFIG[THEME].extra}
-        cursorColor={props.cursorColor}
-        keyboardAppearance={props.keyboardAppearance}
-        textContentType={props.textContentType}
-        secureTextEntry={props.secureTextEntry}
-      />
-    </View>
-  );
-};
-
-export default class Input extends Component {
-  render() {
-    return <InputComponent {...this.props} />;
-  }
-}
+export default BottomSheetInputComponent;

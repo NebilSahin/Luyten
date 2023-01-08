@@ -12,7 +12,7 @@ import BottomModal, {AlertPopUp} from '../../../components/BottomModal';
 import {AuthStyles, CoreStyles, PostStyles} from '../../../theme/Styles';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {useSelector} from 'react-redux';
-const THEME_CONFIG = require('../../../theme/themes.json');
+import THEME_CONFIG from'../../../theme/themes.json';
 
 const CreatePost = ({refreshData}) => {
     //styles
@@ -20,7 +20,7 @@ const CreatePost = ({refreshData}) => {
     const AUTH_STYLE = AuthStyles();
     const CORE_STYLE = CoreStyles();
 
-    //hooks
+    //functions
     const {dismiss} = useBottomSheetModal();
     const sheetRef = useRef(null);
 
@@ -95,13 +95,13 @@ const CreatePost = ({refreshData}) => {
         <>
             <View style={AUTH_STYLE.SheetContainer}>
                 <Text style={AUTH_STYLE.bottomSheetTitle}>
-                    {LANG.home.createPostTitle}
+                    {LANG.post.createPostTitle}
                 </Text>
                 <BottomSheetInput
                     maxLength={40}
                     error={postForm.title == ''}
-                    errorMessage={LANG.home.titleError}
-                    placeholder={LANG.home.postTitleField}
+                    errorMessage={LANG.post.titleError}
+                    placeholder={LANG.post.postTitleField}
                     cursorColor={
                         postForm.title == ''
                             ? THEME_CONFIG[THEME].error.textColor
@@ -126,7 +126,7 @@ const CreatePost = ({refreshData}) => {
                 <BottomSheetInput
                     multiline={true}
                     customeStyle={CORE_STYLE.multilineInput}
-                    placeholder={LANG.home.postDescriptionField}
+                    placeholder={LANG.post.postDescriptionField}
                     cursorColor={THEME_CONFIG[THEME].primary}
                     keyboardAppearance={THEME_CONFIG[THEME].theme}
                     value={postForm.description}
@@ -166,7 +166,7 @@ const CreatePost = ({refreshData}) => {
                     />
                     <Button
                         customeStyle={HOME_STYLE.creatPostButton}
-                        text={LANG.home.createButton}
+                        text={LANG.post.createButton}
                         buttonStyle="buttonSolid"
                         buttonTheme={
                             postForm.title == ''

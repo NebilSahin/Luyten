@@ -1,15 +1,16 @@
 import {StyleSheet} from 'react-native';
 import {themeSelector} from '..';
 import {useSelector} from 'react-redux';
-import {ThemeVariables} from '../../shared/Constant'
-
-const THEME_CONFIG = require('../themes.json');
+import {ThemeVariables} from '../../shared/Constant';
+import THEME_CONFIG from '../themes.json';
 
 export const SettingsStyles = () => {
+    //redux stored lang and theme
     const THEME = themeSelector();
     const sessionLang = useSelector(state => state.sessionUser.userLang);
     const isLtr = sessionLang == 'en';
 
+    //return stylesheet
     return StyleSheet.create({
         settingsItemContainer: {
             paddingVertical: ThemeVariables.paddingS,
@@ -35,4 +36,3 @@ export const SettingsStyles = () => {
         },
     });
 };
-

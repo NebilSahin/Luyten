@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef, useCallback} from 'react';
-import {View, FlatList, ActivityIndicator} from 'react-native';
+import {View, FlatList, ActivityIndicator, Text} from 'react-native';
 import {CoreStyles, PostStyles} from '../../theme/Styles';
 import {useSelector} from 'react-redux';
 import {request} from '../../shared/Api';
@@ -11,6 +11,8 @@ import CreatePostButton from '../../components/CreatePostButton';
 import PostToggleViewButton from './components/PostToggleViewButton';
 import PostCardView from './components/PostCardView';
 import PostListView from './components/PostListView';
+import BottomModal, {AlertPopUp} from '../../components/BottomModal';
+import {langFileSelector} from '../../shared/lang';
 
 const emptyArray = {
     id: 0,
@@ -38,13 +40,15 @@ const Home = () => {
     const CORE_STYLE = CoreStyles();
     const POST_STYLE = PostStyles();
 
-    //hooks
+    //functions
     const sheetRef = useRef(null);
+    const popupRef = useRef(null);
     const scrollRef = useRef(null);
     const isFocused = useIsFocused();
 
     //redux state
     const userToken = useSelector(state => state.sessionUser.accessToken);
+    const LANG = langFileSelector();
 
     //state variables
     const [posts, setPosts] = useState([]);
@@ -53,6 +57,7 @@ const Home = () => {
     const [scrollDown, setScrollDown] = useState(true);
     const [offset, setOffset] = useState(0);
     const [cardView, setCardView] = useState(true);
+    const [message, setMessage] = useState('');
 
     //render list items
     const renderItem = ({item}) =>
@@ -65,8 +70,8 @@ const Home = () => {
 
     //effects
     useEffect(() => {
-        cardView ? refreshData() : refreshData();
-    }, []);
+        refreshData();
+    }, [isFocused, cardView]);
 
     //request more posts from db
     const loadData = () => {
@@ -79,7 +84,7 @@ const Home = () => {
                     },
                 })
                 .then(function (response) {
-                    if (response.data.data.length % 2 != 0) {
+                    if (response.data.data.length % 2 != 0 && cardView) {
                         response.data.data.push(emptyArray);
                     }
                     setPosts([...posts, ...response.data.data]);
@@ -87,7 +92,10 @@ const Home = () => {
                     setRefreshing(false);
                 })
                 .catch(function (error) {
-                    console.log(error.response);
+                    if (!error.response) {
+                        setMessage(LANG.authScreen.pleaseTryLater);
+                        popupRef.current?.present();
+                    }
                 });
         }
     };
@@ -101,15 +109,19 @@ const Home = () => {
                 },
             })
             .then(function (response) {
-                if (response.data.data.length % 2 != 0) {
+                if (response.data.data.length % 2 != 0 && cardView) {
                     response.data.data.push(emptyArray);
                 }
+                setPosts(null);
                 setPosts(response.data.data);
                 setNextPage(response.data.next_page_url);
                 setRefreshing(false);
             })
             .catch(function (error) {
-                console.log(error.response);
+                if (!error.response) {
+                    setMessage(LANG.authScreen.pleaseTryLater);
+                    popupRef.current?.present();
+                }
             });
 
     //render
@@ -119,10 +131,13 @@ const Home = () => {
                 <View
                     onLayout={refreshData}
                     style={CORE_STYLE.screeenContainer}>
-                    <PostToggleViewButton
-                        cardView={cardView}
-                        setCardView={setCardView}
-                    />
+                    <View style={CORE_STYLE.latestPostsTitleContainer}>
+                        <Text style={CORE_STYLE.latestPostsTitle}>{LANG.post.latestPosts}</Text>
+                        <PostToggleViewButton
+                            cardView={cardView}
+                            setCardView={setCardView}
+                        />
+                    </View>
                     <CreatePostButton
                         onPress={() => handleSnapPress(0)}
                         scrollDown={scrollDown}
@@ -157,6 +172,11 @@ const Home = () => {
                     <BottomListModal
                         sheetRef={sheetRef}
                         component={<CreatePost refreshData={refreshData} />}
+                    />
+                    <BottomModal
+                        detached={true}
+                        component={<AlertPopUp message={message} />}
+                        sheetRef={popupRef}
                     />
                 </View>
             ) : (

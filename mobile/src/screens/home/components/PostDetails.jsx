@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, Image} from 'react-native';
+import {Text, View} from 'react-native';
 import {PostStyles} from '../../../theme/Styles';
 import {langFileSelector} from '../../../shared/lang';
 
@@ -31,7 +31,7 @@ const PostDetails = ({route}, props) => {
                 <Text style={POST_STYLE.postDescriptionsDetails}>
                     {post.description != 'null'
                         ? post.description
-                        : LANG.home.noDescription}
+                        : LANG.post.noDescription}
                 </Text>
             </View>
         </View>
