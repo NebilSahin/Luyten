@@ -4,6 +4,9 @@ import {PostStyles} from '../../../theme/Styles';
 import {BaseStorageURL} from '../../../shared/Constant';
 import {useNavigation} from '@react-navigation/native';
 import {langFileSelector} from '../../../shared/lang';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import THEME_CONFIG from '../../../theme/themes.json';
+import {themeSelector} from '../../../theme';
 
 const profileImgPlacholder = require('../../../../assets/profile-image.png');
 const postImgPlacholder = require('../../../../assets/post-placeholder.png');
@@ -15,8 +18,9 @@ export const PostListView = ({post}) => {
     //functions
     const navigation = useNavigation();
 
-    //language file
+    //redux data selector
     const LANG = langFileSelector();
+    const THEME = themeSelector();
 
     //render
     return (
@@ -52,11 +56,21 @@ export const PostListView = ({post}) => {
                             {post.title}
                         </Text>
                     </View>
-                    <Text style={POST_STYLE.listPostDate}>
-                        {`${post.created_at}`.split(':', 2)[0] +
-                            ':' +
-                            `${post.created_at}`.split(':', 2)[1]}
-                    </Text>
+                    <View style={POST_STYLE.listPostDate}>
+                        <Text style={POST_STYLE.listPostDate}>
+                            {`${post.created_at}`.split(':', 2)[0] +
+                                ':' +
+                                `${post.created_at}`.split(':', 2)[1]}
+                        </Text>
+                        <Text style={POST_STYLE.postViewsDetails}>
+                            {post.views + ' Views '}
+                            <Icon
+                                name="eye"
+                                style={POST_STYLE.listIcon}
+                                color={THEME_CONFIG[THEME].extra}
+                            />
+                        </Text>
+                    </View>
                     <View style={POST_STYLE.listExtraContainer}>
                         <View style={POST_STYLE.listCreatorContainer}>
                             <Image

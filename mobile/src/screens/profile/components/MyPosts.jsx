@@ -13,88 +13,27 @@ import BottomListModal from '../../../components/BottomListModal';
 import BackToTopButton from '../../../components/BackToTopButton';
 import EditPost from '../components/EditPost';
 import DeletePost from './DeletePost';
+import Post from './Post';
 
-const profileImgPlacholder = require('../../../../assets/profile-image.png');
-const postImgPlacholder = require('../../../../assets/post-placeholder.png');
-
-const Post = ({post, sheetRef, setPostMenuData}) => {
-    //styles
-    const HOME_STYLE = PostStyles();
-    const CORE_STYLE = CoreStyles();
-
-    //functions
-    const navigation = useNavigation();
-
-    //language file
-    const LANG = langFileSelector();
-    const sessionLang = useSelector(state => state.sessionUser.userLang);
-
-    const createBtnDirection =
-        sessionLang == 'en' ? {right: '3%'} : {left: '3%'};
-
-    //callbacks
-    const handleSnapPress = useCallback(index => {
-        setPostMenuData(post);
-        sheetRef.current?.present();
-    }, []);
-
-    //render
-    return (
-        <TouchableHighlight
-            disabled={post.id == 0}
-            style={[HOME_STYLE.cardContainer, {opacity: post.id == 0 ? 0 : 1}]}
-            onPress={() =>
-                navigation.navigate(LANG.core.postDetails, {
-                    itemId: post.id,
-                    post: post,
-                })
-            }>
-            <View>
-                <Image
-                    style={HOME_STYLE.cardImageContainer}
-                    source={
-                        post.post_image != '' && post.post_image != null
-                            ? {uri: BaseStorageURL + post.post_image}
-                            : postImgPlacholder
-                    }
-                />
-                <Button
-                    buttonStyle="buttonSolid"
-                    buttonTheme="noneThemeButton"
-                    style={[CORE_STYLE.editIconContainer, createBtnDirection]}
-                    onPress={handleSnapPress}>
-                    <Icon name="dots-vertical" style={CORE_STYLE.editIcon} />
-                </Button>
-                <View style={HOME_STYLE.cardContentContainer}>
-                    <Image
-                        style={HOME_STYLE.cardProfileImage}
-                        source={
-                            post.creator.profile_image
-                                ? {
-                                      uri:
-                                          BaseStorageURL +
-                                          post.creator.profile_image,
-                                  }
-                                : profileImgPlacholder
-                        }
-                    />
-                    <View style={HOME_STYLE.cardTitleContainer}>
-                        <Text style={HOME_STYLE.postTitle} numberOfLines={1}>
-                            {post.title}
-                        </Text>
-                        <View style={HOME_STYLE.cardCreatorContainer}>
-                            <Text style={HOME_STYLE.postCreator}>
-                                {post.creator.username}
-                            </Text>
-                            <Text style={HOME_STYLE.postDate}>
-                                {post.created_at}
-                            </Text>
-                        </View>
-                    </View>
-                </View>
-            </View>
-        </TouchableHighlight>
-    );
+const emptyArray = {
+    id: 0,
+    title: null,
+    description: null,
+    file_path: null,
+    user_identifier: null,
+    created_at: null,
+    updated_at: null,
+    deleted_at: null,
+    creator: {
+        id: null,
+        username: null,
+        email: null,
+        email_verified_at: null,
+        role_identifier: null,
+        created_at: null,
+        updated_at: null,
+        deleted_at: null,
+    },
 };
 
 const PostMenu = ({post, refreshData, sheetRef, setMessage}) => {
@@ -167,7 +106,7 @@ const PostMenu = ({post, refreshData, sheetRef, setMessage}) => {
 const MyPosts = props => {
     //styles
     const CORE_STYLE = CoreStyles();
-    const HOME_STYLE = PostStyles();
+    const POST_STYLE = PostStyles();
 
     //functions
     const sheetRef = useRef(null);
@@ -230,7 +169,7 @@ const MyPosts = props => {
                 },
             })
             .then(function (response) {
-                setPosts(null);
+                setPosts([]);
                 setMessage('');
                 setPosts(response.data.data);
                 setNextPage(response.data.next_page_url);
@@ -247,7 +186,7 @@ const MyPosts = props => {
         <View onLayout={refreshData} style={CORE_STYLE.screeenContainer}>
             <BackToTopButton scrollDown={scrollDown} scrollRef={scrollRef} />
             <FlatList
-                style={HOME_STYLE.cardListContainer}
+                style={POST_STYLE.cardListContainer}
                 refreshing={refreshing}
                 ref={scrollRef}
                 onRefresh={refreshData}
@@ -259,8 +198,18 @@ const MyPosts = props => {
                     );
                     setOffset(currentOffset);
                 }}
-                data={posts}
-                renderItem={renderItem}
+                data={posts.length ? posts : [emptyArray]}
+                renderItem={
+                    posts.length
+                        ? renderItem
+                        : () => (
+                              <View style={POST_STYLE.cardListNoContainer}>
+                                  <Text style={CORE_STYLE.noNotificationText}>
+                                      {LANG.post.noPosts}
+                                  </Text>
+                              </View>
+                          )
+                }
                 keyExtractor={post => post.id}
                 numColumns={1}
                 showsVerticalScrollIndicator={false}

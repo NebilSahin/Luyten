@@ -73,6 +73,7 @@
         "updatePostTitle": "Update your post",
         "noPosts": "No posts has been found.",
         "searchPosts": "Search for a post title or description.",
-        "latestPosts": "Latest Posts"
+        "latestPosts": "Latest Posts",
+        "highestPosts": "Top 5 most viewed posts"
     }
 }

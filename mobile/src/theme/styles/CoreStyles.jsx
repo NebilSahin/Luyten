@@ -145,14 +145,25 @@ export const CoreStyles = (props = null) => {
             flexDirection: isLtr ? 'row' : 'row-reverse',
             justifyContent: 'space-between',
             alignItems: 'center',
-            width: '100%'
+        },
+        highestPostsTitleContainer: {
+            flex: 0.5,
+            paddingVertical: ThemeVariables.paddingL,
+        },
+        highestPostsTitle: {
+            paddingHorizontal: ThemeVariables.paddingL,
+            flexDirection: isLtr ? 'row' : 'row-reverse',
+            textAlign: isLtr ? 'left' : 'right',
+            fontWeight: '600',
+            color: THEME_CONFIG[THEME].text,
+            fontSize: ThemeVariables.fontSizeXL,
         },
         latestPostsTitle: {
             flexDirection: isLtr ? 'row' : 'row-reverse',
             textAlign: isLtr ? 'left' : 'right',
             fontWeight: '600',
             color: THEME_CONFIG[THEME].text,
-            fontSize: ThemeVariables.fontSizeXL
+            fontSize: ThemeVariables.fontSizeXL,
         },
         gridIcon: {
             paddingHorizontal: ThemeVariables.paddingS,

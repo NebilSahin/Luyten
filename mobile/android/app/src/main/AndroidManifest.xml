@@ -7,7 +7,7 @@
       android:name=".MainApplication"
       android:label="@string/app_name"
       android:icon="@mipmap/luyten_ic"
-      android:roundIcon="@mipmap/luyten_ic"
+      android:roundIcon="@mipmap/luyten_ic_circle"
       android:allowBackup="false"
       android:theme="@style/AppTheme">
       <activity

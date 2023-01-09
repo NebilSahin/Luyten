@@ -11,6 +11,7 @@ import CreatePostButton from '../../components/CreatePostButton';
 import PostToggleViewButton from './components/PostToggleViewButton';
 import PostCardView from './components/PostCardView';
 import PostListView from './components/PostListView';
+import PostsCarousel from './components/PostsCarousel';
 import BottomModal, {AlertPopUp} from '../../components/BottomModal';
 import {langFileSelector} from '../../shared/lang';
 
@@ -40,15 +41,17 @@ const Home = () => {
     const CORE_STYLE = CoreStyles();
     const POST_STYLE = PostStyles();
 
-    //functions
+    //ref
     const sheetRef = useRef(null);
     const popupRef = useRef(null);
     const scrollRef = useRef(null);
-    const isFocused = useIsFocused();
 
     //redux state
     const userToken = useSelector(state => state.sessionUser.accessToken);
     const LANG = langFileSelector();
+
+    //hooks
+    const isFocused = useIsFocused();
 
     //state variables
     const [posts, setPosts] = useState([]);
@@ -112,7 +115,7 @@ const Home = () => {
                 if (response.data.data.length % 2 != 0 && cardView) {
                     response.data.data.push(emptyArray);
                 }
-                setPosts(null);
+                setPosts([]);
                 setPosts(response.data.data);
                 setNextPage(response.data.next_page_url);
                 setRefreshing(false);
@@ -127,21 +130,38 @@ const Home = () => {
     //render
     return (
         <>
-            {isFocused && posts ? (
+            {isFocused ? (
                 <View
                     onLayout={refreshData}
                     style={CORE_STYLE.screeenContainer}>
+                    <CreatePostButton
+                        onPress={() => handleSnapPress(0)}
+                        scrollDown={scrollDown}
+                    />
+                    <View style={CORE_STYLE.highestPostsTitleContainer}>
+                        <Text style={CORE_STYLE.highestPostsTitle}>
+                            {LANG.post.highestPosts}
+                        </Text>
+                        {posts.length ? (
+                            <PostsCarousel />
+                        ) : (
+                            <View style={POST_STYLE.cardListNoContainer}>
+                                <Text style={CORE_STYLE.noNotificationText}>
+                                    {LANG.post.noPosts}
+                                </Text>
+                            </View>
+                        )}
+                    </View>
+
                     <View style={CORE_STYLE.latestPostsTitleContainer}>
-                        <Text style={CORE_STYLE.latestPostsTitle}>{LANG.post.latestPosts}</Text>
+                        <Text style={CORE_STYLE.latestPostsTitle}>
+                            {LANG.post.latestPosts}
+                        </Text>
                         <PostToggleViewButton
                             cardView={cardView}
                             setCardView={setCardView}
                         />
                     </View>
-                    <CreatePostButton
-                        onPress={() => handleSnapPress(0)}
-                        scrollDown={scrollDown}
-                    />
                     <BackToTopButton
                         scrollDown={scrollDown}
                         scrollRef={scrollRef}
@@ -162,13 +182,30 @@ const Home = () => {
                             );
                             setOffset(currentOffset);
                         }}
-                        data={posts}
-                        renderItem={renderItem}
+                        data={posts.length ? posts : [emptyArray]}
+                        renderItem={
+                            posts.length
+                                ? renderItem
+                                : () => (
+                                      <View
+                                          style={
+                                              POST_STYLE.cardListNoContainer
+                                          }>
+                                          <Text
+                                              style={
+                                                  CORE_STYLE.noNotificationText
+                                              }>
+                                              {LANG.post.noPosts}
+                                          </Text>
+                                      </View>
+                                  )
+                        }
                         key={cardView ? '_' : '#'}
                         keyExtractor={post => post.id}
                         numColumns={cardView ? 2 : 1}
                         showsVerticalScrollIndicator={false}
                     />
+
                     <BottomListModal
                         sheetRef={sheetRef}
                         component={<CreatePost refreshData={refreshData} />}

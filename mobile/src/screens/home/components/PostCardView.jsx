@@ -4,6 +4,9 @@ import {PostStyles} from '../../../theme/Styles';
 import {BaseStorageURL} from '../../../shared/Constant';
 import {useNavigation} from '@react-navigation/native';
 import {langFileSelector} from '../../../shared/lang';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import THEME_CONFIG from'../../../theme/themes.json';
+import {themeSelector} from '../../../theme';
 
 const profileImgPlacholder = require('../../../../assets/profile-image.png');
 const postImgPlacholder = require('../../../../assets/post-placeholder.png');
@@ -15,8 +18,9 @@ const PostCardView = ({post}) => {
     //functions
     const navigation = useNavigation();
 
-    //language file
+    //redux data selector
     const LANG = langFileSelector();
+    const THEME = themeSelector();
 
     //render
     return (
@@ -28,7 +32,8 @@ const PostCardView = ({post}) => {
                     itemId: post.id,
                     post: post,
                 })
-            }>
+            }
+            >
             <View>
                 <Image
                     style={POST_STYLE.cardImageContainer}
@@ -58,6 +63,14 @@ const PostCardView = ({post}) => {
                         <View style={POST_STYLE.cardCreatorContainer}>
                             <Text style={POST_STYLE.postCreator}>
                                 {post.creator.username}
+                            </Text>
+                            <Text style={[POST_STYLE.postViewsDetails, {color: THEME_CONFIG[THEME].titleLight}]}>
+                                {post.views + ' '}
+                                <Icon
+                                    name="eye"
+                                    style={POST_STYLE.listIcon}
+                                    color={THEME_CONFIG[THEME].titleLight}
+                                />
                             </Text>
                         </View>
                     </View>

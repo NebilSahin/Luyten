@@ -13,7 +13,13 @@ export const PostStyles = () => {
     //return stylesheet
     return StyleSheet.create({
         cardListContainer: {
+            flex: 1,
             marginHorizontal: ThemeVariables.paddingS,
+        },
+        cardListNoContainer: {
+            justifyContent: 'center',
+            marginHorizontal: ThemeVariables.paddingS,
+            marginVertical: ThemeVariables.paddingXL,
         },
         listContainer: {
             flex: 1,
@@ -50,6 +56,7 @@ export const PostStyles = () => {
             paddingHorizontal: ThemeVariables.paddingM,
             paddingVertical: ThemeVariables.paddingS,
             justifyContent: 'center',
+            flex: 1,
         },
         listExtraContainer: {
             flexDirection: isLtr ? 'row' : 'row-reverse',
@@ -67,10 +74,10 @@ export const PostStyles = () => {
             justifyContent: 'space-between',
         },
         listPostTitle: {
+            flex: 1,
             fontSize: ThemeVariables.fontSizeXL,
             marginVertical: ThemeVariables.paddingS,
             fontWeight: '600',
-            width: '70%',
             textAlign: isLtr ? 'left' : 'right',
             color: THEME_CONFIG[THEME].text,
         },
@@ -89,6 +96,8 @@ export const PostStyles = () => {
             fontSize: ThemeVariables.fontSizeM,
             textAlign: isLtr ? 'left' : 'right',
             color: THEME_CONFIG[THEME].text,
+            flexDirection: isLtr ? 'row' : 'row-reverse',
+            justifyContent: 'space-between',
         },
         cardImageContainer: {
             borderRadius: 30,
@@ -128,7 +137,8 @@ export const PostStyles = () => {
             borderRadius: 30,
         },
         cardTitleContainer: {
-            paddingHorizontal: ThemeVariables.paddingM,
+            flex: 1,
+            paddingHorizontal: ThemeVariables.paddingS,
             flexDirection: 'column',
             width: '90%',
         },
@@ -163,8 +173,6 @@ export const PostStyles = () => {
         postContainer: {
             flex: 1,
             backgroundColor: THEME_CONFIG[THEME].background,
-            height: '100%',
-            width: '100%',
         },
         postImageContainer: {
             width: '100%',
@@ -206,6 +214,14 @@ export const PostStyles = () => {
             borderTopColor: THEME_CONFIG[THEME].borderColor,
             paddingVertical: ThemeVariables.paddingM,
             textAlign: isLtr ? 'left' : 'right',
+            color: THEME_CONFIG[THEME].text,
+        },
+        postViewsDetails:{
+            fontSize: ThemeVariables.fontSizeM,
+            textAlign: isLtr ? 'left' : 'right',
+            flexDirection: isLtr ? 'row-reverse' : 'row-reverse',
+            justifyContent:  isLtr ? 'flex-end' : 'flex-start',
+            alignSelf: 'flex-end',
             color: THEME_CONFIG[THEME].text,
         },
         createPostIconAnimation: {

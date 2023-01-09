@@ -37,6 +37,8 @@ class PostsAPIController extends Controller
 
     public function show(Post $post)
     {
+        $post->views = $post->views + 1;
+        $post->update();
         return new PostResource($post);
     }
 
@@ -62,6 +64,12 @@ class PostsAPIController extends Controller
         Storage::delete(['public/' . $post->post_image]);
         $post->update($validatedRequest);
         return new PostResource($post);
+    }
+
+    public function highestViewedPosts()
+    {
+        $posts = Post::with(['creator'])->orderBy('views', 'desc')->take(5)->get();
+        return new PostResource($posts);
     }
 
     public function search(Request $request)

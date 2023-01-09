@@ -18,7 +18,7 @@ class CreatPostsTable extends Migration
             $table->string('title');
             $table->string('description')->nullable();
             $table->string('post_image')->nullable();
-            $table->bigInteger('views')->unsigned();
+            $table->bigInteger('views')->unsigned()->default(0);
             $table->bigInteger('user_identifier')->unsigned();
             $table->index('user_identifier');
             $table->foreign('user_identifier')->references('id')->on('users')->onDelete('cascade');

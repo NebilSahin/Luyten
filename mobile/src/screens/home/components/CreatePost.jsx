@@ -72,6 +72,7 @@ const CreatePost = ({refreshData}) => {
                     refreshData();
                 })
                 .catch(function (error) {
+                    console.log(error.response);
                     if (!error.response) {
                         setMessage(LANG.authScreen.pleaseTryLater);
                         sheetRef.current?.present();
