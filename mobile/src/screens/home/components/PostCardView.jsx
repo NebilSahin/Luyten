@@ -5,13 +5,13 @@ import {BaseStorageURL} from '../../../shared/Constant';
 import {useNavigation} from '@react-navigation/native';
 import {langFileSelector} from '../../../shared/lang';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import THEME_CONFIG from'../../../theme/themes.json';
+import THEME_CONFIG from '../../../theme/themes.json';
 import {themeSelector} from '../../../theme';
 
 const profileImgPlacholder = require('../../../../assets/profile-image.png');
 const postImgPlacholder = require('../../../../assets/post-placeholder.png');
 
-const PostCardView = ({post}) => {
+const PostCardView = ({post, index}) => {
     //styles
     const POST_STYLE = PostStyles();
 
@@ -32,8 +32,7 @@ const PostCardView = ({post}) => {
                     itemId: post.id,
                     post: post,
                 })
-            }
-            >
+            }>
             <View>
                 <Image
                     style={POST_STYLE.cardImageContainer}
@@ -64,7 +63,11 @@ const PostCardView = ({post}) => {
                             <Text style={POST_STYLE.postCreator}>
                                 {post.creator.username}
                             </Text>
-                            <Text style={[POST_STYLE.postViewsDetails, {color: THEME_CONFIG[THEME].titleLight}]}>
+                            <Text
+                                style={[
+                                    POST_STYLE.postViewsDetails,
+                                    {color: THEME_CONFIG[THEME].titleLight},
+                                ]}>
                                 {post.views + ' '}
                                 <Icon
                                     name="eye"

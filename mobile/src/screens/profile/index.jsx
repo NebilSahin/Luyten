@@ -58,9 +58,6 @@ const Profile = props => {
             .then(function (response) {
                 dispatch(sessionUserProfileAction(response.data));
             })
-            .catch(function (error) {
-                console.log(error.response);
-            });
     }, []);
 
     //render
