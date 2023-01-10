@@ -29,18 +29,16 @@
 
 ## Screenshots
 <div align="center">
-    <img src="./demo/9.png" width="180" alt="Luyten Icon">
-    <img src="./demo/10.png" width="180" alt="Luyten Icon">
-    <img src="./demo/1.png" width="180" alt="Luyten Icon">
-    <img src="./demo/2.png" width="180" alt="Luyten Icon">
-    <img src="./demo/3.png" width="180" alt="Luyten Icon">
+    <img src="./demo/9.png" style="max-width: 100%" width="180" alt="Luyten Icon">
+    <img src="./demo/10.png" style="max-width: 100%" width="180" alt="Luyten Icon">
+    <img src="./demo/2.png" style="max-width: 100%" width="180" alt="Luyten Icon">
+    <img src="./demo/3.png" style="max-width: 100%" width="180" alt="Luyten Icon">
 </div>
 <div align="center">
-    <img src="./demo/4.png" width="180" alt="Luyten Icon">
-    <img src="./demo/5.png" width="180" alt="Luyten Icon">
-    <img src="./demo/6.png" width="180" alt="Luyten Icon">
-    <img src="./demo/7.png" width="180" alt="Luyten Icon">
-    <img src="./demo/8.png" width="180" alt="Luyten Icon">
+    <img src="./demo/4.png" style="max-width: 100%" width="180" alt="Luyten Icon">
+    <img src="./demo/6.png" style="max-width: 100%" width="180" alt="Luyten Icon">
+    <img src="./demo/7.png" style="max-width: 100%" width="180" alt="Luyten Icon">
+    <img src="./demo/8.png" style="max-width: 100%" width="180" alt="Luyten Icon">
 </div>
 
 ## Getting Started
