@@ -288,14 +288,22 @@ const ProfileDetails = () => {
                                     PROFILE_STYLE.profileCreatedat,
                                     PROFILE_STYLE.profileDataText,
                                 ]}>
-                                {LANG.profile.createdAt}
+                                {LANG.profile.createdAt + ' '}
                             </Text>
                             <Text
                                 style={[
                                     PROFILE_STYLE.profileCreatedat,
                                     PROFILE_STYLE.profileDataText,
                                 ]}>
-                                {userProfile.user.created_at}
+                                {`${userProfile.user.created_at}`.split(
+                                    ':',
+                                    2,
+                                )[0] +
+                                    ':' +
+                                    `${userProfile.user.created_at}`.split(
+                                        ':',
+                                        2,
+                                    )[1]}
                             </Text>
                         </View>
                         <Icon

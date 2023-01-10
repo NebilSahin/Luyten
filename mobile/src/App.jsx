@@ -14,11 +14,9 @@ import AppNav from './navigation';
 import SystemNavigationBar from 'react-native-system-navigation-bar';
 import {themeSelector} from './theme';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Splash} from './screens/splash';
 import {CoreStyles} from './theme/Styles';
 import {useBottomSheetModal} from '@gorhom/bottom-sheet';
-
 import THEME_CONFIG from './theme/themes.json';
 
 const AppContainer = props => {

@@ -11,7 +11,7 @@ import {themeSelector} from '../../../theme';
 const profileImgPlacholder = require('../../../../assets/profile-image.png');
 const postImgPlacholder = require('../../../../assets/post-placeholder.png');
 
-const PostCardView = ({post, index}) => {
+const PostCardView = ({post}) => {
     //styles
     const POST_STYLE = PostStyles();
 

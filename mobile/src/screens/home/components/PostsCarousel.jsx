@@ -4,7 +4,6 @@ import Carousel from 'react-native-reanimated-carousel';
 import {request} from '../../../shared/Api';
 import {useSelector} from 'react-redux';
 import {langFileSelector} from '../../../shared/lang';
-import PostCardView from './PostListView';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import THEME_CONFIG from '../../../theme/themes.json';
 import {themeSelector} from '../../../theme';
@@ -24,18 +23,12 @@ export const PostsCarousel = () => {
     const userToken = useSelector(state => state.sessionUser.accessToken);
     const LANG = langFileSelector();
     const THEME = themeSelector();
-    const sessionLang = useSelector(state => state.sessionUser.userLang);
-    const isLtr = sessionLang == 'en';
-
-    //ref
-    const popupRef = useRef(null);
 
     //functions
     const navigation = useNavigation();
 
     //state variables
     const [posts, setPosts] = useState([]);
-    const [message, setMessage] = useState('');
 
     //effects
     useEffect(() => {

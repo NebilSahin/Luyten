@@ -41,7 +41,7 @@
         "rePasswordError": "Password field does not match!"
     },
     "alert": {
-        "alertMessageTitle": "Error!",
+        "alertMessageTitle": "Alert!",
         "ok": "Ok",
         "cancel": "Cancel"
     },

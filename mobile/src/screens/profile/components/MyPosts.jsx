@@ -1,10 +1,8 @@
 import React, {useState, useRef, useCallback} from 'react';
-import {Text, View, FlatList, Image, TouchableHighlight} from 'react-native';
+import {Text, View, FlatList} from 'react-native';
 import {AuthStyles, CoreStyles, PostStyles} from '../../../theme/Styles';
 import {useSelector} from 'react-redux';
 import {request} from '../../../shared/Api';
-import {BaseStorageURL} from '../../../shared/Constant';
-import {useNavigation} from '@react-navigation/native';
 import {langFileSelector} from '../../../shared/lang';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Button from '../../../components/Button';
@@ -14,27 +12,7 @@ import BackToTopButton from '../../../components/BackToTopButton';
 import EditPost from '../components/EditPost';
 import DeletePost from './DeletePost';
 import Post from './Post';
-
-const emptyArray = {
-    id: 0,
-    title: null,
-    description: null,
-    file_path: null,
-    user_identifier: null,
-    created_at: null,
-    updated_at: null,
-    deleted_at: null,
-    creator: {
-        id: null,
-        username: null,
-        email: null,
-        email_verified_at: null,
-        role_identifier: null,
-        created_at: null,
-        updated_at: null,
-        deleted_at: null,
-    },
-};
+import {emptyDataArray} from '../../../shared/Constant';
 
 const PostMenu = ({post, refreshData, sheetRef, setMessage}) => {
     //styles
@@ -198,7 +176,7 @@ const MyPosts = props => {
                     );
                     setOffset(currentOffset);
                 }}
-                data={posts.length ? posts : [emptyArray]}
+                data={posts.length ? posts : [emptyDataArray]}
                 renderItem={
                     posts.length
                         ? renderItem

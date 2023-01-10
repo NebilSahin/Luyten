@@ -14,8 +14,6 @@ export const CoreStyles = (props = null) => {
     //return stylesheet
     return StyleSheet.create({
         app: {
-            width: '100%',
-            height: '100%',
             flex: 1,
             backgroundColor: THEME_CONFIG[THEME].background,
             direction: isLtr ? 'ltr' : 'rtl',

@@ -14,27 +14,7 @@ import PostListView from './components/PostListView';
 import PostsCarousel from './components/PostsCarousel';
 import BottomModal, {AlertPopUp} from '../../components/BottomModal';
 import {langFileSelector} from '../../shared/lang';
-
-const emptyArray = {
-    id: 0,
-    title: null,
-    description: null,
-    file_path: null,
-    user_identifier: null,
-    created_at: null,
-    updated_at: null,
-    deleted_at: null,
-    creator: {
-        id: null,
-        username: null,
-        email: null,
-        email_verified_at: null,
-        role_identifier: null,
-        created_at: null,
-        updated_at: null,
-        deleted_at: null,
-    },
-};
+import {emptyDataArray} from '../../shared/Constant';
 
 const Home = () => {
     //styles
@@ -88,7 +68,7 @@ const Home = () => {
                 })
                 .then(function (response) {
                     if (response.data.data.length % 2 != 0 && cardView) {
-                        response.data.data.push(emptyArray);
+                        response.data.data.push(emptyDataArray);
                     }
                     setPosts([...posts, ...response.data.data]);
                     setNextPage(response.data.next_page_url);
@@ -113,7 +93,7 @@ const Home = () => {
             })
             .then(function (response) {
                 if (response.data.data.length % 2 != 0 && cardView) {
-                    response.data.data.push(emptyArray);
+                    response.data.data.push(emptyDataArray);
                 }
                 setPosts([]);
                 setPosts(response.data.data);
@@ -182,7 +162,7 @@ const Home = () => {
                             );
                             setOffset(currentOffset);
                         }}
-                        data={posts.length ? posts : [emptyArray]}
+                        data={posts.length ? posts : [emptyDataArray]}
                         renderItem={
                             posts.length
                                 ? renderItem

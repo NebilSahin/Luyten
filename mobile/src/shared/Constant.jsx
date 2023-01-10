@@ -27,3 +27,24 @@ export const ThemeVariables = {
     fontSizeXXL: 24,
     fontSizeXXXL: 32,
 };
+
+export const emptyDataArray = {
+    id: 0,
+    title: null,
+    description: null,
+    file_path: null,
+    user_identifier: null,
+    created_at: null,
+    updated_at: null,
+    deleted_at: null,
+    creator: {
+        id: null,
+        username: null,
+        email: null,
+        email_verified_at: null,
+        role_identifier: null,
+        created_at: null,
+        updated_at: null,
+        deleted_at: null,
+    },
+};
