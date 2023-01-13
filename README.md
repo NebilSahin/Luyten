@@ -15,10 +15,19 @@
 - Search for any article you are interested in.
 
 ### Table of Contents
+* [Tech Stack](#tech-stack)
 * [Demo](#demo)
 * [Screenshots](#screenshots)
 * [Getting Started](#getting-started)
 * [Todo](#todo)
+
+## Tech Stack
+* React Native 
+* Laravel
+* Redux 
+* React Navigation
+* Styled Components
+* Laravel Sanctum
 
 ## Demo
 <div align="center">
