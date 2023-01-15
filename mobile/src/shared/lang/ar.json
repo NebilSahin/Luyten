@@ -21,8 +21,8 @@
     },
     "authScreen": {
         "welcomeMessage": "مرحبا بك!",
-        "title": "وسع نطاقك",
-        "subtitle": "فلنبدأ الآن!",
+        "title": "وسع من نطاقك",
+        "subtitle": "لنبدأ قالرحلة الآن!",
         "login": "الدخول",
         "logout": "تسجيل الخروج",
         "signup": "التسجيل",

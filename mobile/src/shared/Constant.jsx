@@ -9,9 +9,9 @@ export const LANGUAGE = {
 };
 export const LANGUAGE_CODE_LIST = [LANGUAGE.en.code, LANGUAGE.ar.code];
 
-export const BaseAPIURL = 'http://192.168.100.229:8080/api/v1';
+export const BaseAPIURL = 'http://104.248.131.162/Luyten/public/api/v1';
 
-export const BaseStorageURL = 'http://192.168.100.229:8080/storage/';
+export const BaseStorageURL = 'http://104.248.131.162/Luyten/storage/app/public/';
 
 export const ThemeVariables = {
     paddingS: 6,

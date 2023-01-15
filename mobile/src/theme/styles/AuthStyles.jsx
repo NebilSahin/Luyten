@@ -26,7 +26,7 @@ export const AuthStyles = () => {
         titleText: {
             color: THEME_CONFIG[THEME].titleLight,
             textAlign: 'center',
-            fontSize: 34,
+            fontSize: 28,
             fontWeight: 'bold',
         },
         subtitleText: {
